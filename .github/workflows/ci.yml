@@ -81,9 +81,21 @@ jobs:
           /p:CollectCoverage=true
           /p:CoverletOutputFormat=cobertura
           /p:Include=[Scott.FizzBuzz.Core]*
-          /p:ThresholdType="line,branch"
+          /p:ThresholdType=line
           /p:ThresholdStat=total
-          /p:Threshold="60,50"
+          /p:Threshold=60
+
+      - name: Test Core Branch Coverage Threshold
+        run: >
+          dotnet test Scott.FizzBuzz.Core.Tests/Scott.FizzBuzz.Core.Tests.csproj
+          --configuration Release
+          --no-build
+          /p:CollectCoverage=true
+          /p:CoverletOutputFormat=cobertura
+          /p:Include=[Scott.FizzBuzz.Core]*
+          /p:ThresholdType=branch
+          /p:ThresholdStat=total
+          /p:Threshold=50
 
       - name: Test Console Line Coverage Threshold
         run: >
@@ -93,6 +105,18 @@ jobs:
           /p:CollectCoverage=true
           /p:CoverletOutputFormat=cobertura
           /p:Include=[Scott.FizzBuzz.Console]*
-          /p:ThresholdType="line,branch"
+          /p:ThresholdType=line
           /p:ThresholdStat=total
-          /p:Threshold="75,80"
+          /p:Threshold=75
+
+      - name: Test Console Branch Coverage Threshold
+        run: >
+          dotnet test Scott.FizzBuzz.Console.Tests/Scott.FizzBuzz.Console.Tests.csproj
+          --configuration Release
+          --no-build
+          /p:CollectCoverage=true
+          /p:CoverletOutputFormat=cobertura
+          /p:Include=[Scott.FizzBuzz.Console]*
+          /p:ThresholdType=branch
+          /p:ThresholdStat=total
+          /p:Threshold=80
