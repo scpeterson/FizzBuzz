@@ -31,6 +31,21 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Detect Docs Changes
+        id: changes
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            docs:
+              - 'docs/**'
+              - '**/*.md'
+              - 'mkdocs.yml'
+              - 'mkdocs-pdf.yml'
+              - 'requirements-docs.txt'
+              - 'requirements-docs-pdf.txt'
+              - 'lychee.toml'
+              - '.markdownlint.json'
+
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
@@ -42,6 +57,7 @@ jobs:
             global.json
 
       - name: Setup Python
+        if: steps.changes.outputs.docs == 'true'
         uses: actions/setup-python@v5
         with:
           python-version: "3.10"
@@ -55,12 +71,15 @@ jobs:
         run: dotnet build Scott.FizzBuzz.sln --configuration Release --no-restore
 
       - name: Install Docs Dependencies
+        if: steps.changes.outputs.docs == 'true'
         run: pip install -r requirements-docs.txt
 
       - name: Build Docs (Strict)
+        if: steps.changes.outputs.docs == 'true'
         run: mkdocs build --strict
 
       - name: Markdown Lint
+        if: steps.changes.outputs.docs == 'true'
         uses: DavidAnson/markdownlint-cli2-action@v19
         with:
           config: .markdownlint.json
@@ -68,6 +87,7 @@ jobs:
             docs/**/*.md
 
       - name: Link Check (Offline/Internal)
+        if: steps.changes.outputs.docs == 'true'
         uses: lycheeverse/lychee-action@v2
         with:
           args: --offline --config lychee.toml docs
