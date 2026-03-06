@@ -70,7 +70,7 @@ jobs:
       - name: Link Check (Offline/Internal)
         uses: lycheeverse/lychee-action@v2
         with:
-          args: --offline --config lychee.toml --glob "docs/**/*.md"
+          args: --offline --config lychee.toml docs
           fail: true
 
       - name: Test Core With Coverage Thresholds
