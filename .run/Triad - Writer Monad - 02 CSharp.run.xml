@@ -1,0 +1,12 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Triad - Writer Monad - 02 CSharp" type="DotNetProject" factoryName=".NET Project">
+    <option name="PROJECT_PATH" value="$PROJECT_DIR$/Scott.FizzBuzz.Console/Scott.FizzBuzz.Console.csproj" />
+    <option name="PROGRAM_PARAMETERS" value="-m csharp-writer-monad-comparison -n scott -b 10" />
+    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Scott.FizzBuzz.Console/bin/Debug/net10.0" />
+    <option name="PROJECT_KIND" value="DotNetCore" />
+    <option name="PROJECT_TFM" value="net10.0" />
+    <method v="2">
+      <option name="Build" />
+    </method>
+  </configuration>
+</component>

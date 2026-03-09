@@ -9,3 +9,4 @@ nav:
   - 0008 LanguageExt Eff/Aff Effect Boundaries: 0008-languageext-eff-aff-effect-boundaries.md
   - 0009 Option Monad Triad Comparison: 0009-option-monad-triad-comparison.md
   - 0010 Monad Triad Expansion: 0010-monad-triad-expansion.md
+  - 0011 Monad Triad Wave Two (Try/Eff/Aff/Seq/Writer): 0011-monad-triad-wave-two-try-eff-aff-seq-writer.md

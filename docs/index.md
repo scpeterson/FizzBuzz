@@ -15,6 +15,7 @@ This site hosts architecture documentation and decision records for the project.
 - [ADR 0008: LanguageExt Eff/Aff Effect Boundaries](architecture/adr/0008-languageext-eff-aff-effect-boundaries.md)
 - [ADR 0009: Option Monad Triad Comparison](architecture/adr/0009-option-monad-triad-comparison.md)
 - [ADR 0010: Monad Triad Expansion](architecture/adr/0010-monad-triad-expansion.md)
+- [ADR 0011: Monad Triad Wave Two (Try/Eff/Aff/Seq/Writer)](architecture/adr/0011-monad-triad-wave-two-try-eff-aff-seq-writer.md)
 - [PostgreSQL Changelog Workflow](architecture/database-changelog-workflow.md)
 - [PostgreSQL Operations Runbook](architecture/database-operations-runbook.md)
 - [Architecture Docs Contributing Guide](architecture/contributing.md)

@@ -21,3 +21,4 @@ nav:
       - architecture/adr/0008-languageext-eff-aff-effect-boundaries.md
       - architecture/adr/0009-option-monad-triad-comparison.md
       - architecture/adr/0010-monad-triad-expansion.md
+      - architecture/adr/0011-monad-triad-wave-two-try-eff-aff-seq-writer.md
