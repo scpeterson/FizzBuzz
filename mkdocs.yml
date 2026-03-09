@@ -41,7 +41,7 @@ plugins:
       lang: en
   - awesome-nav
   - git-revision-date-localized:
-      enable_creation_date: true
+      enable_creation_date: false
       enable_git_follow: false
       strict: false
       type: date
