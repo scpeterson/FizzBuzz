@@ -3,6 +3,7 @@ using Scott.FizzBuzz.Core.Demos;
 using Scott.FizzBuzz.Core.Demos.AsyncEffTriad;
 using Scott.FizzBuzz.Core.Demos.AffMonadTriad;
 using Scott.FizzBuzz.Core.Demos.CollectionsAggregationTriad;
+using Scott.FizzBuzz.Core.Demos.CurryingTriad;
 using Scott.FizzBuzz.Core.Demos.DatabasePostgresTriad;
 using Scott.FizzBuzz.Core.Demos.DatabaseTextStoreTriad;
 using Scott.FizzBuzz.Core.Demos.EitherMonadTriad;
@@ -35,6 +36,9 @@ public static class DemoServiceRegistration
         services.AddTransient<IDemo, PatternMatchingDemo>();
         services.AddTransient<IDemo, TupleDemo>();
         services.AddTransient<IDemo, CurryingDemo>();
+        services.AddTransient<IDemo, ImperativeCurryingComparisonDemo>();
+        services.AddTransient<IDemo, CSharpCurryingComparisonDemo>();
+        services.AddTransient<IDemo, LanguageExtCurryingComparisonDemo>();
         services.AddTransient<IDemo, ApplicativeValidationDemo>();
         services.AddTransient<IDemo, EitherDemo>();
         services.AddTransient<IDemo, LanguageExtDemo>();

@@ -1,5 +1,6 @@
 using LanguageExt.UnitTesting;
 using Scott.FizzBuzz.Core.Demos;
+using Scott.FizzBuzz.Core.Demos.CurryingTriad;
 using Scott.FizzBuzz.Core.Demos.EitherMonadTriad;
 using Scott.FizzBuzz.Core.Demos.EffMonadTriad;
 using Scott.FizzBuzz.Core.Demos.AffMonadTriad;
@@ -30,6 +31,9 @@ public class ScaffoldedTriadsShould
             new ImperativeNullHandlingDemo(),
             new CSharpNullPatternsDemo(),
             new LanguageExtOptionPipelineDemo(),
+            new ImperativeCurryingComparisonDemo(),
+            new CSharpCurryingComparisonDemo(),
+            new LanguageExtCurryingComparisonDemo(),
             new ImperativeOptionComparisonDemo(),
             new CSharpOptionComparisonDemo(),
             new LanguageExtOptionMonadComparisonDemo(),
@@ -76,7 +80,11 @@ public class ScaffoldedTriadsShould
 
         foreach (var demo in demos)
         {
-            var result = demo.Run("Scott", "21");
+            var (name, number) = demo.Key.Contains("currying-comparison", StringComparison.Ordinal)
+                ? ("vip", "100")
+                : ("Scott", "21");
+
+            var result = demo.Run(name, number);
             result.ShouldBeRight();
         }
     }

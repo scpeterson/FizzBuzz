@@ -64,6 +64,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "adr", "adr", "{59C61EE3-1D6
 		docs\architecture\adr\0018-seq-monad-triad-comparison.md = docs\architecture\adr\0018-seq-monad-triad-comparison.md
 		docs\architecture\adr\0019-writer-monad-triad-comparison.md = docs\architecture\adr\0019-writer-monad-triad-comparison.md
 		docs\architecture\adr\0020-tryoption-monad-triad-comparison.md = docs\architecture\adr\0020-tryoption-monad-triad-comparison.md
+		docs\architecture\adr\0021-currying-triad-comparison.md = docs\architecture\adr\0021-currying-triad-comparison.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "database", "database", "{F8F83BB4-30CC-4532-ADFA-2BDF75A245C4}"
@@ -188,6 +189,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".run", ".run", "{0F0B2F09-2
 		.run\Triad - Collections Aggregation - 01 Imperative.run.xml = .run\Triad - Collections Aggregation - 01 Imperative.run.xml
 		.run\Triad - Collections Aggregation - 02 CSharp.run.xml = .run\Triad - Collections Aggregation - 02 CSharp.run.xml
 		.run\Triad - Collections Aggregation - 03 LanguageExt.run.xml = .run\Triad - Collections Aggregation - 03 LanguageExt.run.xml
+		.run\Triad - Currying - 01 Imperative.run.xml = .run\Triad - Currying - 01 Imperative.run.xml
+		.run\Triad - Currying - 02 CSharp.run.xml = .run\Triad - Currying - 02 CSharp.run.xml
+		.run\Triad - Currying - 03 LanguageExt.run.xml = .run\Triad - Currying - 03 LanguageExt.run.xml
 		.run\Triad - Database Postgres - 01 Imperative.run.xml = .run\Triad - Database Postgres - 01 Imperative.run.xml
 		.run\Triad - Database Postgres - 02 CSharp.run.xml = .run\Triad - Database Postgres - 02 CSharp.run.xml
 		.run\Triad - Database Postgres - 03 LanguageExt.run.xml = .run\Triad - Database Postgres - 03 LanguageExt.run.xml

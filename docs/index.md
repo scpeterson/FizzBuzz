@@ -25,6 +25,7 @@ This site hosts architecture documentation and decision records for the project.
 - [ADR 0018: Seq Monad Triad Comparison](architecture/adr/0018-seq-monad-triad-comparison.md)
 - [ADR 0019: Writer Monad Triad Comparison](architecture/adr/0019-writer-monad-triad-comparison.md)
 - [ADR 0020: TryOption Monad Triad Comparison](architecture/adr/0020-tryoption-monad-triad-comparison.md)
+- [ADR 0021: Currying Triad Comparison](architecture/adr/0021-currying-triad-comparison.md)
 - [PostgreSQL Changelog Workflow](architecture/database-changelog-workflow.md)
 - [PostgreSQL Operations Runbook](architecture/database-operations-runbook.md)
 - [Architecture Docs Contributing Guide](architecture/contributing.md)
