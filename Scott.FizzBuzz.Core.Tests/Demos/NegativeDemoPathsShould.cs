@@ -1,5 +1,4 @@
 using FluentAssertions;
-using Scott.FizzBuzz.Core.Demos;
 using Scott.FizzBuzz.Core.Demos.AsyncEffTriad;
 using Scott.FizzBuzz.Core.Interfaces;
 

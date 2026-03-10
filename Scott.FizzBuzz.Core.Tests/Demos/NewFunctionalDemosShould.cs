@@ -1,5 +1,4 @@
 using FluentAssertions;
-using Scott.FizzBuzz.Core.Demos;
 
 namespace Scott.FizzBuzz.Core.Tests.Demos;
 

@@ -4,7 +4,7 @@ using static LanguageExt.Prelude;
 using static Scott.FizzBuzz.Core.OutputUtilities;
 using ApplicativeValidation = Scott.FizzBuzz.Core.ApplicativeValidationExample.ApplicativeValidationDemo;
 
-namespace Scott.FizzBuzz.Core.Demos;
+namespace Scott.FizzBuzz.Core.Demos.ValidationFoundations;
 
 public class ApplicativeValidationDemo : IDemo
 {

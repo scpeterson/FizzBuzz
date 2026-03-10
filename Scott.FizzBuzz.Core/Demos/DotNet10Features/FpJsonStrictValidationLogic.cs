@@ -4,7 +4,7 @@ using LanguageExt;
 using LanguageExt.Common;
 using static LanguageExt.Prelude;
 
-namespace Scott.FizzBuzz.Core.Demos;
+namespace Scott.FizzBuzz.Core.Demos.DotNet10Features;
 
 public static class FpJsonStrictValidationLogic
 {

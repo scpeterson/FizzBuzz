@@ -1,5 +1,4 @@
 using LanguageExt.UnitTesting;
-using Scott.FizzBuzz.Core.Demos;
 using Scott.FizzBuzz.Core.Demos.AsyncEffTriad;
 using Scott.FizzBuzz.Core.Demos.CollectionsAggregationTriad;
 using Scott.FizzBuzz.Core.Demos.DatabaseTextStoreTriad;

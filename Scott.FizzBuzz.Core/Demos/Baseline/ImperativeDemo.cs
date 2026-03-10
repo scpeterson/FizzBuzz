@@ -3,7 +3,7 @@ using Scott.FizzBuzz.Core.Interfaces;
 using static Scott.FizzBuzz.Core.ImperativeExample;
 using static Scott.FizzBuzz.Core.OutputUtilities;
 
-namespace Scott.FizzBuzz.Core.Demos;
+namespace Scott.FizzBuzz.Core.Demos.Baseline;
 
 public class ImperativeDemo : IDemo
 {

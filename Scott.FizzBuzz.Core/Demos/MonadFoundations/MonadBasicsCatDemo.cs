@@ -4,7 +4,7 @@ using Scott.FizzBuzz.Core.MonadBasics;
 using static LanguageExt.Prelude;
 using static Scott.FizzBuzz.Core.OutputUtilities;
 
-namespace Scott.FizzBuzz.Core.Demos;
+namespace Scott.FizzBuzz.Core.Demos.MonadFoundations;
 
 public class MonadBasicsCatDemo : IDemo
 {

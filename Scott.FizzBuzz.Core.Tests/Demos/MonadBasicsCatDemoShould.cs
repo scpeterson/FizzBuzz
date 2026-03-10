@@ -1,6 +1,5 @@
 using FluentAssertions;
 using LanguageExt.UnitTesting;
-using Scott.FizzBuzz.Core.Demos;
 using Scott.FizzBuzz.Core.Interfaces;
 
 namespace Scott.FizzBuzz.Core.Tests.Demos;

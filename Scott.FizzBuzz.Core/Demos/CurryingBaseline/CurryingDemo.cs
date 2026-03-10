@@ -5,7 +5,7 @@ using Scott.FizzBuzz.Core.Interfaces;
 using static Scott.FizzBuzz.Core.OutputUtilities;
 using static LanguageExt.Prelude;
 
-namespace Scott.FizzBuzz.Core.Demos;
+namespace Scott.FizzBuzz.Core.Demos.CurryingBaseline;
 
 public class CurryingDemo : IDemo
 {

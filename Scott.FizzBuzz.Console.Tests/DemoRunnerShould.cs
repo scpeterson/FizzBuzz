@@ -2,7 +2,7 @@
 using FluentAssertions;
 using LanguageExt;
 using LanguageExt.UnitTesting;
-using Scott.FizzBuzz.Core.Demos;
+using Scott.FizzBuzz.Core.Demos.DotNet10Features;
 using static LanguageExt.Prelude;
 
 namespace Scott.FizzBuzz.Console.Tests;

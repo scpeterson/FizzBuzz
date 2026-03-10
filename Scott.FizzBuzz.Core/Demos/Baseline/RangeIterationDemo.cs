@@ -5,7 +5,7 @@ using static LanguageExt.Prelude;
 using static Scott.FizzBuzz.Core.ImperativeExample;
 using static Scott.FizzBuzz.Core.OutputUtilities;
 
-namespace Scott.FizzBuzz.Core.Demos;
+namespace Scott.FizzBuzz.Core.Demos.Baseline;
 
 public class RangeIterationDemo : IDemo
 {

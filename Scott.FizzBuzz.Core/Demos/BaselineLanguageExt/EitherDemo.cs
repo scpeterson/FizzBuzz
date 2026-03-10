@@ -6,7 +6,7 @@ using System.Numerics;
 using static LanguageExt.Prelude;
 using static Scott.FizzBuzz.Core.OutputUtilities;
 
-namespace Scott.FizzBuzz.Core.Demos;
+namespace Scott.FizzBuzz.Core.Demos.BaselineLanguageExt;
 
 public class EitherDemo : IDemo
 {

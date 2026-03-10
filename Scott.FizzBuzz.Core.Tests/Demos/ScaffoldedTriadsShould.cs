@@ -1,5 +1,4 @@
 using LanguageExt.UnitTesting;
-using Scott.FizzBuzz.Core.Demos;
 using Scott.FizzBuzz.Core.Demos.CurryingTriad;
 using Scott.FizzBuzz.Core.Demos.EitherMonadTriad;
 using Scott.FizzBuzz.Core.Demos.EffMonadTriad;

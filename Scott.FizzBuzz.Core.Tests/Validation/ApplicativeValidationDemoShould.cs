@@ -1,6 +1,6 @@
 using FluentAssertions;
 using LanguageExt.UnitTesting;
-using Scott.FizzBuzz.Core.ApplicativeValidationExample;
+using AppValidationDemo = Scott.FizzBuzz.Core.ApplicativeValidationExample.ApplicativeValidationDemo;
 
 namespace Scott.FizzBuzz.Core.Tests.Validation;
 
@@ -9,7 +9,7 @@ public class ApplicativeValidationDemoShould
     [Fact]
     public void ValidateToEntityReturnSuccessForValidInputs()
     {
-        var result = ApplicativeValidationDemo.ValidateToEntity("Scott", "21");
+        var result = AppValidationDemo.ValidateToEntity("Scott", "21");
 
         result.Match(
             Succ: entity =>
@@ -23,7 +23,7 @@ public class ApplicativeValidationDemoShould
     [Fact]
     public void ValidateToEntityAccumulateFieldErrorsApplicatively()
     {
-        var result = ApplicativeValidationDemo.ValidateToEntity("Scott1", "-2");
+        var result = AppValidationDemo.ValidateToEntity("Scott1", "-2");
 
         result.ShouldBeFail();
         result.Match(
