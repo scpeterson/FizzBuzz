@@ -1,8 +1,11 @@
 using LanguageExt.UnitTesting;
 using Scott.FizzBuzz.Core.Demos.CurryingTriad;
+using Scott.FizzBuzz.Core.Demos.CompositionRootTriad;
+using Scott.FizzBuzz.Core.Demos.DomainWorkflowTriad;
 using Scott.FizzBuzz.Core.Demos.EitherMonadTriad;
 using Scott.FizzBuzz.Core.Demos.EffMonadTriad;
 using Scott.FizzBuzz.Core.Demos.AffMonadTriad;
+using Scott.FizzBuzz.Core.Demos.IdempotentCommandTriad;
 using Scott.FizzBuzz.Core.Demos.IOMonadTriad;
 using Scott.FizzBuzz.Core.Demos.NullOptionTriad;
 using Scott.FizzBuzz.Core.Demos.OptionMonadTriad;
@@ -33,6 +36,15 @@ public class ScaffoldedTriadsShould
             new ImperativeCurryingComparisonDemo(),
             new CSharpCurryingComparisonDemo(),
             new LanguageExtCurryingComparisonDemo(),
+            new ImperativeCompositionRootComparisonDemo(),
+            new CSharpCompositionRootComparisonDemo(),
+            new LanguageExtCompositionRootComparisonDemo(),
+            new ImperativeDomainWorkflowComparisonDemo(),
+            new CSharpDomainWorkflowComparisonDemo(),
+            new LanguageExtDomainWorkflowComparisonDemo(),
+            new ImperativeIdempotentCommandComparisonDemo(),
+            new CSharpIdempotentCommandComparisonDemo(),
+            new LanguageExtIdempotentCommandComparisonDemo(),
             new ImperativeOptionComparisonDemo(),
             new CSharpOptionComparisonDemo(),
             new LanguageExtOptionMonadComparisonDemo(),

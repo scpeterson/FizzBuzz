@@ -20,3 +20,31 @@ nav:
   - 0019 Writer Monad Triad Comparison: 0019-writer-monad-triad-comparison.md
   - 0020 TryOption Monad Triad Comparison: 0020-tryoption-monad-triad-comparison.md
   - 0021 Currying Triad Comparison: 0021-currying-triad-comparison.md
+  - 0022 Composition Root, Domain Workflow, and Idempotent Command Triads (Superseded): 0022-composition-root-domain-workflow-idempotent-triads.md
+  - 0023 Imperative Demo Baseline: 0023-imperative-demo-baseline.md
+  - 0024 Range Iteration Demo Baseline: 0024-range-iteration-demo-baseline.md
+  - 0025 No Dependency Demo Baseline: 0025-no-dependency-demo-baseline.md
+  - 0026 Pattern Matching Demo Baseline: 0026-pattern-matching-demo-baseline.md
+  - 0027 Tuple Demo Baseline: 0027-tuple-demo-baseline.md
+  - 0028 Currying Baseline Demo: 0028-currying-baseline-demo.md
+  - 0029 Applicative Validation Demo: 0029-applicative-validation-demo.md
+  - 0030 Either Baseline Demo: 0030-either-baseline-demo.md
+  - 0031 LanguageExt Baseline Demo: 0031-languageext-baseline-demo.md
+  - 0032 Schrodinger's Cat Demo: 0032-schrodingers-cat-demo.md
+  - 0033 Monadic Functions Demo: 0033-monadic-functions-demo.md
+  - 0034 Monad Basics Cat Demo: 0034-monad-basics-cat-demo.md
+  - 0035 Other Monads Demo: 0035-other-monads-demo.md
+  - 0036 .NET 10 Strict JSON Validation Demo: 0036-dotnet10-json-strict-validation-demo.md
+  - 0037 .NET 10 Extension Members and Typeclass-style Demo: 0037-dotnet10-extension-members-typeclass-demo.md
+  - 0038 Null Option Triad Comparison: 0038-null-option-triad-comparison.md
+  - 0039 Parse Validate Triad Comparison: 0039-parse-validate-triad-comparison.md
+  - 0040 Validation Accumulation Triad Comparison: 0040-validation-accumulation-triad-comparison.md
+  - 0041 Collections Aggregation Triad Comparison: 0041-collections-aggregation-triad-comparison.md
+  - 0042 Exception Boundaries Triad Comparison: 0042-exception-boundaries-triad-comparison.md
+  - 0043 Async Eff Workflow Triad Comparison: 0043-async-eff-workflow-triad-comparison.md
+  - 0044 End-to-End Registration Triad Comparison: 0044-end-to-end-registration-triad-comparison.md
+  - 0045 Database Text-Store Triad Comparison: 0045-database-text-store-triad-comparison.md
+  - 0046 Database PostgreSQL Triad Comparison: 0046-database-postgres-triad-comparison.md
+  - 0047 Composition Root Triad Comparison: 0047-composition-root-triad-comparison.md
+  - 0048 Domain Workflow Triad Comparison: 0048-domain-workflow-triad-comparison.md
+  - 0049 Idempotent Command Triad Comparison: 0049-idempotent-command-triad-comparison.md

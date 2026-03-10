@@ -1,0 +1,36 @@
+using LanguageExt.UnitTesting;
+using Scott.FizzBuzz.Core.Demos.DomainWorkflowTriad;
+using Scott.FizzBuzz.Core.Interfaces;
+
+namespace Scott.FizzBuzz.Core.Tests.Demos.DomainWorkflowTriad;
+
+public class DomainWorkflowTriadShould
+{
+    [Fact]
+    public void RunAllDomainWorkflowVariantsForHappyPath()
+    {
+        var output = new NullOutput();
+        IDemo[] demos =
+        [
+            new ImperativeDomainWorkflowComparisonDemo(output),
+            new CSharpDomainWorkflowComparisonDemo(output),
+            new LanguageExtDomainWorkflowComparisonDemo()
+        ];
+
+        foreach (var demo in demos)
+        {
+            demo.Run("scott", "21").ShouldBeRight();
+        }
+    }
+
+    [Fact]
+    public void ReturnLeftForAmountAboveApprovalLimitInLanguageExtVariant() =>
+        new LanguageExtDomainWorkflowComparisonDemo().Run("scott", "999").ShouldBeLeft();
+
+    private sealed class NullOutput : IOutput
+    {
+        public void WriteLine(string message)
+        {
+        }
+    }
+}

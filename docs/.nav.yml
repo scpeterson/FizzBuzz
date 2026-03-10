@@ -33,3 +33,31 @@ nav:
       - architecture/adr/0019-writer-monad-triad-comparison.md
       - architecture/adr/0020-tryoption-monad-triad-comparison.md
       - architecture/adr/0021-currying-triad-comparison.md
+      - architecture/adr/0022-composition-root-domain-workflow-idempotent-triads.md
+      - architecture/adr/0023-imperative-demo-baseline.md
+      - architecture/adr/0024-range-iteration-demo-baseline.md
+      - architecture/adr/0025-no-dependency-demo-baseline.md
+      - architecture/adr/0026-pattern-matching-demo-baseline.md
+      - architecture/adr/0027-tuple-demo-baseline.md
+      - architecture/adr/0028-currying-baseline-demo.md
+      - architecture/adr/0029-applicative-validation-demo.md
+      - architecture/adr/0030-either-baseline-demo.md
+      - architecture/adr/0031-languageext-baseline-demo.md
+      - architecture/adr/0032-schrodingers-cat-demo.md
+      - architecture/adr/0033-monadic-functions-demo.md
+      - architecture/adr/0034-monad-basics-cat-demo.md
+      - architecture/adr/0035-other-monads-demo.md
+      - architecture/adr/0036-dotnet10-json-strict-validation-demo.md
+      - architecture/adr/0037-dotnet10-extension-members-typeclass-demo.md
+      - architecture/adr/0038-null-option-triad-comparison.md
+      - architecture/adr/0039-parse-validate-triad-comparison.md
+      - architecture/adr/0040-validation-accumulation-triad-comparison.md
+      - architecture/adr/0041-collections-aggregation-triad-comparison.md
+      - architecture/adr/0042-exception-boundaries-triad-comparison.md
+      - architecture/adr/0043-async-eff-workflow-triad-comparison.md
+      - architecture/adr/0044-end-to-end-registration-triad-comparison.md
+      - architecture/adr/0045-database-text-store-triad-comparison.md
+      - architecture/adr/0046-database-postgres-triad-comparison.md
+      - architecture/adr/0047-composition-root-triad-comparison.md
+      - architecture/adr/0048-domain-workflow-triad-comparison.md
+      - architecture/adr/0049-idempotent-command-triad-comparison.md
