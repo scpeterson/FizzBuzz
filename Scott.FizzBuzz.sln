@@ -94,6 +94,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "adr", "adr", "{59C61EE3-1D6
 		docs\architecture\adr\0048-domain-workflow-triad-comparison.md = docs\architecture\adr\0048-domain-workflow-triad-comparison.md
 		docs\architecture\adr\0049-idempotent-command-triad-comparison.md = docs\architecture\adr\0049-idempotent-command-triad-comparison.md
 		docs\architecture\adr\0050-retries-backoff-pure-policy-triad-comparison.md = docs\architecture\adr\0050-retries-backoff-pure-policy-triad-comparison.md
+		docs\architecture\adr\0051-streaming-large-data-processing-triad-comparison.md = docs\architecture\adr\0051-streaming-large-data-processing-triad-comparison.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "database", "database", "{F8F83BB4-30CC-4532-ADFA-2BDF75A245C4}"
@@ -260,6 +261,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".run", ".run", "{0F0B2F09-2
 		.run\Triad - Retries Backoff - 01 Imperative.run.xml = .run\Triad - Retries Backoff - 01 Imperative.run.xml
 		.run\Triad - Retries Backoff - 02 CSharp.run.xml = .run\Triad - Retries Backoff - 02 CSharp.run.xml
 		.run\Triad - Retries Backoff - 03 LanguageExt.run.xml = .run\Triad - Retries Backoff - 03 LanguageExt.run.xml
+		.run\Triad - Streaming Large Data - 01 Imperative.run.xml = .run\Triad - Streaming Large Data - 01 Imperative.run.xml
+		.run\Triad - Streaming Large Data - 02 CSharp.run.xml = .run\Triad - Streaming Large Data - 02 CSharp.run.xml
+		.run\Triad - Streaming Large Data - 03 LanguageExt.run.xml = .run\Triad - Streaming Large Data - 03 LanguageExt.run.xml
 		.run\Triad - State Monad - 01 Imperative.run.xml = .run\Triad - State Monad - 01 Imperative.run.xml
 		.run\Triad - State Monad - 02 CSharp.run.xml = .run\Triad - State Monad - 02 CSharp.run.xml
 		.run\Triad - State Monad - 03 LanguageExt.run.xml = .run\Triad - State Monad - 03 LanguageExt.run.xml

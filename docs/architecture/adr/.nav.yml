@@ -49,3 +49,4 @@ nav:
   - 0048 Domain Workflow Triad Comparison: 0048-domain-workflow-triad-comparison.md
   - 0049 Idempotent Command Triad Comparison: 0049-idempotent-command-triad-comparison.md
   - 0050 Retries + Backoff as Pure Policy Triad Comparison: 0050-retries-backoff-pure-policy-triad-comparison.md
+  - 0051 Streaming / Large Data Processing Triad Comparison: 0051-streaming-large-data-processing-triad-comparison.md

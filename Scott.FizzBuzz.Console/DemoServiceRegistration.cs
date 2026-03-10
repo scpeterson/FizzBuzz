@@ -22,6 +22,7 @@ using Scott.FizzBuzz.Core.Demos.NullOptionTriad;
 using Scott.FizzBuzz.Core.Demos.OptionMonadTriad;
 using Scott.FizzBuzz.Core.Demos.ParseValidateTriad;
 using Scott.FizzBuzz.Core.Demos.ReaderMonadTriad;
+using Scott.FizzBuzz.Core.Demos.StreamingLargeDataTriad;
 using Scott.FizzBuzz.Core.Demos.RetryBackoffTriad;
 using Scott.FizzBuzz.Core.Demos.SeqMonadTriad;
 using Scott.FizzBuzz.Core.Demos.StateMonadTriad;
@@ -54,6 +55,9 @@ public static class DemoServiceRegistration
         services.AddTransient<IDemo, ImperativeDomainWorkflowComparisonDemo>();
         services.AddTransient<IDemo, CSharpDomainWorkflowComparisonDemo>();
         services.AddTransient<IDemo, LanguageExtDomainWorkflowComparisonDemo>();
+        services.AddTransient<IDemo, ImperativeStreamingLargeDataComparisonDemo>();
+        services.AddTransient<IDemo, CSharpStreamingLargeDataComparisonDemo>();
+        services.AddTransient<IDemo, LanguageExtStreamingLargeDataComparisonDemo>();
         services.AddTransient<IDemo, ImperativeRetryBackoffComparisonDemo>();
         services.AddTransient<IDemo, CSharpRetryBackoffComparisonDemo>();
         services.AddTransient<IDemo, LanguageExtRetryBackoffComparisonDemo>();
