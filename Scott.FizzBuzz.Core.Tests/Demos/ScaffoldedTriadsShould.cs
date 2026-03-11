@@ -4,6 +4,7 @@ using Scott.FizzBuzz.Core.Demos.ConcurrencySafetyTriad;
 using Scott.FizzBuzz.Core.Demos.CompositionRootTriad;
 using Scott.FizzBuzz.Core.Demos.DomainWorkflowTriad;
 using Scott.FizzBuzz.Core.Demos.EventSourcingLiteTriad;
+using Scott.FizzBuzz.Core.Demos.ConfigurationValidationStartupTriad;
 using Scott.FizzBuzz.Core.Demos.EitherMonadTriad;
 using Scott.FizzBuzz.Core.Demos.EffMonadTriad;
 using Scott.FizzBuzz.Core.Demos.AffMonadTriad;
@@ -49,6 +50,9 @@ public class ScaffoldedTriadsShould
             new ImperativeEventSourcingLiteComparisonDemo(),
             new CSharpEventSourcingLiteComparisonDemo(),
             new LanguageExtEventSourcingLiteComparisonDemo(),
+            new ImperativeConfigurationValidationStartupComparisonDemo(),
+            new CSharpConfigurationValidationStartupComparisonDemo(),
+            new LanguageExtConfigurationValidationStartupComparisonDemo(),
             new ImperativeConcurrencySafetyComparisonDemo(),
             new CSharpConcurrencySafetyComparisonDemo(),
             new LanguageExtConcurrencySafetyComparisonDemo(),
@@ -115,6 +119,8 @@ public class ScaffoldedTriadsShould
                     ? ("1000", "128")
                 : demo.Key.Contains("retry-backoff-comparison", StringComparison.Ordinal)
                     ? ("exp", "2")
+                : demo.Key.Contains("startup-config-validation-comparison", StringComparison.Ordinal)
+                    ? ("prod", "20")
                 : ("Scott", "21");
 
             var result = demo.Run(name, number);

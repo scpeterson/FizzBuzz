@@ -58,6 +58,7 @@ This site hosts architecture documentation and decision records for the project.
 - [ADR 0051: Streaming / Large Data Processing Triad Comparison](architecture/adr/0051-streaming-large-data-processing-triad-comparison.md)
 - [ADR 0052: Concurrency Safety Triad Comparison](architecture/adr/0052-concurrency-safety-triad-comparison.md)
 - [ADR 0053: Event Sourcing Lite Triad Comparison](architecture/adr/0053-event-sourcing-lite-triad-comparison.md)
+- [ADR 0054: Configuration Validation at Startup Triad Comparison](architecture/adr/0054-configuration-validation-startup-triad-comparison.md)
 - [PostgreSQL Changelog Workflow](architecture/database-changelog-workflow.md)
 - [PostgreSQL Operations Runbook](architecture/database-operations-runbook.md)
 - [Architecture Docs Contributing Guide](architecture/contributing.md)
