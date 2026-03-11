@@ -12,7 +12,9 @@ public class ImperativeTryMonadComparisonDemo : IDemo
 
     public ImperativeTryMonadComparisonDemo(IOutput output) => _output = output;
 
-    public string Key => "imperative-try-monad-comparison";
+    public const string DemoKey = "imperative-try-monad-comparison";
+
+    public string Key => DemoKey;
     public string Category => "imperative";
     public IReadOnlyCollection<string> Tags => ["imperative", "comparison", "try", "monad"];
 

@@ -17,7 +17,9 @@ public class ImperativeConcurrencySafetyComparisonDemo : IDemo
         _output = output;
     }
 
-    public string Key => "imperative-concurrency-safety-comparison";
+    public const string DemoKey = "imperative-concurrency-safety-comparison";
+
+    public string Key => DemoKey;
     public string Category => "imperative";
     public IReadOnlyCollection<string> Tags => ["imperative", "comparison", "concurrency", "safety"];
     public string Description => "Unsafe mutable read-modify-write flow that demonstrates lost updates under concurrent interleaving.";

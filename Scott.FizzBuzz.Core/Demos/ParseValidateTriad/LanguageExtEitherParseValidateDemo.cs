@@ -6,7 +6,9 @@ namespace Scott.FizzBuzz.Core.Demos.ParseValidateTriad;
 
 public class LanguageExtEitherParseValidateDemo : IDemo
 {
-    public string Key => "langext-either-parse-validate";
+    public const string DemoKey = "langext-either-parse-validate";
+
+    public string Key => DemoKey;
     public string Category => "functional";
     public IReadOnlyCollection<string> Tags => ["fp", "languageext", "comparison", "either", "validation", "parsing"];
 

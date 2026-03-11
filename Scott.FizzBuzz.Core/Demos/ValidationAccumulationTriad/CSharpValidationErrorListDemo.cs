@@ -17,7 +17,9 @@ public class CSharpValidationErrorListDemo : IDemo
         _output = output;
     }
 
-    public string Key => "csharp-validation-error-list";
+    public const string DemoKey = "csharp-validation-error-list";
+
+    public string Key => DemoKey;
     public string Category => "csharp";
     public IReadOnlyCollection<string> Tags => ["fp", "csharp", "comparison", "validation"];
 

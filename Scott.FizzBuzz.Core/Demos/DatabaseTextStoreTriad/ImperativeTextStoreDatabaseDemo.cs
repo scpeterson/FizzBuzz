@@ -17,7 +17,9 @@ public class ImperativeTextStoreDatabaseDemo : IDemo
         _output = output;
     }
 
-    public string Key => "imperative-db-text-store";
+    public const string DemoKey = "imperative-db-text-store";
+
+    public string Key => DemoKey;
     public string Category => "imperative";
     public IReadOnlyCollection<string> Tags => ["imperative", "comparison", "database", "io", "text-store"];
     public string Description => "Imperative file-based persistence with inline parsing and mutation.";

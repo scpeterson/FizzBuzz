@@ -17,7 +17,9 @@ public class ImperativeStateComparisonDemo : IDemo
         _output = output;
     }
 
-    public string Key => "imperative-state-comparison";
+    public const string DemoKey = "imperative-state-comparison";
+
+    public string Key => DemoKey;
     public string Category => "imperative";
     public IReadOnlyCollection<string> Tags => ["imperative", "comparison", "state", "monad"];
     public string Description => "Mutable state updated across imperative steps with explicit reassignment and branching.";

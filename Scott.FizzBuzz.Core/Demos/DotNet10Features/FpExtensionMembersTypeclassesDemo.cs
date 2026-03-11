@@ -8,6 +8,8 @@ namespace Scott.FizzBuzz.Core.Demos.DotNet10Features;
 
 public class FpExtensionMembersTypeclassesDemo : IDemo
 {
+    public const string DemoKey = "fp-extension-members-typeclasses";
+
     private readonly IOutput _output;
 
     public FpExtensionMembersTypeclassesDemo() : this(new ConsoleOutput())
@@ -19,7 +21,7 @@ public class FpExtensionMembersTypeclassesDemo : IDemo
         _output = output;
     }
 
-    public string Key => "fp-extension-members-typeclasses";
+    public string Key => DemoKey;
     public string Category => "functional";
     public IReadOnlyCollection<string> Tags => ["fp", "dotnet10", "csharp14", "extensions", "either"];
 

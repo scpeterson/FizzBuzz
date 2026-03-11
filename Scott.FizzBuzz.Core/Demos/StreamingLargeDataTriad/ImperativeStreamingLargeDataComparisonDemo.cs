@@ -17,7 +17,9 @@ public class ImperativeStreamingLargeDataComparisonDemo : IDemo
         _output = output;
     }
 
-    public string Key => "imperative-streaming-large-data-comparison";
+    public const string DemoKey = "imperative-streaming-large-data-comparison";
+
+    public string Key => DemoKey;
     public string Category => "imperative";
     public IReadOnlyCollection<string> Tags => ["imperative", "comparison", "streaming", "large-data"];
     public string Description => "Single-pass mutable loop over a stream to avoid materializing all records in memory.";

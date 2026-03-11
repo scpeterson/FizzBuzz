@@ -17,7 +17,9 @@ public class ImperativeRetryBackoffComparisonDemo : IDemo
         _output = output;
     }
 
-    public string Key => "imperative-retry-backoff-comparison";
+    public const string DemoKey = "imperative-retry-backoff-comparison";
+
+    public string Key => DemoKey;
     public string Category => "imperative";
     public IReadOnlyCollection<string> Tags => ["imperative", "comparison", "retry", "backoff", "policy"];
     public string Description => "Classic loop-based retry orchestration with mutable counters and hand-managed backoff schedule.";

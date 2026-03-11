@@ -7,7 +7,9 @@ namespace Scott.FizzBuzz.Core.Demos.CompositionRootTriad;
 
 public class LanguageExtCompositionRootComparisonDemo : IDemo
 {
-    public string Key => "langext-composition-root";
+    public const string DemoKey = "langext-composition-root";
+
+    public string Key => DemoKey;
     public string Category => "functional";
     public IReadOnlyCollection<string> Tags => ["fp", "languageext", "comparison", "composition-root", "triad"];
 

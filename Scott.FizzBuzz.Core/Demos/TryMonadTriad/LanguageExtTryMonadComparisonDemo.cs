@@ -6,7 +6,9 @@ namespace Scott.FizzBuzz.Core.Demos.TryMonadTriad;
 
 public class LanguageExtTryMonadComparisonDemo : IDemo
 {
-    public string Key => "langext-try-monad-comparison";
+    public const string DemoKey = "langext-try-monad-comparison";
+
+    public string Key => DemoKey;
     public string Category => "functional";
     public IReadOnlyCollection<string> Tags => ["fp", "languageext", "comparison", "try", "monad"];
 

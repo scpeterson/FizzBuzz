@@ -12,7 +12,9 @@ public class ImperativeSeqMonadComparisonDemo : IDemo
 
     public ImperativeSeqMonadComparisonDemo(IOutput output) => _output = output;
 
-    public string Key => "imperative-seq-monad-comparison";
+    public const string DemoKey = "imperative-seq-monad-comparison";
+
+    public string Key => DemoKey;
     public string Category => "imperative";
     public IReadOnlyCollection<string> Tags => ["imperative", "comparison", "seq", "monad"];
 

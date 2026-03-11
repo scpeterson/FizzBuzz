@@ -6,7 +6,9 @@ namespace Scott.FizzBuzz.Core.Demos.NullOptionTriad;
 
 public class LanguageExtOptionPipelineDemo : IDemo
 {
-    public string Key => "langext-option-pipeline";
+    public const string DemoKey = "langext-option-pipeline";
+
+    public string Key => DemoKey;
     public string Category => "functional";
     public IReadOnlyCollection<string> Tags => ["fp", "languageext", "comparison", "option", "null"];
 

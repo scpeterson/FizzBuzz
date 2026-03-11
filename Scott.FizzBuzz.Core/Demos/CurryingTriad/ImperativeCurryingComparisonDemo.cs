@@ -17,7 +17,9 @@ public class ImperativeCurryingComparisonDemo : IDemo
         _output = output;
     }
 
-    public string Key => "imperative-currying-comparison";
+    public const string DemoKey = "imperative-currying-comparison";
+
+    public string Key => DemoKey;
     public string Category => "imperative";
     public IReadOnlyCollection<string> Tags => ["imperative", "comparison", "currying", "triad"];
 

@@ -17,7 +17,9 @@ public class ImperativeAsyncWorkflowDemo : IDemo
         _output = output;
     }
 
-    public string Key => "imperative-async-workflow";
+    public const string DemoKey = "imperative-async-workflow";
+
+    public string Key => DemoKey;
     public string Category => "imperative";
     public IReadOnlyCollection<string> Tags => ["imperative", "comparison", "async", "effects"];
     public string Description => "Imperative equivalent: direct side effects with sync + async calls and exception handling.";

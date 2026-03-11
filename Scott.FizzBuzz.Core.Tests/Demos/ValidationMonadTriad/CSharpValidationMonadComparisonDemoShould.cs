@@ -12,7 +12,7 @@ public class CSharpValidationMonadComparisonDemoShould
     {
         var demo = new CSharpValidationMonadComparisonDemo();
 
-        demo.Key.Should().Be("csharp-validation-monad-comparison");
+        demo.Key.Should().Be(CSharpValidationMonadComparisonDemo.DemoKey);
         demo.Category.Should().Be("csharp");
         demo.Tags.Should().Contain(["fp", "csharp", "comparison", "validation", "monad"]);
         demo.Description.Should().Contain("error-list accumulation");
@@ -28,10 +28,10 @@ public class CSharpValidationMonadComparisonDemoShould
 
         result.ShouldBeRight();
         var combined = string.Join("\n", output.Messages);
-        combined.Should().Contain("Name must be at least 3 characters.");
-        combined.Should().Contain("Name must contain letters only.");
-        combined.Should().Contain("Age must be numeric.");
-        combined.Should().Contain("explicit List<string> accumulation");
+        combined.Should().Contain(CSharpValidationMonadComparisonDemo.NameMinLengthMessage);
+        combined.Should().Contain(CSharpValidationMonadComparisonDemo.NameLettersOnlyMessage);
+        combined.Should().Contain(CSharpValidationMonadComparisonDemo.AgeNumericMessage);
+        combined.Should().Contain(CSharpValidationMonadComparisonDemo.ErrorAccumulationNote);
     }
 
     [Fact]
@@ -44,9 +44,9 @@ public class CSharpValidationMonadComparisonDemoShould
 
         result.ShouldBeRight();
         var combined = string.Join("\n", output.Messages);
-        combined.Should().Contain("Name is required.");
-        combined.Should().Contain("Name must be at least 3 characters.");
-        combined.Should().Contain("Age must be between 18 and 120.");
+        combined.Should().Contain(CSharpValidationMonadComparisonDemo.NameRequiredMessage);
+        combined.Should().Contain(CSharpValidationMonadComparisonDemo.NameMinLengthMessage);
+        combined.Should().Contain(CSharpValidationMonadComparisonDemo.AgeRangeMessage);
     }
 
     [Fact]
@@ -60,8 +60,7 @@ public class CSharpValidationMonadComparisonDemoShould
         result.ShouldBeRight();
         output.Messages.Should().Contain(message =>
             message.Contains("Validated candidate: Scott (21)", StringComparison.Ordinal));
-        output.Messages.Should().Contain(message =>
-            message.Contains("custom accumulation logic", StringComparison.Ordinal));
+        output.Messages.Should().Contain(CSharpValidationMonadComparisonDemo.SuccessAccumulationNote);
     }
 
     private sealed class RecordingOutput : IOutput

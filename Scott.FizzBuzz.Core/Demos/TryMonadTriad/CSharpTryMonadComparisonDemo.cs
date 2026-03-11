@@ -13,7 +13,9 @@ public class CSharpTryMonadComparisonDemo : IDemo
 
     public CSharpTryMonadComparisonDemo(IOutput output) => _output = output;
 
-    public string Key => "csharp-try-monad-comparison";
+    public const string DemoKey = "csharp-try-monad-comparison";
+
+    public string Key => DemoKey;
     public string Category => "csharp";
     public IReadOnlyCollection<string> Tags => ["fp", "csharp", "comparison", "try", "monad"];
 

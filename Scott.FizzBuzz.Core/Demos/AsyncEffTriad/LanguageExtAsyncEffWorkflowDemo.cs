@@ -6,7 +6,9 @@ namespace Scott.FizzBuzz.Core.Demos.AsyncEffTriad;
 
 public class LanguageExtAsyncEffWorkflowDemo : IDemo
 {
-    public string Key => "langext-eff-async-workflow";
+    public const string DemoKey = "langext-eff-async-workflow";
+
+    public string Key => DemoKey;
     public string Category => "functional";
     public IReadOnlyCollection<string> Tags => ["fp", "languageext", "comparison", "async", "eff", "aff", "effects"];
     public string Description => "LanguageExt composition using Eff (sync effect) + Aff (async effect).";

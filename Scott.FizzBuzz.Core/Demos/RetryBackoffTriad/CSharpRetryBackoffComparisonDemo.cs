@@ -17,7 +17,9 @@ public class CSharpRetryBackoffComparisonDemo : IDemo
         _output = output;
     }
 
-    public string Key => "csharp-retry-backoff-comparison";
+    public const string DemoKey = "csharp-retry-backoff-comparison";
+
+    public string Key => DemoKey;
     public string Category => "csharp";
     public IReadOnlyCollection<string> Tags => ["fp", "csharp", "comparison", "retry", "backoff", "policy"];
     public string Description => "Composed retry policy and schedule computation without sleeping, but still manually threaded through helpers.";

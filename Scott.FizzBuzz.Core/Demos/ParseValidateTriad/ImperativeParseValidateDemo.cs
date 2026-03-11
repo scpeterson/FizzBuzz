@@ -17,7 +17,9 @@ public class ImperativeParseValidateDemo : IDemo
         _output = output;
     }
 
-    public string Key => "imperative-parse-validate";
+    public const string DemoKey = "imperative-parse-validate";
+
+    public string Key => DemoKey;
     public string Category => "imperative";
     public IReadOnlyCollection<string> Tags => ["imperative", "comparison", "validation", "parsing"];
 

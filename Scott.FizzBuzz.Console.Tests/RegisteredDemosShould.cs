@@ -1,5 +1,6 @@
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
+using Scott.FizzBuzz.Core.Demos.DotNet10Features;
 using Scott.FizzBuzz.Core.Interfaces;
 
 namespace Scott.FizzBuzz.Console.Tests;
@@ -48,11 +49,11 @@ public class RegisteredDemosShould
         var demos = ResolveRegisteredDemos().ToDictionary(d => d.Key, d => d);
 
         // Assert
-        demos.Should().ContainKey("fp-json-strict-validation");
-        demos["fp-json-strict-validation"].Tags.Should().Contain(["fp", "dotnet10"]);
+        demos.Should().ContainKey(FpJsonStrictValidationDemo.DemoKey);
+        demos[FpJsonStrictValidationDemo.DemoKey].Tags.Should().Contain(["fp", "dotnet10"]);
 
-        demos.Should().ContainKey("fp-extension-members-typeclasses");
-        demos["fp-extension-members-typeclasses"].Tags.Should().Contain(["fp", "dotnet10", "csharp14"]);
+        demos.Should().ContainKey(FpExtensionMembersTypeclassesDemo.DemoKey);
+        demos[FpExtensionMembersTypeclassesDemo.DemoKey].Tags.Should().Contain(["fp", "dotnet10", "csharp14"]);
     }
 
     [Fact]

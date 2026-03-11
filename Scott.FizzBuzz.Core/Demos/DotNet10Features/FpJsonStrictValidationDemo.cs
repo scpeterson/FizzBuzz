@@ -9,6 +9,8 @@ namespace Scott.FizzBuzz.Core.Demos.DotNet10Features;
 
 public class FpJsonStrictValidationDemo : IDemo
 {
+    public const string DemoKey = "fp-json-strict-validation";
+
     private readonly IOutput _output;
 
     public FpJsonStrictValidationDemo() : this(new ConsoleOutput())
@@ -20,7 +22,7 @@ public class FpJsonStrictValidationDemo : IDemo
         _output = output;
     }
 
-    public string Key => "fp-json-strict-validation";
+    public string Key => DemoKey;
     public string Category => "functional";
     public IReadOnlyCollection<string> Tags => ["fp", "dotnet10", "json", "validation", "strict"];
 

@@ -6,7 +6,9 @@ namespace Scott.FizzBuzz.Core.Demos.WriterMonadTriad;
 
 public class LanguageExtWriterMonadComparisonDemo : IDemo
 {
-    public string Key => "langext-writer-monad-comparison";
+    public const string DemoKey = "langext-writer-monad-comparison";
+
+    public string Key => DemoKey;
     public string Category => "functional";
     public IReadOnlyCollection<string> Tags => ["fp", "languageext", "comparison", "writer", "monad"];
 

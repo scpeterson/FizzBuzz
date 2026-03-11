@@ -6,7 +6,9 @@ namespace Scott.FizzBuzz.Core.Demos.DatabaseTextStoreTriad;
 
 public class LanguageExtEffTextStoreDatabaseDemo : IDemo
 {
-    public string Key => "langext-db-text-store-eff";
+    public const string DemoKey = "langext-db-text-store-eff";
+
+    public string Key => DemoKey;
     public string Category => "functional";
     public IReadOnlyCollection<string> Tags => ["fp", "languageext", "comparison", "database", "io", "text-store", "eff"];
     public string Description => "LanguageExt pipeline with pure transforms and file IO at the Eff boundary.";

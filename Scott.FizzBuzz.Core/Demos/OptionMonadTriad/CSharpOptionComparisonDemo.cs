@@ -17,7 +17,9 @@ public class CSharpOptionComparisonDemo : IDemo
         _output = output;
     }
 
-    public string Key => "csharp-option-comparison";
+    public const string DemoKey = "csharp-option-comparison";
+
+    public string Key => DemoKey;
     public string Category => "csharp";
     public IReadOnlyCollection<string> Tags => ["fp", "csharp", "comparison", "option", "monad"];
     public string Description => "Nullable-reference composition with custom Bind helpers to emulate Option flow.";

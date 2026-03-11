@@ -20,7 +20,9 @@ public class MonadicFunctionsDemo : IDemo
         _output = output;
     }
 
-    public string Key => "monadic-functions";
+    public const string DemoKey = "monadic-functions";
+
+    public string Key => DemoKey;
     public string Category => "functional";
     public IReadOnlyCollection<string> Tags => ["fp", "languageext", "monads", "option", "either", "comparison", "beginner"];
     public string Description => "Why monads help: hidden state and exceptions versus Option/Either composition.";

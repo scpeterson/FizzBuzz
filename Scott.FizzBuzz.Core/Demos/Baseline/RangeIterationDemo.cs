@@ -22,7 +22,9 @@ public class RangeIterationDemo : IDemo
 
     // This companion demo exists to contrast with ImperativeDemo:
     // same fizzbuzz logic, but expressed as a functional data pipeline.
-    public string Key => "range-iter";
+    public const string DemoKey = "range-iter";
+
+    public string Key => DemoKey;
     public string Category => "functional";
     public IReadOnlyCollection<string> Tags => ["fp", "comparison", "seq", "baseline"];
 

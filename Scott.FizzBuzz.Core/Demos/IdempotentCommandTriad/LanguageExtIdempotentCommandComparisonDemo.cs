@@ -7,7 +7,9 @@ namespace Scott.FizzBuzz.Core.Demos.IdempotentCommandTriad;
 
 public class LanguageExtIdempotentCommandComparisonDemo : IDemo
 {
-    public string Key => "langext-idempotent-command";
+    public const string DemoKey = "langext-idempotent-command";
+
+    public string Key => DemoKey;
     public string Category => "functional";
     public IReadOnlyCollection<string> Tags => ["fp", "languageext", "comparison", "idempotency", "triad"];
 

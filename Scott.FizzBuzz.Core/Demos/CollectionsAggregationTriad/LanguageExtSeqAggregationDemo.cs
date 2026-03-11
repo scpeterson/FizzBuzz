@@ -6,7 +6,9 @@ namespace Scott.FizzBuzz.Core.Demos.CollectionsAggregationTriad;
 
 public class LanguageExtSeqAggregationDemo : IDemo
 {
-    public string Key => "langext-seq-aggregation";
+    public const string DemoKey = "langext-seq-aggregation";
+
+    public string Key => DemoKey;
     public string Category => "functional";
     public IReadOnlyCollection<string> Tags => ["fp", "languageext", "comparison", "collections", "aggregation"];
 

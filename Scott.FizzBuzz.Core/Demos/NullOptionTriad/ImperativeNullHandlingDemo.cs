@@ -17,7 +17,9 @@ public class ImperativeNullHandlingDemo : IDemo
         _output = output;
     }
 
-    public string Key => "imperative-null-handling";
+    public const string DemoKey = "imperative-null-handling";
+
+    public string Key => DemoKey;
     public string Category => "imperative";
     public IReadOnlyCollection<string> Tags => ["imperative", "comparison", "null"];
 

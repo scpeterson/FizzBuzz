@@ -12,7 +12,9 @@ public class CSharpSeqMonadComparisonDemo : IDemo
 
     public CSharpSeqMonadComparisonDemo(IOutput output) => _output = output;
 
-    public string Key => "csharp-seq-monad-comparison";
+    public const string DemoKey = "csharp-seq-monad-comparison";
+
+    public string Key => DemoKey;
     public string Category => "csharp";
     public IReadOnlyCollection<string> Tags => ["fp", "csharp", "comparison", "seq", "monad"];
 

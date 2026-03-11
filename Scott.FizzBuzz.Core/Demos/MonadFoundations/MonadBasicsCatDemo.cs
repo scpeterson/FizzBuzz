@@ -25,7 +25,9 @@ public class MonadBasicsCatDemo : IDemo
         _output = output;
     }
 
-    public string Key => "monad-basics-cat";
+    public const string DemoKey = "monad-basics-cat";
+
+    public string Key => DemoKey;
     public string Category => "functional";
     public IReadOnlyCollection<string> Tags => ["fp", "languageext", "monads", "option", "either", "comparison", "beginner"];
     public string Description => "Imperative null checks versus Option/Either pipeline on the same cat lookup.";

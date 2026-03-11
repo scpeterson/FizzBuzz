@@ -6,7 +6,9 @@ namespace Scott.FizzBuzz.Core.Demos.SeqMonadTriad;
 
 public class LanguageExtSeqMonadComparisonDemo : IDemo
 {
-    public string Key => "langext-seq-monad-comparison";
+    public const string DemoKey = "langext-seq-monad-comparison";
+
+    public string Key => DemoKey;
     public string Category => "functional";
     public IReadOnlyCollection<string> Tags => ["fp", "languageext", "comparison", "seq", "monad"];
 

@@ -17,7 +17,9 @@ public class ImperativeCollectionsAggregationDemo : IDemo
         _output = output;
     }
 
-    public string Key => "imperative-collections-aggregation";
+    public const string DemoKey = "imperative-collections-aggregation";
+
+    public string Key => DemoKey;
     public string Category => "imperative";
     public IReadOnlyCollection<string> Tags => ["imperative", "comparison", "collections", "aggregation"];
 

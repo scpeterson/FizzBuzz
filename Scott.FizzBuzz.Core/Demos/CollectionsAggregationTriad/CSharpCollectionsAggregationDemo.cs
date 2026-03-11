@@ -17,7 +17,9 @@ public class CSharpCollectionsAggregationDemo : IDemo
         _output = output;
     }
 
-    public string Key => "csharp-collections-aggregation";
+    public const string DemoKey = "csharp-collections-aggregation";
+
+    public string Key => DemoKey;
     public string Category => "csharp";
     public IReadOnlyCollection<string> Tags => ["fp", "csharp", "comparison", "collections", "aggregation"];
 

@@ -19,7 +19,9 @@ public class NoDependencyDemo : IDemo
         _output = output;
     }
 
-    public string Key => "no-dependency";
+    public const string DemoKey = "no-dependency";
+
+    public string Key => DemoKey;
     public string Category => "general";
     public IReadOnlyCollection<string> Tags => ["general", "baseline"];
     

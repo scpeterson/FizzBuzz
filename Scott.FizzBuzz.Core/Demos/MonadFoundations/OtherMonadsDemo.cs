@@ -32,7 +32,9 @@ public class OtherMonadsDemo : IDemo
         _output = output;
     }
 
-    public string Key => "other-monads";
+    public const string DemoKey = "other-monads";
+
+    public string Key => DemoKey;
     public string Category => "functional";
     public IReadOnlyCollection<string> Tags => ["fp", "languageext", "monads", "advanced"];
 

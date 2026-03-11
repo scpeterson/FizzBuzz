@@ -6,7 +6,9 @@ namespace Scott.FizzBuzz.Core.Demos.OptionMonadTriad;
 
 public class LanguageExtOptionMonadComparisonDemo : IDemo
 {
-    public string Key => "langext-option-monad-comparison";
+    public const string DemoKey = "langext-option-monad-comparison";
+
+    public string Key => DemoKey;
     public string Category => "functional";
     public IReadOnlyCollection<string> Tags => ["fp", "languageext", "comparison", "option", "monad"];
     public string Description => "Option pipeline for nested optional data with no null-check branching in orchestration.";

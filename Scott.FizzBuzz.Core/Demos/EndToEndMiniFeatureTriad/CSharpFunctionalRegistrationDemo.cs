@@ -18,7 +18,9 @@ public class CSharpFunctionalRegistrationDemo : IDemo
         _output = output;
     }
 
-    public string Key => "csharp-functional-registration";
+    public const string DemoKey = "csharp-functional-registration";
+
+    public string Key => DemoKey;
     public string Category => "csharp";
     public IReadOnlyCollection<string> Tags => ["fp", "csharp", "comparison", "end-to-end"];
     public string Description => "C# fail-fast registration pipeline with Either composition.";

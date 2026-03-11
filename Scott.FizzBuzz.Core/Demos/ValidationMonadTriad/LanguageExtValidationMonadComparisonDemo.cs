@@ -6,7 +6,9 @@ namespace Scott.FizzBuzz.Core.Demos.ValidationMonadTriad;
 
 public class LanguageExtValidationMonadComparisonDemo : IDemo
 {
-    public string Key => "langext-validation-monad-comparison";
+    public const string DemoKey = "langext-validation-monad-comparison";
+
+    public string Key => DemoKey;
     public string Category => "functional";
     public IReadOnlyCollection<string> Tags => ["fp", "languageext", "comparison", "validation", "monad"];
     public string Description => "LanguageExt Validation applicative composition with error accumulation.";

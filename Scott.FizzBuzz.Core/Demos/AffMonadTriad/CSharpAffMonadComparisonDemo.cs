@@ -12,7 +12,9 @@ public class CSharpAffMonadComparisonDemo : IDemo
 
     public CSharpAffMonadComparisonDemo(IOutput output) => _output = output;
 
-    public string Key => "csharp-aff-monad-comparison";
+    public const string DemoKey = "csharp-aff-monad-comparison";
+
+    public string Key => DemoKey;
     public string Category => "csharp";
     public IReadOnlyCollection<string> Tags => ["fp", "csharp", "comparison", "aff", "monad"];
 

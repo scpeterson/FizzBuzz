@@ -8,7 +8,9 @@ namespace Scott.FizzBuzz.Core.Demos.Baseline;
 
 public class PatternMatchingDemo : IDemo
 {
-    public string Key => "pattern-matching";
+    public const string DemoKey = "pattern-matching";
+
+    public string Key => DemoKey;
     public string Category => "csharp";
     public IReadOnlyCollection<string> Tags => ["fp", "csharp", "pattern-matching", "baseline"];
     public Either<string, Unit> Run(string? name, string? number)

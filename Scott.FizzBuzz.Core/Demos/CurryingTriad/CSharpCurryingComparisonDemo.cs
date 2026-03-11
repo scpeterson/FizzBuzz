@@ -17,7 +17,9 @@ public class CSharpCurryingComparisonDemo : IDemo
         _output = output;
     }
 
-    public string Key => "csharp-currying-comparison";
+    public const string DemoKey = "csharp-currying-comparison";
+
+    public string Key => DemoKey;
     public string Category => "csharp";
     public IReadOnlyCollection<string> Tags => ["fp", "csharp", "comparison", "currying", "triad"];
 

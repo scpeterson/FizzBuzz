@@ -17,7 +17,9 @@ public class ImperativeEitherComparisonDemo : IDemo
         _output = output;
     }
 
-    public string Key => "imperative-either-comparison";
+    public const string DemoKey = "imperative-either-comparison";
+
+    public string Key => DemoKey;
     public string Category => "imperative";
     public IReadOnlyCollection<string> Tags => ["imperative", "comparison", "either", "monad"];
     public string Description => "Manual error propagation with mutable variables and branch-heavy flow control.";

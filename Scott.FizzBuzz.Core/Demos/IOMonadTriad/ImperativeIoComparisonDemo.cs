@@ -17,7 +17,9 @@ public class ImperativeIoComparisonDemo : IDemo
         _output = output;
     }
 
-    public string Key => "imperative-io-comparison";
+    public const string DemoKey = "imperative-io-comparison";
+
+    public string Key => DemoKey;
     public string Category => "imperative";
     public IReadOnlyCollection<string> Tags => ["imperative", "comparison", "io", "monad"];
     public string Description => "Imperative side-effect flow with explicit sequencing and manual error branching.";

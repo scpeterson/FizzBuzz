@@ -6,7 +6,9 @@ namespace Scott.FizzBuzz.Core.Demos.RetryBackoffTriad;
 
 public class LanguageExtRetryBackoffComparisonDemo : IDemo
 {
-    public string Key => "langext-retry-backoff-comparison";
+    public const string DemoKey = "langext-retry-backoff-comparison";
+
+    public string Key => DemoKey;
     public string Category => "functional";
     public IReadOnlyCollection<string> Tags => ["fp", "languageext", "comparison", "retry", "backoff", "policy"];
     public string Description => "Pure retry/backoff policy encoded as deterministic transformations with no wait or I/O effects.";

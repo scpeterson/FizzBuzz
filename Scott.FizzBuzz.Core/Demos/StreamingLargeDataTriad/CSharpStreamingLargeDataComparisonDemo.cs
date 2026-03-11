@@ -17,7 +17,9 @@ public class CSharpStreamingLargeDataComparisonDemo : IDemo
         _output = output;
     }
 
-    public string Key => "csharp-streaming-large-data-comparison";
+    public const string DemoKey = "csharp-streaming-large-data-comparison";
+
+    public string Key => DemoKey;
     public string Category => "csharp";
     public IReadOnlyCollection<string> Tags => ["fp", "csharp", "comparison", "streaming", "large-data"];
     public string Description => "Chunked LINQ pipeline over an enumerable stream with compositional aggregation.";

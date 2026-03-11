@@ -6,7 +6,9 @@ namespace Scott.FizzBuzz.Core.Demos.StreamingLargeDataTriad;
 
 public class LanguageExtStreamingLargeDataComparisonDemo : IDemo
 {
-    public string Key => "langext-streaming-large-data-comparison";
+    public const string DemoKey = "langext-streaming-large-data-comparison";
+
+    public string Key => DemoKey;
     public string Category => "functional";
     public IReadOnlyCollection<string> Tags => ["fp", "languageext", "comparison", "streaming", "large-data"];
     public string Description => "Pure fold-based stream policy in LanguageExt with deterministic, side-effect-free aggregation.";

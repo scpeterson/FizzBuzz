@@ -11,7 +11,7 @@ public class LanguageExtFunctionalRegistrationDemoShould
     {
         var demo = new LanguageExtFunctionalRegistrationDemo();
 
-        demo.Key.Should().Be("langext-functional-registration");
+        demo.Key.Should().Be(LanguageExtFunctionalRegistrationDemo.DemoKey);
         demo.Category.Should().Be("functional");
         demo.Tags.Should().Contain(["fp", "languageext", "comparison", "end-to-end"]);
         demo.Description.Should().Contain("LanguageExt registration flow");

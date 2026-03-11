@@ -17,7 +17,9 @@ public class ImperativeReaderComparisonDemo : IDemo
         _output = output;
     }
 
-    public string Key => "imperative-reader-comparison";
+    public const string DemoKey = "imperative-reader-comparison";
+
+    public string Key => DemoKey;
     public string Category => "imperative";
     public IReadOnlyCollection<string> Tags => ["imperative", "comparison", "reader", "monad"];
     public string Description => "Manual dependency lookups and branch-heavy orchestration without Reader composition.";

@@ -6,7 +6,9 @@ namespace Scott.FizzBuzz.Core.Demos.EndToEndMiniFeatureTriad;
 
 public class LanguageExtFunctionalRegistrationDemo : IDemo
 {
-    public string Key => "langext-functional-registration";
+    public const string DemoKey = "langext-functional-registration";
+
+    public string Key => DemoKey;
     public string Category => "functional";
     public IReadOnlyCollection<string> Tags => ["fp", "languageext", "comparison", "end-to-end"];
     public string Description => "LanguageExt registration flow with Validation + Either boundaries.";

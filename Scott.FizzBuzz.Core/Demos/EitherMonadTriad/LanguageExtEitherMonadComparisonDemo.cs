@@ -6,7 +6,9 @@ namespace Scott.FizzBuzz.Core.Demos.EitherMonadTriad;
 
 public class LanguageExtEitherMonadComparisonDemo : IDemo
 {
-    public string Key => "langext-either-monad-comparison";
+    public const string DemoKey = "langext-either-monad-comparison";
+
+    public string Key => DemoKey;
     public string Category => "functional";
     public IReadOnlyCollection<string> Tags => ["fp", "languageext", "comparison", "either", "monad"];
     public string Description => "Either pipeline with short-circuiting error flow and no orchestration branching.";

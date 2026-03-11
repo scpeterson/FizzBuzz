@@ -6,7 +6,9 @@ namespace Scott.FizzBuzz.Core.Demos.ConcurrencySafetyTriad;
 
 public class LanguageExtConcurrencySafetyComparisonDemo : IDemo
 {
-    public string Key => "langext-concurrency-safety-comparison";
+    public const string DemoKey = "langext-concurrency-safety-comparison";
+
+    public string Key => DemoKey;
     public string Category => "functional";
     public IReadOnlyCollection<string> Tags => ["fp", "languageext", "comparison", "concurrency", "safety"];
     public string Description => "Pure fold-based update model that avoids shared mutable state and lost updates.";

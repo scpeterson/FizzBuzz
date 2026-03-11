@@ -18,7 +18,9 @@ public class CSharpDomainWorkflowComparisonDemo : IDemo
         _output = output;
     }
 
-    public string Key => "csharp-domain-workflow";
+    public const string DemoKey = "csharp-domain-workflow";
+
+    public string Key => DemoKey;
     public string Category => "csharp";
     public IReadOnlyCollection<string> Tags => ["fp", "csharp", "comparison", "domain-modeling", "triad"];
 

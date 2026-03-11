@@ -17,7 +17,9 @@ public class CSharpStateComparisonDemo : IDemo
         _output = output;
     }
 
-    public string Key => "csharp-state-comparison";
+    public const string DemoKey = "csharp-state-comparison";
+
+    public string Key => DemoKey;
     public string Category => "csharp";
     public IReadOnlyCollection<string> Tags => ["fp", "csharp", "comparison", "state", "monad"];
     public string Description => "Immutable C# state transitions still require explicit fold plumbing without State monad abstraction.";

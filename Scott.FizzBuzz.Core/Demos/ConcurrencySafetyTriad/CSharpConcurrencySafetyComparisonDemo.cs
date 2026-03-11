@@ -17,7 +17,9 @@ public class CSharpConcurrencySafetyComparisonDemo : IDemo
         _output = output;
     }
 
-    public string Key => "csharp-concurrency-safety-comparison";
+    public const string DemoKey = "csharp-concurrency-safety-comparison";
+
+    public string Key => DemoKey;
     public string Category => "csharp";
     public IReadOnlyCollection<string> Tags => ["fp", "csharp", "comparison", "concurrency", "safety"];
     public string Description => "Atomic increment boundary using BCL concurrency primitives to preserve updates.";

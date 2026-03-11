@@ -18,7 +18,9 @@ public class CSharpParseValidatePipelineDemo : IDemo
         _output = output;
     }
 
-    public string Key => "csharp-parse-validate-pipeline";
+    public const string DemoKey = "csharp-parse-validate-pipeline";
+
+    public string Key => DemoKey;
     public string Category => "csharp";
     public IReadOnlyCollection<string> Tags => ["fp", "csharp", "comparison", "validation", "pipeline"];
 

@@ -17,7 +17,9 @@ public class CSharpReaderComparisonDemo : IDemo
         _output = output;
     }
 
-    public string Key => "csharp-reader-comparison";
+    public const string DemoKey = "csharp-reader-comparison";
+
+    public string Key => DemoKey;
     public string Category => "csharp";
     public IReadOnlyCollection<string> Tags => ["fp", "csharp", "comparison", "reader", "monad"];
     public string Description => "C# functional composition still requires threading shared context through every function.";

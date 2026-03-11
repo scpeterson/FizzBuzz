@@ -17,7 +17,9 @@ public class ImperativeExceptionBoundariesDemo : IDemo
         _output = output;
     }
 
-    public string Key => "imperative-exception-boundaries";
+    public const string DemoKey = "imperative-exception-boundaries";
+
+    public string Key => DemoKey;
     public string Category => "imperative";
     public IReadOnlyCollection<string> Tags => ["imperative", "comparison", "exceptions"];
 

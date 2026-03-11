@@ -17,7 +17,9 @@ public class ImperativeValidationFirstErrorDemo : IDemo
         _output = output;
     }
 
-    public string Key => "imperative-validation-first-error";
+    public const string DemoKey = "imperative-validation-first-error";
+
+    public string Key => DemoKey;
     public string Category => "imperative";
     public IReadOnlyCollection<string> Tags => ["imperative", "comparison", "validation"];
 

@@ -19,7 +19,9 @@ public class SchrodingersCatDemo : IDemo
         _output = output;
     }
 
-    public string Key => "demo-monad";
+    public const string DemoKey = "demo-monad";
+
+    public string Key => DemoKey;
     public string Category => "functional";
     public IReadOnlyCollection<string> Tags => ["fp", "languageext", "monads", "state", "try"];
     

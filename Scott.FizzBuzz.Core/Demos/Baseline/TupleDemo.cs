@@ -8,7 +8,9 @@ namespace Scott.FizzBuzz.Core.Demos.Baseline;
 
 public class TupleDemo : IDemo
 {
-    public string Key => "tuple-demo";
+    public const string DemoKey = "tuple-demo";
+
+    public string Key => DemoKey;
     public string Category => "csharp";
     public IReadOnlyCollection<string> Tags => ["fp", "csharp", "tuples", "baseline"];
     public Either<string, Unit> Run(string? name, string? number)

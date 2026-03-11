@@ -6,7 +6,9 @@ namespace Scott.FizzBuzz.Core.Demos.ReaderMonadTriad;
 
 public class LanguageExtReaderMonadComparisonDemo : IDemo
 {
-    public string Key => "langext-reader-monad-comparison";
+    public const string DemoKey = "langext-reader-monad-comparison";
+
+    public string Key => DemoKey;
     public string Category => "functional";
     public IReadOnlyCollection<string> Tags => ["fp", "languageext", "comparison", "reader", "monad"];
     public string Description => "Reader monad composes environment-dependent functions without passing context explicitly.";

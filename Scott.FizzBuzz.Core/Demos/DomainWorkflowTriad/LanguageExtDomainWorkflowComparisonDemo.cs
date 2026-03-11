@@ -7,7 +7,9 @@ namespace Scott.FizzBuzz.Core.Demos.DomainWorkflowTriad;
 
 public class LanguageExtDomainWorkflowComparisonDemo : IDemo
 {
-    public string Key => "langext-domain-workflow";
+    public const string DemoKey = "langext-domain-workflow";
+
+    public string Key => DemoKey;
     public string Category => "functional";
     public IReadOnlyCollection<string> Tags => ["fp", "languageext", "comparison", "domain-modeling", "triad"];
 

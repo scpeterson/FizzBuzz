@@ -17,7 +17,9 @@ public class ImperativeUserRegistrationDemo : IDemo
         _output = output;
     }
 
-    public string Key => "imperative-user-registration";
+    public const string DemoKey = "imperative-user-registration";
+
+    public string Key => DemoKey;
     public string Category => "imperative";
     public IReadOnlyCollection<string> Tags => ["imperative", "comparison", "end-to-end"];
 

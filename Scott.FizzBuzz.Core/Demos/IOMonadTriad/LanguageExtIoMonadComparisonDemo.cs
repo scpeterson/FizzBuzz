@@ -6,7 +6,9 @@ namespace Scott.FizzBuzz.Core.Demos.IOMonadTriad;
 
 public class LanguageExtIoMonadComparisonDemo : IDemo
 {
-    public string Key => "langext-io-monad-comparison";
+    public const string DemoKey = "langext-io-monad-comparison";
+
+    public string Key => DemoKey;
     public string Category => "functional";
     public IReadOnlyCollection<string> Tags => ["fp", "languageext", "comparison", "io", "monad"];
     public string Description => "LanguageExt IO-style composition using Eff (v4 equivalent) for effectful workflow sequencing.";

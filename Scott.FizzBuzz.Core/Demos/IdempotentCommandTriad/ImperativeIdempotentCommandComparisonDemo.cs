@@ -18,7 +18,9 @@ public class ImperativeIdempotentCommandComparisonDemo : IDemo
         _output = output;
     }
 
-    public string Key => "imperative-idempotent-command";
+    public const string DemoKey = "imperative-idempotent-command";
+
+    public string Key => DemoKey;
     public string Category => "imperative";
     public IReadOnlyCollection<string> Tags => ["imperative", "comparison", "idempotency", "triad"];
 

@@ -18,7 +18,9 @@ public class ImperativePostgresDatabaseDemo : IDemo
         _output = output;
     }
 
-    public string Key => "imperative-db-postgres";
+    public const string DemoKey = "imperative-db-postgres";
+
+    public string Key => DemoKey;
     public string Category => "imperative";
     public IReadOnlyCollection<string> Tags => ["imperative", "comparison", "database", "postgres", "io"];
     public string Description => "Imperative PostgreSQL workflow with inline mutation, SQL, and exception handling.";

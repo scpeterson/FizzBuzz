@@ -18,7 +18,9 @@ public class ImperativeDomainWorkflowComparisonDemo : IDemo
         _output = output;
     }
 
-    public string Key => "imperative-domain-workflow";
+    public const string DemoKey = "imperative-domain-workflow";
+
+    public string Key => DemoKey;
     public string Category => "imperative";
     public IReadOnlyCollection<string> Tags => ["imperative", "comparison", "domain-modeling", "triad"];
 

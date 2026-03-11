@@ -18,7 +18,9 @@ public class CSharpFunctionalTextStoreDatabaseDemo : IDemo
         _output = output;
     }
 
-    public string Key => "csharp-db-text-store";
+    public const string DemoKey = "csharp-db-text-store";
+
+    public string Key => DemoKey;
     public string Category => "csharp";
     public IReadOnlyCollection<string> Tags => ["fp", "csharp", "comparison", "database", "io", "text-store"];
     public string Description => "C# functional core with file IO isolated to explicit boundaries.";

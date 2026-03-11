@@ -6,7 +6,9 @@ namespace Scott.FizzBuzz.Core.Demos.StateMonadTriad;
 
 public class LanguageExtStateMonadComparisonDemo : IDemo
 {
-    public string Key => "langext-state-monad-comparison";
+    public const string DemoKey = "langext-state-monad-comparison";
+
+    public string Key => DemoKey;
     public string Category => "functional";
     public IReadOnlyCollection<string> Tags => ["fp", "languageext", "comparison", "state", "monad"];
     public string Description => "LanguageExt State monad composes transitions without explicit state plumbing.";

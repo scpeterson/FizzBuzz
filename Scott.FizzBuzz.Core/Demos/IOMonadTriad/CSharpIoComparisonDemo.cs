@@ -17,7 +17,9 @@ public class CSharpIoComparisonDemo : IDemo
         _output = output;
     }
 
-    public string Key => "csharp-io-comparison";
+    public const string DemoKey = "csharp-io-comparison";
+
+    public string Key => DemoKey;
     public string Category => "csharp";
     public IReadOnlyCollection<string> Tags => ["fp", "csharp", "comparison", "io", "monad"];
     public string Description => "C# functional composition with explicit side-effect boundaries and manual orchestration.";

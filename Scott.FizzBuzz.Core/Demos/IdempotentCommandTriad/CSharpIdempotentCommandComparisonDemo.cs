@@ -18,7 +18,9 @@ public class CSharpIdempotentCommandComparisonDemo : IDemo
         _output = output;
     }
 
-    public string Key => "csharp-idempotent-command";
+    public const string DemoKey = "csharp-idempotent-command";
+
+    public string Key => DemoKey;
     public string Category => "csharp";
     public IReadOnlyCollection<string> Tags => ["fp", "csharp", "comparison", "idempotency", "triad"];
 

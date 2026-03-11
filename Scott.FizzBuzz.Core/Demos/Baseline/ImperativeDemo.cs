@@ -20,7 +20,9 @@ public class ImperativeDemo : IDemo
 
     // This demo intentionally uses the classic imperative style so learners can
     // compare it directly with the functional sequence-based demo.
-    public string Key => "imperative";
+    public const string DemoKey = "imperative";
+
+    public string Key => DemoKey;
     public string Category => "imperative";
     public IReadOnlyCollection<string> Tags => ["imperative", "baseline"];
     public Either<string, Unit> Run(string? name, string? number) =>

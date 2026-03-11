@@ -12,7 +12,9 @@ public class ImperativeWriterMonadComparisonDemo : IDemo
 
     public ImperativeWriterMonadComparisonDemo(IOutput output) => _output = output;
 
-    public string Key => "imperative-writer-monad-comparison";
+    public const string DemoKey = "imperative-writer-monad-comparison";
+
+    public string Key => DemoKey;
     public string Category => "imperative";
     public IReadOnlyCollection<string> Tags => ["imperative", "comparison", "writer", "monad"];
 

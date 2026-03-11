@@ -12,7 +12,9 @@ public class ImperativeAffMonadComparisonDemo : IDemo
 
     public ImperativeAffMonadComparisonDemo(IOutput output) => _output = output;
 
-    public string Key => "imperative-aff-monad-comparison";
+    public const string DemoKey = "imperative-aff-monad-comparison";
+
+    public string Key => DemoKey;
     public string Category => "imperative";
     public IReadOnlyCollection<string> Tags => ["imperative", "comparison", "aff", "monad"];
 

@@ -20,7 +20,9 @@ public class CurryingDemo : IDemo
         _output = output;
     }
 
-    public string Key => "demo-currying";
+    public const string DemoKey = "demo-currying";
+
+    public string Key => DemoKey;
     public string Category => "csharp";
     public IReadOnlyCollection<string> Tags => ["fp", "csharp", "currying", "comparison", "baseline"];
     public Either<string, Unit> Run(string? name, string? number)

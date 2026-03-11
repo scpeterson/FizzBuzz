@@ -17,7 +17,9 @@ public class CSharpEitherComparisonDemo : IDemo
         _output = output;
     }
 
-    public string Key => "csharp-either-comparison";
+    public const string DemoKey = "csharp-either-comparison";
+
+    public string Key => DemoKey;
     public string Category => "csharp";
     public IReadOnlyCollection<string> Tags => ["fp", "csharp", "comparison", "either", "monad"];
     public string Description => "C#-only Result emulation shows extra scaffolding needed to mimic Either bind/map behavior.";

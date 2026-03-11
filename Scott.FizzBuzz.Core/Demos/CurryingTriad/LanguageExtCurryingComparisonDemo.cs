@@ -6,7 +6,9 @@ namespace Scott.FizzBuzz.Core.Demos.CurryingTriad;
 
 public class LanguageExtCurryingComparisonDemo : IDemo
 {
-    public string Key => "langext-currying-comparison";
+    public const string DemoKey = "langext-currying-comparison";
+
+    public string Key => DemoKey;
     public string Category => "functional";
     public IReadOnlyCollection<string> Tags => ["fp", "languageext", "comparison", "currying", "triad"];
 

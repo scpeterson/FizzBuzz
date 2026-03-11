@@ -6,7 +6,9 @@ namespace Scott.FizzBuzz.Core.Demos.EffMonadTriad;
 
 public class LanguageExtEffMonadComparisonDemo : IDemo
 {
-    public string Key => "langext-eff-monad-comparison";
+    public const string DemoKey = "langext-eff-monad-comparison";
+
+    public string Key => DemoKey;
     public string Category => "functional";
     public IReadOnlyCollection<string> Tags => ["fp", "languageext", "comparison", "eff", "monad"];
 

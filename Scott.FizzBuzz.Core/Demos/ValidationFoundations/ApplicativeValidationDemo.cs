@@ -19,7 +19,9 @@ public class ApplicativeValidationDemo : IDemo
         _output = output;
     }
 
-    public string Key => "applicative-validation";
+    public const string DemoKey = "applicative-validation";
+
+    public string Key => DemoKey;
     public string Category => "csharp";
     public IReadOnlyCollection<string> Tags => ["fp", "csharp", "validation", "applicative"];
     public string Description => "Applicative validation with reusable Validation functions and accumulated errors.";

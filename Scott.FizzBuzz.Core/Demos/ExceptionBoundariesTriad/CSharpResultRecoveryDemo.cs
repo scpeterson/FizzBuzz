@@ -17,7 +17,9 @@ public class CSharpResultRecoveryDemo : IDemo
         _output = output;
     }
 
-    public string Key => "csharp-result-recovery";
+    public const string DemoKey = "csharp-result-recovery";
+
+    public string Key => DemoKey;
     public string Category => "csharp";
     public IReadOnlyCollection<string> Tags => ["fp", "csharp", "comparison", "exceptions"];
 

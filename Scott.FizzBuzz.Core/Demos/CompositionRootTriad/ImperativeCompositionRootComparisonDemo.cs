@@ -18,7 +18,9 @@ public class ImperativeCompositionRootComparisonDemo : IDemo
         _output = output;
     }
 
-    public string Key => "imperative-composition-root";
+    public const string DemoKey = "imperative-composition-root";
+
+    public string Key => DemoKey;
     public string Category => "imperative";
     public IReadOnlyCollection<string> Tags => ["imperative", "comparison", "composition-root", "triad"];
 

@@ -18,7 +18,9 @@ public class CSharpCompositionRootComparisonDemo : IDemo
         _output = output;
     }
 
-    public string Key => "csharp-composition-root";
+    public const string DemoKey = "csharp-composition-root";
+
+    public string Key => DemoKey;
     public string Category => "csharp";
     public IReadOnlyCollection<string> Tags => ["fp", "csharp", "comparison", "composition-root", "triad"];
 

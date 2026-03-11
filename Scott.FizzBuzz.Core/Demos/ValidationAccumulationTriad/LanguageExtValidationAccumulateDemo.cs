@@ -7,7 +7,9 @@ namespace Scott.FizzBuzz.Core.Demos.ValidationAccumulationTriad;
 
 public class LanguageExtValidationAccumulateDemo : IDemo
 {
-    public string Key => "langext-validation-accumulate";
+    public const string DemoKey = "langext-validation-accumulate";
+
+    public string Key => DemoKey;
     public string Category => "functional";
     public IReadOnlyCollection<string> Tags => ["fp", "languageext", "comparison", "validation"];
 

@@ -6,6 +6,15 @@ namespace Scott.FizzBuzz.Core.Demos.ValidationMonadTriad;
 
 public class CSharpValidationMonadComparisonDemo : IDemo
 {
+    public const string DemoKey = "csharp-validation-monad-comparison";
+    public const string NameRequiredMessage = "Name is required.";
+    public const string NameMinLengthMessage = "Name must be at least 3 characters.";
+    public const string NameLettersOnlyMessage = "Name must contain letters only.";
+    public const string AgeNumericMessage = "Age must be numeric.";
+    public const string AgeRangeMessage = "Age must be between 18 and 120.";
+    public const string ErrorAccumulationNote = "C#/.NET comparison note: explicit List<string> accumulation is required.";
+    public const string SuccessAccumulationNote = "C#/.NET comparison note: custom accumulation logic still required to gather all errors.";
+
     private readonly IOutput _output;
 
     public CSharpValidationMonadComparisonDemo() : this(new ConsoleOutput())
@@ -17,7 +26,7 @@ public class CSharpValidationMonadComparisonDemo : IDemo
         _output = output;
     }
 
-    public string Key => "csharp-validation-monad-comparison";
+    public string Key => DemoKey;
     public string Category => "csharp";
     public IReadOnlyCollection<string> Tags => ["fp", "csharp", "comparison", "validation", "monad"];
     public string Description => "Manual error-list accumulation in C# to emulate Validation-style accumulation.";
@@ -30,36 +39,36 @@ public class CSharpValidationMonadComparisonDemo : IDemo
 
             if (normalizedName.Length == 0)
             {
-                errors.Add("Name is required.");
+                errors.Add(NameRequiredMessage);
             }
 
             if (normalizedName.Length < 3)
             {
-                errors.Add("Name must be at least 3 characters.");
+                errors.Add(NameMinLengthMessage);
             }
 
             if (normalizedName.Any(ch => !char.IsLetter(ch)))
             {
-                errors.Add("Name must contain letters only.");
+                errors.Add(NameLettersOnlyMessage);
             }
 
             if (!int.TryParse(number, out var age))
             {
-                errors.Add("Age must be numeric.");
+                errors.Add(AgeNumericMessage);
             }
             else if (age is < 18 or > 120)
             {
-                errors.Add("Age must be between 18 and 120.");
+                errors.Add(AgeRangeMessage);
             }
 
             if (errors.Count > 0)
             {
                 _output.WriteLine(string.Join(" | ", errors));
-                _output.WriteLine("C#/.NET comparison note: explicit List<string> accumulation is required.");
+                _output.WriteLine(ErrorAccumulationNote);
                 return;
             }
 
             _output.WriteLine($"Validated candidate: {normalizedName} ({age})");
-            _output.WriteLine("C#/.NET comparison note: custom accumulation logic still required to gather all errors.");
+            _output.WriteLine(SuccessAccumulationNote);
         }, "C# Validation Monad Comparison");
 }

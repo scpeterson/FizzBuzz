@@ -17,7 +17,9 @@ public class ImperativeOptionComparisonDemo : IDemo
         _output = output;
     }
 
-    public string Key => "imperative-option-comparison";
+    public const string DemoKey = "imperative-option-comparison";
+
+    public string Key => DemoKey;
     public string Category => "imperative";
     public IReadOnlyCollection<string> Tags => ["imperative", "comparison", "option", "monad"];
     public string Description => "Manual nested null checks to resolve a customer segment from optional data.";

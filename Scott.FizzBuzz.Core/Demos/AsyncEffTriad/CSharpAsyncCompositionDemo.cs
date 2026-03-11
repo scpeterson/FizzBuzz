@@ -18,7 +18,9 @@ public class CSharpAsyncCompositionDemo : IDemo
         _output = output;
     }
 
-    public string Key => "csharp-async-composition";
+    public const string DemoKey = "csharp-async-composition";
+
+    public string Key => DemoKey;
     public string Category => "csharp";
     public IReadOnlyCollection<string> Tags => ["fp", "csharp", "comparison", "async", "effects"];
     public string Description => "C# functional equivalent: explicit error channel with async composition.";

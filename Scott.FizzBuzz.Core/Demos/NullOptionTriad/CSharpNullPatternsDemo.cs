@@ -17,7 +17,9 @@ public class CSharpNullPatternsDemo : IDemo
         _output = output;
     }
 
-    public string Key => "csharp-null-patterns";
+    public const string DemoKey = "csharp-null-patterns";
+
+    public string Key => DemoKey;
     public string Category => "csharp";
     public IReadOnlyCollection<string> Tags => ["fp", "csharp", "comparison", "null"];
 

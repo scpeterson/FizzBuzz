@@ -18,7 +18,9 @@ public class LanguageExtDemo : IDemo
         _output = output;
     }
 
-    public string Key => "lang-ext";
+    public const string DemoKey = "lang-ext";
+
+    public string Key => DemoKey;
     public string Category => "functional";
     public IReadOnlyCollection<string> Tags => ["fp", "languageext", "either", "baseline"];
     public Either<string, Unit> Run(string? name, string? number)

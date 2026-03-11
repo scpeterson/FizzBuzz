@@ -12,7 +12,9 @@ public class CSharpWriterMonadComparisonDemo : IDemo
 
     public CSharpWriterMonadComparisonDemo(IOutput output) => _output = output;
 
-    public string Key => "csharp-writer-monad-comparison";
+    public const string DemoKey = "csharp-writer-monad-comparison";
+
+    public string Key => DemoKey;
     public string Category => "csharp";
     public IReadOnlyCollection<string> Tags => ["fp", "csharp", "comparison", "writer", "monad"];
 

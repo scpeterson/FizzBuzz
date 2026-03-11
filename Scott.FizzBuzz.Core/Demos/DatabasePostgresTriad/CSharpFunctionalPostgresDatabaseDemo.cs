@@ -17,7 +17,9 @@ public class CSharpFunctionalPostgresDatabaseDemo : IDemo
         _output = output;
     }
 
-    public string Key => "csharp-db-postgres";
+    public const string DemoKey = "csharp-db-postgres";
+
+    public string Key => DemoKey;
     public string Category => "csharp";
     public IReadOnlyCollection<string> Tags => ["fp", "csharp", "comparison", "database", "postgres", "io"];
     public string Description => "C# functional PostgreSQL pipeline with pure input parsing and explicit IO boundaries.";

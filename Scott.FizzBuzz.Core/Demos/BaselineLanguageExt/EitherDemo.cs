@@ -21,7 +21,9 @@ public class EitherDemo : IDemo
         _output = output;
     }
 
-    public string Key => "demo-either";
+    public const string DemoKey = "demo-either";
+
+    public string Key => DemoKey;
     public string Category => "functional";
     public IReadOnlyCollection<string> Tags => ["fp", "languageext", "either", "validation", "baseline"];
     public Either<string, Unit> Run(string? name, string? number)

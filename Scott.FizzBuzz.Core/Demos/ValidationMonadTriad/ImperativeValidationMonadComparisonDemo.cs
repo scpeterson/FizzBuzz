@@ -17,7 +17,9 @@ public class ImperativeValidationMonadComparisonDemo : IDemo
         _output = output;
     }
 
-    public string Key => "imperative-validation-monad-comparison";
+    public const string DemoKey = "imperative-validation-monad-comparison";
+
+    public string Key => DemoKey;
     public string Category => "imperative";
     public IReadOnlyCollection<string> Tags => ["imperative", "comparison", "validation", "monad"];
     public string Description => "Manual first-error validation flow with nested branching and early returns.";

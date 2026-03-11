@@ -12,7 +12,9 @@ public class CSharpTryOptionMonadComparisonDemo : IDemo
 
     public CSharpTryOptionMonadComparisonDemo(IOutput output) => _output = output;
 
-    public string Key => "csharp-tryoption-monad-comparison";
+    public const string DemoKey = "csharp-tryoption-monad-comparison";
+
+    public string Key => DemoKey;
     public string Category => "csharp";
     public IReadOnlyCollection<string> Tags => ["fp", "csharp", "comparison", "tryoption", "monad"];
 

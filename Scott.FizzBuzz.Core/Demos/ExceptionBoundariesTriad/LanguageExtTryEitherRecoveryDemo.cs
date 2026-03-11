@@ -7,7 +7,9 @@ namespace Scott.FizzBuzz.Core.Demos.ExceptionBoundariesTriad;
 
 public class LanguageExtTryEitherRecoveryDemo : IDemo
 {
-    public string Key => "langext-try-either-recovery";
+    public const string DemoKey = "langext-try-either-recovery";
+
+    public string Key => DemoKey;
     public string Category => "functional";
     public IReadOnlyCollection<string> Tags => ["fp", "languageext", "comparison", "exceptions", "either", "try"];
 
