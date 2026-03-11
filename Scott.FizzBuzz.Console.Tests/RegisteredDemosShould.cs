@@ -55,6 +55,16 @@ public class RegisteredDemosShould
         demos["fp-extension-members-typeclasses"].Tags.Should().Contain(["fp", "dotnet10", "csharp14"]);
     }
 
+    [Fact]
+    public void RegisterAllDiscoverableDemosExactlyOnce()
+    {
+        var registered = ResolveRegisteredDemos();
+        var discoverable = DiscoverableDemoTypes();
+
+        registered.Should().HaveCount(discoverable.Count);
+        registered.Select(demo => demo.GetType()).Distinct().Should().BeEquivalentTo(discoverable);
+    }
+
     private static List<IDemo> ResolveRegisteredDemos()
     {
         var services = new ServiceCollection();
@@ -62,4 +72,18 @@ public class RegisteredDemosShould
         using var provider = services.BuildServiceProvider();
         return provider.GetServices<IDemo>().ToList();
     }
+
+    private static List<Type> DiscoverableDemoTypes() =>
+        typeof(IDemo).Assembly
+            .GetTypes()
+            .Where(type =>
+                type is { IsClass: true, IsAbstract: false } &&
+                !type.IsGenericTypeDefinition &&
+                type.IsPublic &&
+                typeof(IDemo).IsAssignableFrom(type))
+            .Where(type =>
+                type.Namespace is not null &&
+                type.Namespace.StartsWith("Scott.FizzBuzz.Core.Demos", StringComparison.Ordinal))
+            .OrderBy(type => type.FullName, StringComparer.Ordinal)
+            .ToList();
 }

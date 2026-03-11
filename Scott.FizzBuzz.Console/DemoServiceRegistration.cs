@@ -1,38 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
-using Scott.FizzBuzz.Core.Demos.AsyncEffTriad;
-using Scott.FizzBuzz.Core.Demos.AffMonadTriad;
-using Scott.FizzBuzz.Core.Demos.Baseline;
-using Scott.FizzBuzz.Core.Demos.BaselineLanguageExt;
-using Scott.FizzBuzz.Core.Demos.CollectionsAggregationTriad;
-using Scott.FizzBuzz.Core.Demos.ConcurrencySafetyTriad;
-using Scott.FizzBuzz.Core.Demos.CurryingBaseline;
-using Scott.FizzBuzz.Core.Demos.CurryingTriad;
-using Scott.FizzBuzz.Core.Demos.DatabasePostgresTriad;
-using Scott.FizzBuzz.Core.Demos.DatabaseTextStoreTriad;
-using Scott.FizzBuzz.Core.Demos.DomainWorkflowTriad;
-using Scott.FizzBuzz.Core.Demos.DotNet10Features;
-using Scott.FizzBuzz.Core.Demos.EitherMonadTriad;
-using Scott.FizzBuzz.Core.Demos.EffMonadTriad;
-using Scott.FizzBuzz.Core.Demos.EndToEndMiniFeatureTriad;
-using Scott.FizzBuzz.Core.Demos.ExceptionBoundariesTriad;
-using Scott.FizzBuzz.Core.Demos.CompositionRootTriad;
-using Scott.FizzBuzz.Core.Demos.IdempotentCommandTriad;
-using Scott.FizzBuzz.Core.Demos.IOMonadTriad;
-using Scott.FizzBuzz.Core.Demos.MonadFoundations;
-using Scott.FizzBuzz.Core.Demos.NullOptionTriad;
-using Scott.FizzBuzz.Core.Demos.OptionMonadTriad;
-using Scott.FizzBuzz.Core.Demos.ParseValidateTriad;
-using Scott.FizzBuzz.Core.Demos.ReaderMonadTriad;
-using Scott.FizzBuzz.Core.Demos.StreamingLargeDataTriad;
-using Scott.FizzBuzz.Core.Demos.RetryBackoffTriad;
-using Scott.FizzBuzz.Core.Demos.SeqMonadTriad;
-using Scott.FizzBuzz.Core.Demos.StateMonadTriad;
-using Scott.FizzBuzz.Core.Demos.TryMonadTriad;
-using Scott.FizzBuzz.Core.Demos.TryOptionMonadTriad;
-using Scott.FizzBuzz.Core.Demos.ValidationFoundations;
-using Scott.FizzBuzz.Core.Demos.ValidationMonadTriad;
-using Scott.FizzBuzz.Core.Demos.ValidationAccumulationTriad;
-using Scott.FizzBuzz.Core.Demos.WriterMonadTriad;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Scott.FizzBuzz.Core.Interfaces;
 
 namespace Scott.FizzBuzz.Console;
@@ -41,106 +8,27 @@ public static class DemoServiceRegistration
 {
     public static IServiceCollection AddFizzBuzzDemos(this IServiceCollection services)
     {
-        services.AddTransient<IDemo, ImperativeDemo>();
-        services.AddTransient<IDemo, RangeIterationDemo>();
-        services.AddTransient<IDemo, NoDependencyDemo>();
-        services.AddTransient<IDemo, PatternMatchingDemo>();
-        services.AddTransient<IDemo, TupleDemo>();
-        services.AddTransient<IDemo, CurryingDemo>();
-        services.AddTransient<IDemo, ImperativeCurryingComparisonDemo>();
-        services.AddTransient<IDemo, CSharpCurryingComparisonDemo>();
-        services.AddTransient<IDemo, LanguageExtCurryingComparisonDemo>();
-        services.AddTransient<IDemo, ImperativeCompositionRootComparisonDemo>();
-        services.AddTransient<IDemo, CSharpCompositionRootComparisonDemo>();
-        services.AddTransient<IDemo, LanguageExtCompositionRootComparisonDemo>();
-        services.AddTransient<IDemo, ImperativeDomainWorkflowComparisonDemo>();
-        services.AddTransient<IDemo, CSharpDomainWorkflowComparisonDemo>();
-        services.AddTransient<IDemo, LanguageExtDomainWorkflowComparisonDemo>();
-        services.AddTransient<IDemo, ImperativeConcurrencySafetyComparisonDemo>();
-        services.AddTransient<IDemo, CSharpConcurrencySafetyComparisonDemo>();
-        services.AddTransient<IDemo, LanguageExtConcurrencySafetyComparisonDemo>();
-        services.AddTransient<IDemo, ImperativeStreamingLargeDataComparisonDemo>();
-        services.AddTransient<IDemo, CSharpStreamingLargeDataComparisonDemo>();
-        services.AddTransient<IDemo, LanguageExtStreamingLargeDataComparisonDemo>();
-        services.AddTransient<IDemo, ImperativeRetryBackoffComparisonDemo>();
-        services.AddTransient<IDemo, CSharpRetryBackoffComparisonDemo>();
-        services.AddTransient<IDemo, LanguageExtRetryBackoffComparisonDemo>();
-        services.AddTransient<IDemo, ImperativeIdempotentCommandComparisonDemo>();
-        services.AddTransient<IDemo, CSharpIdempotentCommandComparisonDemo>();
-        services.AddTransient<IDemo, LanguageExtIdempotentCommandComparisonDemo>();
-        services.AddTransient<IDemo, ApplicativeValidationDemo>();
-        services.AddTransient<IDemo, EitherDemo>();
-        services.AddTransient<IDemo, LanguageExtDemo>();
-        services.AddTransient<IDemo, SchrodingersCatDemo>();
-        services.AddTransient<IDemo, MonadicFunctionsDemo>();
-        services.AddTransient<IDemo, MonadBasicsCatDemo>();
-        services.AddTransient<IDemo, OtherMonadsDemo>();
-        services.AddTransient<IDemo, FpJsonStrictValidationDemo>();
-        services.AddTransient<IDemo, FpExtensionMembersTypeclassesDemo>();
-        services.AddTransient<IDemo, ImperativeNullHandlingDemo>();
-        services.AddTransient<IDemo, CSharpNullPatternsDemo>();
-        services.AddTransient<IDemo, LanguageExtOptionPipelineDemo>();
-        services.AddTransient<IDemo, ImperativeOptionComparisonDemo>();
-        services.AddTransient<IDemo, CSharpOptionComparisonDemo>();
-        services.AddTransient<IDemo, LanguageExtOptionMonadComparisonDemo>();
-        services.AddTransient<IDemo, ImperativeEitherComparisonDemo>();
-        services.AddTransient<IDemo, CSharpEitherComparisonDemo>();
-        services.AddTransient<IDemo, LanguageExtEitherMonadComparisonDemo>();
-        services.AddTransient<IDemo, ImperativeValidationMonadComparisonDemo>();
-        services.AddTransient<IDemo, CSharpValidationMonadComparisonDemo>();
-        services.AddTransient<IDemo, LanguageExtValidationMonadComparisonDemo>();
-        services.AddTransient<IDemo, ImperativeReaderComparisonDemo>();
-        services.AddTransient<IDemo, CSharpReaderComparisonDemo>();
-        services.AddTransient<IDemo, LanguageExtReaderMonadComparisonDemo>();
-        services.AddTransient<IDemo, ImperativeStateComparisonDemo>();
-        services.AddTransient<IDemo, CSharpStateComparisonDemo>();
-        services.AddTransient<IDemo, LanguageExtStateMonadComparisonDemo>();
-        services.AddTransient<IDemo, ImperativeIoComparisonDemo>();
-        services.AddTransient<IDemo, CSharpIoComparisonDemo>();
-        services.AddTransient<IDemo, LanguageExtIoMonadComparisonDemo>();
-        services.AddTransient<IDemo, ImperativeTryMonadComparisonDemo>();
-        services.AddTransient<IDemo, CSharpTryMonadComparisonDemo>();
-        services.AddTransient<IDemo, LanguageExtTryMonadComparisonDemo>();
-        services.AddTransient<IDemo, ImperativeTryOptionMonadComparisonDemo>();
-        services.AddTransient<IDemo, CSharpTryOptionMonadComparisonDemo>();
-        services.AddTransient<IDemo, LanguageExtTryOptionMonadComparisonDemo>();
-        services.AddTransient<IDemo, ImperativeEffMonadComparisonDemo>();
-        services.AddTransient<IDemo, CSharpEffMonadComparisonDemo>();
-        services.AddTransient<IDemo, LanguageExtEffMonadComparisonDemo>();
-        services.AddTransient<IDemo, ImperativeAffMonadComparisonDemo>();
-        services.AddTransient<IDemo, CSharpAffMonadComparisonDemo>();
-        services.AddTransient<IDemo, LanguageExtAffMonadComparisonDemo>();
-        services.AddTransient<IDemo, ImperativeSeqMonadComparisonDemo>();
-        services.AddTransient<IDemo, CSharpSeqMonadComparisonDemo>();
-        services.AddTransient<IDemo, LanguageExtSeqMonadComparisonDemo>();
-        services.AddTransient<IDemo, ImperativeWriterMonadComparisonDemo>();
-        services.AddTransient<IDemo, CSharpWriterMonadComparisonDemo>();
-        services.AddTransient<IDemo, LanguageExtWriterMonadComparisonDemo>();
-        services.AddTransient<IDemo, ImperativeParseValidateDemo>();
-        services.AddTransient<IDemo, CSharpParseValidatePipelineDemo>();
-        services.AddTransient<IDemo, LanguageExtEitherParseValidateDemo>();
-        services.AddTransient<IDemo, ImperativeValidationFirstErrorDemo>();
-        services.AddTransient<IDemo, CSharpValidationErrorListDemo>();
-        services.AddTransient<IDemo, LanguageExtValidationAccumulateDemo>();
-        services.AddTransient<IDemo, ImperativeCollectionsAggregationDemo>();
-        services.AddTransient<IDemo, CSharpCollectionsAggregationDemo>();
-        services.AddTransient<IDemo, LanguageExtSeqAggregationDemo>();
-        services.AddTransient<IDemo, ImperativeExceptionBoundariesDemo>();
-        services.AddTransient<IDemo, CSharpResultRecoveryDemo>();
-        services.AddTransient<IDemo, LanguageExtTryEitherRecoveryDemo>();
-        services.AddTransient<IDemo, ImperativeAsyncWorkflowDemo>();
-        services.AddTransient<IDemo, CSharpAsyncCompositionDemo>();
-        services.AddTransient<IDemo, LanguageExtAsyncEffWorkflowDemo>();
-        services.AddTransient<IDemo, ImperativeUserRegistrationDemo>();
-        services.AddTransient<IDemo, CSharpFunctionalRegistrationDemo>();
-        services.AddTransient<IDemo, LanguageExtFunctionalRegistrationDemo>();
-        services.AddTransient<IDemo, ImperativeTextStoreDatabaseDemo>();
-        services.AddTransient<IDemo, CSharpFunctionalTextStoreDatabaseDemo>();
-        services.AddTransient<IDemo, LanguageExtEffTextStoreDatabaseDemo>();
-        services.AddTransient<IDemo, ImperativePostgresDatabaseDemo>();
-        services.AddTransient<IDemo, CSharpFunctionalPostgresDatabaseDemo>();
-        services.AddTransient<IDemo, LanguageExtEffPostgresDatabaseDemo>();
+        ArgumentNullException.ThrowIfNull(services);
+
+        foreach (var demoType in DiscoverDemoTypes())
+        {
+            services.TryAddEnumerable(ServiceDescriptor.Transient(typeof(IDemo), demoType));
+        }
 
         return services;
     }
+
+    private static Type[] DiscoverDemoTypes() =>
+        typeof(IDemo).Assembly
+            .GetTypes()
+            .Where(type =>
+                type is { IsClass: true, IsAbstract: false } &&
+                !type.IsGenericTypeDefinition &&
+                type.IsPublic &&
+                typeof(IDemo).IsAssignableFrom(type))
+            .Where(type =>
+                type.Namespace is not null &&
+                type.Namespace.StartsWith("Scott.FizzBuzz.Core.Demos", StringComparison.Ordinal))
+            .OrderBy(type => type.FullName, StringComparer.Ordinal)
+            .ToArray();
 }
