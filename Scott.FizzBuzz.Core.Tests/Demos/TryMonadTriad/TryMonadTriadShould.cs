@@ -1,4 +1,5 @@
 using LanguageExt.UnitTesting;
+using Scott.FizzBuzz.Core.Tests.TestUtilities;
 using Scott.FizzBuzz.Core.Demos.TryMonadTriad;
 using Scott.FizzBuzz.Core.Interfaces;
 
@@ -9,7 +10,7 @@ public class TryMonadTriadShould
     [Fact]
     public void RunAllTryMonadTriadVariantsForHappyPath()
     {
-        var output = new NullOutput();
+        var output = new NullOutputSink();
         IDemo[] demos = [new ImperativeTryMonadComparisonDemo(output), new CSharpTryMonadComparisonDemo(output), new LanguageExtTryMonadComparisonDemo()];
         foreach (var demo in demos) demo.Run("scott", "2").ShouldBeRight();
     }
@@ -18,5 +19,4 @@ public class TryMonadTriadShould
     public void ReturnLeftForZeroInLanguageExtVariant() =>
         new LanguageExtTryMonadComparisonDemo().Run("scott", "0").ShouldBeLeft();
 
-    private sealed class NullOutput : IOutput { public void WriteLine(string message) { } }
 }

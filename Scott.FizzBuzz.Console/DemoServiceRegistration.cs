@@ -6,6 +6,8 @@ namespace Scott.FizzBuzz.Console;
 
 public static class DemoServiceRegistration
 {
+    private static readonly Lazy<Type[]> CachedDemoTypes = new(DiscoverDemoTypesCore);
+
     public static IServiceCollection AddFizzBuzzDemos(this IServiceCollection services)
     {
         ArgumentNullException.ThrowIfNull(services);
@@ -18,7 +20,9 @@ public static class DemoServiceRegistration
         return services;
     }
 
-    private static Type[] DiscoverDemoTypes() =>
+    internal static Type[] DiscoverDemoTypes() => CachedDemoTypes.Value;
+
+    private static Type[] DiscoverDemoTypesCore() =>
         typeof(IDemo).Assembly
             .GetTypes()
             .Where(type =>

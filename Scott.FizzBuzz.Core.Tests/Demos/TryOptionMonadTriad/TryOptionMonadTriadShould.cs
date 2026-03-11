@@ -1,4 +1,5 @@
 using LanguageExt.UnitTesting;
+using Scott.FizzBuzz.Core.Tests.TestUtilities;
 using Scott.FizzBuzz.Core.Demos.TryOptionMonadTriad;
 using Scott.FizzBuzz.Core.Interfaces;
 
@@ -9,7 +10,7 @@ public class TryOptionMonadTriadShould
     [Fact]
     public void RunAllTryOptionMonadTriadVariantsForHappyPath()
     {
-        var output = new NullOutput();
+        var output = new NullOutputSink();
         IDemo[] demos =
         [
             new ImperativeTryOptionMonadComparisonDemo(output),
@@ -30,11 +31,4 @@ public class TryOptionMonadTriadShould
     [Fact]
     public void ReturnLeftForExceptionInLanguageExtVariant() =>
         new LanguageExtTryOptionMonadComparisonDemo().Run("scott", "13").ShouldBeLeft();
-
-    private sealed class NullOutput : IOutput
-    {
-        public void WriteLine(string message)
-        {
-        }
-    }
 }

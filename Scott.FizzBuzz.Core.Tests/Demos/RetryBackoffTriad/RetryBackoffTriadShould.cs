@@ -1,4 +1,5 @@
 using LanguageExt.UnitTesting;
+using Scott.FizzBuzz.Core.Tests.TestUtilities;
 using Scott.FizzBuzz.Core.Demos.RetryBackoffTriad;
 using Scott.FizzBuzz.Core.Interfaces;
 
@@ -9,7 +10,7 @@ public class RetryBackoffTriadShould
     [Fact]
     public void RunAllRetryBackoffTriadVariantsForHappyPath()
     {
-        var output = new NullOutput();
+        var output = new NullOutputSink();
 
         IDemo[] demos =
         [
@@ -52,12 +53,5 @@ public class RetryBackoffTriadShould
         Assert.True(execution.Success);
         Assert.Equal(3, execution.Attempts);
         Assert.Equal([100d, 200d], execution.BackoffSchedule.Select(delay => delay.TotalMilliseconds).ToArray());
-    }
-
-    private sealed class NullOutput : IOutput
-    {
-        public void WriteLine(string message)
-        {
-        }
     }
 }

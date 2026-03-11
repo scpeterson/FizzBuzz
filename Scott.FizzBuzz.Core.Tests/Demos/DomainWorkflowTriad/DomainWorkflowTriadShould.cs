@@ -1,4 +1,5 @@
 using LanguageExt.UnitTesting;
+using Scott.FizzBuzz.Core.Tests.TestUtilities;
 using Scott.FizzBuzz.Core.Demos.DomainWorkflowTriad;
 using Scott.FizzBuzz.Core.Interfaces;
 
@@ -9,7 +10,7 @@ public class DomainWorkflowTriadShould
     [Fact]
     public void RunAllDomainWorkflowVariantsForHappyPath()
     {
-        var output = new NullOutput();
+        var output = new NullOutputSink();
         IDemo[] demos =
         [
             new ImperativeDomainWorkflowComparisonDemo(output),
@@ -26,11 +27,4 @@ public class DomainWorkflowTriadShould
     [Fact]
     public void ReturnLeftForAmountAboveApprovalLimitInLanguageExtVariant() =>
         new LanguageExtDomainWorkflowComparisonDemo().Run("scott", "999").ShouldBeLeft();
-
-    private sealed class NullOutput : IOutput
-    {
-        public void WriteLine(string message)
-        {
-        }
-    }
 }

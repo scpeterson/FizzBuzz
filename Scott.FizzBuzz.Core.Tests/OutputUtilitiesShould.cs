@@ -1,4 +1,5 @@
 using FluentAssertions;
+using Scott.FizzBuzz.Core.Tests.TestUtilities;
 using Scott.FizzBuzz.Core.Interfaces;
 
 namespace Scott.FizzBuzz.Core.Tests;
@@ -8,7 +9,7 @@ public class OutputUtilitiesShould
     [Fact]
     public void ExecuteWithSpacingUseStyledOutputWhenAvailable()
     {
-        var output = new RecordingStyledOutput();
+        var output = new RecordingStyledOutputSink();
         var actionInvocations = 0;
 
         var result = OutputUtilities.ExecuteWithSpacing(
@@ -39,7 +40,7 @@ public class OutputUtilitiesShould
     [Fact]
     public void ExecuteWithSpacingFallbackToPlainOutputWhenNotStyled()
     {
-        var output = new RecordingOutput();
+        var output = new RecordingOutputSink();
         var actionInvocations = 0;
 
         var result = OutputUtilities.ExecuteWithSpacing(
@@ -59,25 +60,5 @@ public class OutputUtilitiesShould
             "************************************************************",
             "action-body",
             "************************************************************");
-    }
-
-    private sealed class RecordingOutput : IOutput
-    {
-        public List<string> Messages { get; } = [];
-        public void WriteLine(string message) => Messages.Add(message);
-    }
-
-    private sealed class RecordingStyledOutput : IStyledOutput
-    {
-        public List<string> Messages { get; } = [];
-        public List<ConsoleColor> Colors { get; } = [];
-
-        public void WriteLine(string message) => Messages.Add(message);
-
-        public void WithColor(ConsoleColor color, Action action)
-        {
-            Colors.Add(color);
-            action();
-        }
     }
 }

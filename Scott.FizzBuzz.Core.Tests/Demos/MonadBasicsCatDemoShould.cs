@@ -1,4 +1,5 @@
 using FluentAssertions;
+using Scott.FizzBuzz.Core.Tests.TestUtilities;
 using LanguageExt.UnitTesting;
 using Scott.FizzBuzz.Core.Interfaces;
 
@@ -9,7 +10,7 @@ public class MonadBasicsCatDemoShould
     [Fact]
     public void ReturnRightAndDefaultToMiloWhenNameIsMissing()
     {
-        var output = new RecordingOutput();
+        var output = new RecordingOutputSink();
         var demo = new MonadBasicsCatDemo(output);
 
         var result = demo.Run(null, null);
@@ -23,7 +24,7 @@ public class MonadBasicsCatDemoShould
     [Fact]
     public void EmitNotFoundMessageForUnknownCatInBothStyles()
     {
-        var output = new RecordingOutput();
+        var output = new RecordingOutputSink();
         var demo = new MonadBasicsCatDemo(output);
 
         var result = demo.Run("ghost", null);
@@ -36,7 +37,7 @@ public class MonadBasicsCatDemoShould
     [Fact]
     public void EmitAliveStateForKnownAliveCat()
     {
-        var output = new RecordingOutput();
+        var output = new RecordingOutputSink();
         var demo = new MonadBasicsCatDemo(output);
 
         var result = demo.Run("luna", null);
@@ -44,11 +45,5 @@ public class MonadBasicsCatDemoShould
         result.ShouldBeRight();
         output.Messages.Count(message => message.Contains("Luna: alive.", StringComparison.Ordinal))
             .Should().Be(2);
-    }
-
-    private sealed class RecordingOutput : IOutput
-    {
-        public List<string> Messages { get; } = [];
-        public void WriteLine(string message) => Messages.Add(message);
     }
 }

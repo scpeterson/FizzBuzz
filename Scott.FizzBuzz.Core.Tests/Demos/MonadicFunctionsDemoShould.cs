@@ -1,4 +1,5 @@
 using FluentAssertions;
+using Scott.FizzBuzz.Core.Tests.TestUtilities;
 using LanguageExt.UnitTesting;
 using Scott.FizzBuzz.Core.Interfaces;
 
@@ -9,7 +10,7 @@ public class MonadicFunctionsDemoShould
     [Fact]
     public void ReturnRightAndPrintAllComparisonSections()
     {
-        var output = new RecordingOutput();
+        var output = new RecordingOutputSink();
         var demo = new MonadicFunctionsDemo(output);
 
         var result = demo.Run(null, null);
@@ -24,7 +25,7 @@ public class MonadicFunctionsDemoShould
     [Fact]
     public void DemonstrateMonadicFailureAsDataNotException()
     {
-        var output = new RecordingOutput();
+        var output = new RecordingOutputSink();
         var demo = new MonadicFunctionsDemo(output);
 
         var result = demo.Run(null, null);
@@ -33,11 +34,5 @@ public class MonadicFunctionsDemoShould
         output.Messages.Should().Contain(message => message.StartsWith("Exception:", StringComparison.Ordinal));
         output.Messages.Should().Contain("No value because denominator was zero.");
         output.Messages.Should().Contain("Validation error: Must be less than 10.");
-    }
-
-    private sealed class RecordingOutput : IOutput
-    {
-        public List<string> Messages { get; } = [];
-        public void WriteLine(string message) => Messages.Add(message);
     }
 }

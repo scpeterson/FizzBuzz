@@ -1,4 +1,5 @@
 using LanguageExt.UnitTesting;
+using Scott.FizzBuzz.Core.Tests.TestUtilities;
 using Scott.FizzBuzz.Core.Demos.IOMonadTriad;
 using Scott.FizzBuzz.Core.Interfaces;
 
@@ -9,7 +10,7 @@ public class IoMonadTriadShould
     [Fact]
     public void RunAllIoMonadTriadVariantsForHappyPath()
     {
-        var output = new NullOutput();
+        var output = new NullOutputSink();
 
         var demos = new IDemo[]
         {
@@ -33,12 +34,5 @@ public class IoMonadTriadShould
         var result = demo.Run("standard", "abc");
 
         result.ShouldBeLeft();
-    }
-
-    private sealed class NullOutput : IOutput
-    {
-        public void WriteLine(string message)
-        {
-        }
     }
 }

@@ -1,4 +1,5 @@
 using LanguageExt.UnitTesting;
+using Scott.FizzBuzz.Core.Tests.TestUtilities;
 using Scott.FizzBuzz.Core.Demos.CompositionRootTriad;
 using Scott.FizzBuzz.Core.Interfaces;
 
@@ -9,7 +10,7 @@ public class CompositionRootTriadShould
     [Fact]
     public void RunAllCompositionRootVariantsForHappyPath()
     {
-        var output = new NullOutput();
+        var output = new NullOutputSink();
         IDemo[] demos =
         [
             new ImperativeCompositionRootComparisonDemo(output),
@@ -26,11 +27,4 @@ public class CompositionRootTriadShould
     [Fact]
     public void ReturnLeftForInvalidAmountInLanguageExtVariant() =>
         new LanguageExtCompositionRootComparisonDemo().Run("vip", "abc").ShouldBeLeft();
-
-    private sealed class NullOutput : IOutput
-    {
-        public void WriteLine(string message)
-        {
-        }
-    }
 }

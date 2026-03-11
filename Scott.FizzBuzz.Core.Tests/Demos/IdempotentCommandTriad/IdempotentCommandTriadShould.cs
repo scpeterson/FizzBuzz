@@ -1,4 +1,5 @@
 using LanguageExt.UnitTesting;
+using Scott.FizzBuzz.Core.Tests.TestUtilities;
 using Scott.FizzBuzz.Core.Demos.IdempotentCommandTriad;
 using Scott.FizzBuzz.Core.Interfaces;
 
@@ -9,7 +10,7 @@ public class IdempotentCommandTriadShould
     [Fact]
     public void RunAllIdempotentCommandVariantsForHappyPath()
     {
-        var output = new NullOutput();
+        var output = new NullOutputSink();
         IDemo[] demos =
         [
             new ImperativeIdempotentCommandComparisonDemo(output),
@@ -30,11 +31,4 @@ public class IdempotentCommandTriadShould
     [Fact]
     public void ReturnLeftForInvalidAmountInLanguageExtVariant() =>
         new LanguageExtIdempotentCommandComparisonDemo().Run("cmd-new", "bad").ShouldBeLeft();
-
-    private sealed class NullOutput : IOutput
-    {
-        public void WriteLine(string message)
-        {
-        }
-    }
 }

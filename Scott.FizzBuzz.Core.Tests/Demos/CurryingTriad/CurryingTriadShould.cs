@@ -1,4 +1,5 @@
 using LanguageExt.UnitTesting;
+using Scott.FizzBuzz.Core.Tests.TestUtilities;
 using Scott.FizzBuzz.Core.Demos.CurryingTriad;
 using Scott.FizzBuzz.Core.Interfaces;
 
@@ -9,7 +10,7 @@ public class CurryingTriadShould
     [Fact]
     public void RunAllCurryingTriadVariantsForHappyPath()
     {
-        var output = new NullOutput();
+        var output = new NullOutputSink();
         IDemo[] demos =
         [
             new ImperativeCurryingComparisonDemo(output),
@@ -30,11 +31,4 @@ public class CurryingTriadShould
     [Fact]
     public void ReturnLeftForInvalidAmountInLanguageExtVariant() =>
         new LanguageExtCurryingComparisonDemo().Run("vip", "abc").ShouldBeLeft();
-
-    private sealed class NullOutput : IOutput
-    {
-        public void WriteLine(string message)
-        {
-        }
-    }
 }

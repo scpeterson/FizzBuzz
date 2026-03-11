@@ -7,7 +7,6 @@ using LanguageExt;
 using Scott.FizzBuzz.Console;
 using Scott.FizzBuzz.Core;
 using Scott.FizzBuzz.Core.Interfaces;
-using static LanguageExt.Prelude;
 
 var host = Host.CreateDefaultBuilder(args)
     .ConfigureServices(services =>
@@ -21,23 +20,35 @@ var host = Host.CreateDefaultBuilder(args)
 
 var parser = new Parser(with => with.HelpWriter = Console.Error);
 
-parser.ParseArguments<Options>(args)
-    .WithParsed<Options>(opts =>
-    {
-        var runner = host.Services.GetRequiredService<DemoRunner>();
-        runner.Execute(opts)
-            .IfLeft(err => Environment.Exit(1));
-    })
-    .WithNotParsed(errors => ShowParseErrors(errors));
+var exitCode = parser.ParseArguments<Options>(args)
+    .MapResult(
+        (Options opts) =>
+        {
+            var runner = host.Services.GetRequiredService<DemoRunner>();
+            return runner.Execute(opts).Match(
+                Right: _ => 0,
+                Left: err =>
+                {
+                    Console.Error.WriteLine(err);
+                    return 1;
+                });
+        },
+        errors =>
+        {
+            ShowParseErrors(errors);
+            return 1;
+        });
+
+Environment.ExitCode = exitCode;
 
 return;
 
 
 void ShowParseErrors(IEnumerable<Error> errors)
 {
-    Console.WriteLine("Failed to parse command line arguments due to the following errors:");
+    Console.Error.WriteLine("Failed to parse command line arguments due to the following errors:");
     foreach (var error in errors)
     {
-        Console.WriteLine($"- {error.Tag}: {error}");
+        Console.Error.WriteLine($"- {error.Tag}: {error}");
     }
 }

@@ -1,4 +1,5 @@
 using FluentAssertions;
+using Scott.FizzBuzz.Core.Tests.TestUtilities;
 using LanguageExt;
 using LanguageExt.Common;
 using LanguageExt.UnitTesting;
@@ -13,7 +14,7 @@ public class EitherDemoShould
     [Fact]
     public void RunShowErrorForInvalidInputAcrossImperativeAndFunctionalFlows()
     {
-        var output = new RecordingOutput();
+        var output = new RecordingOutputSink();
         var demo = new EitherDemo(output);
 
         var result = demo.Run("Scott", "11");
@@ -28,7 +29,7 @@ public class EitherDemoShould
     [Fact]
     public void RunShowValidForInputAcrossImperativeAndFunctionalFlows()
     {
-        var output = new RecordingOutput();
+        var output = new RecordingOutputSink();
         var demo = new EitherDemo(output);
 
         var result = demo.Run("Scott", "8");
@@ -68,12 +69,5 @@ public class EitherDemoShould
         result.Match(
             Succ: value => value.Should().Be(5),
             Fail: errors => throw new Xunit.Sdk.XunitException($"Expected success but failed: {string.Join(" | ", errors.Map(error => error.Message))}"));
-    }
-
-    private sealed class RecordingOutput : IOutput
-    {
-        public List<string> Messages { get; } = [];
-
-        public void WriteLine(string message) => Messages.Add(message);
     }
 }

@@ -1,4 +1,5 @@
 using FluentAssertions;
+using Scott.FizzBuzz.Core.Tests.TestUtilities;
 using LanguageExt.UnitTesting;
 using Scott.FizzBuzz.Core.Demos.DatabasePostgresTriad;
 using Scott.FizzBuzz.Core.Interfaces;
@@ -10,7 +11,7 @@ public class ImperativePostgresDatabaseDemoShould
     [Fact]
     public void EmitSkipMessageWhenConnectionStringIsMissing()
     {
-        var output = new RecordingOutput();
+        var output = new RecordingOutputSink();
 
         WithTempConnectionString(null, () =>
         {
@@ -26,7 +27,7 @@ public class ImperativePostgresDatabaseDemoShould
     [Fact]
     public void CatchParsingFailureForInvalidAgeInput()
     {
-        var output = new RecordingOutput();
+        var output = new RecordingOutputSink();
 
         WithTempConnectionString("Host=127.0.0.1;Port=1;Database=fizzbuzz;Username=fizzbuzz_app;Password=fizzbuzz_app;Timeout=1", () =>
         {
@@ -41,7 +42,7 @@ public class ImperativePostgresDatabaseDemoShould
     [Fact]
     public void CatchConnectionFailureWhenConnectionStringIsUnusable()
     {
-        var output = new RecordingOutput();
+        var output = new RecordingOutputSink();
 
         WithTempConnectionString("Host=127.0.0.1;Port=1;Database=fizzbuzz;Username=fizzbuzz_app;Password=fizzbuzz_app;Timeout=1", () =>
         {
@@ -66,12 +67,5 @@ public class ImperativePostgresDatabaseDemoShould
         {
             Environment.SetEnvironmentVariable(PostgresDemoConfiguration.ConnectionEnvVar, original);
         }
-    }
-
-    private sealed class RecordingOutput : IOutput
-    {
-        public List<string> Messages { get; } = [];
-
-        public void WriteLine(string message) => Messages.Add(message);
     }
 }

@@ -1,4 +1,5 @@
 using LanguageExt.UnitTesting;
+using Scott.FizzBuzz.Core.Tests.TestUtilities;
 using Scott.FizzBuzz.Core.Demos.StreamingLargeDataTriad;
 using Scott.FizzBuzz.Core.Interfaces;
 
@@ -9,7 +10,7 @@ public class StreamingLargeDataTriadShould
     [Fact]
     public void RunAllStreamingLargeDataTriadVariantsForHappyPath()
     {
-        var output = new NullOutput();
+        var output = new NullOutputSink();
         IDemo[] demos =
         [
             new ImperativeStreamingLargeDataComparisonDemo(output),
@@ -49,12 +50,5 @@ public class StreamingLargeDataTriadShould
         Assert.Equal(imperative.Total, langExt.Total);
         Assert.Equal(imperative.MaxChunkTotal, csharp.MaxChunkTotal);
         Assert.Equal(imperative.MaxChunkTotal, langExt.MaxChunkTotal);
-    }
-
-    private sealed class NullOutput : IOutput
-    {
-        public void WriteLine(string message)
-        {
-        }
     }
 }

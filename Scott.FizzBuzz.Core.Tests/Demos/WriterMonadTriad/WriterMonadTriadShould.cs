@@ -1,4 +1,5 @@
 using LanguageExt.UnitTesting;
+using Scott.FizzBuzz.Core.Tests.TestUtilities;
 using Scott.FizzBuzz.Core.Demos.WriterMonadTriad;
 using Scott.FizzBuzz.Core.Interfaces;
 
@@ -9,7 +10,7 @@ public class WriterMonadTriadShould
     [Fact]
     public void RunAllWriterMonadTriadVariantsForHappyPath()
     {
-        var output = new NullOutput();
+        var output = new NullOutputSink();
         IDemo[] demos = [new ImperativeWriterMonadComparisonDemo(output), new CSharpWriterMonadComparisonDemo(output), new LanguageExtWriterMonadComparisonDemo()];
         foreach (var demo in demos) demo.Run("scott", "10").ShouldBeRight();
     }
@@ -18,5 +19,4 @@ public class WriterMonadTriadShould
     public void ReturnLeftForBadStartInLanguageExtVariant() =>
         new LanguageExtWriterMonadComparisonDemo().Run("scott", "abc").ShouldBeLeft();
 
-    private sealed class NullOutput : IOutput { public void WriteLine(string message) { } }
 }

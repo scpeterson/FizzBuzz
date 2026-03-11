@@ -1,4 +1,5 @@
 using FluentAssertions;
+using Scott.FizzBuzz.Core.Tests.TestUtilities;
 using LanguageExt.UnitTesting;
 using Scott.FizzBuzz.Core.Demos.ValidationMonadTriad;
 using Scott.FizzBuzz.Core.Interfaces;
@@ -21,7 +22,7 @@ public class CSharpValidationMonadComparisonDemoShould
     [Fact]
     public void AccumulateMultipleErrorsForInvalidNameAndAge()
     {
-        var output = new RecordingOutput();
+        var output = new RecordingOutputSink();
         var demo = new CSharpValidationMonadComparisonDemo(output);
 
         var result = demo.Run("1", "abc");
@@ -37,7 +38,7 @@ public class CSharpValidationMonadComparisonDemoShould
     [Fact]
     public void AccumulateRequiredNameAndAgeRangeErrors()
     {
-        var output = new RecordingOutput();
+        var output = new RecordingOutputSink();
         var demo = new CSharpValidationMonadComparisonDemo(output);
 
         var result = demo.Run("", "17");
@@ -52,7 +53,7 @@ public class CSharpValidationMonadComparisonDemoShould
     [Fact]
     public void EmitValidatedCandidateForHappyPath()
     {
-        var output = new RecordingOutput();
+        var output = new RecordingOutputSink();
         var demo = new CSharpValidationMonadComparisonDemo(output);
 
         var result = demo.Run("Scott", "21");
@@ -61,12 +62,5 @@ public class CSharpValidationMonadComparisonDemoShould
         output.Messages.Should().Contain(message =>
             message.Contains("Validated candidate: Scott (21)", StringComparison.Ordinal));
         output.Messages.Should().Contain(CSharpValidationMonadComparisonDemo.SuccessAccumulationNote);
-    }
-
-    private sealed class RecordingOutput : IOutput
-    {
-        public List<string> Messages { get; } = [];
-
-        public void WriteLine(string message) => Messages.Add(message);
     }
 }

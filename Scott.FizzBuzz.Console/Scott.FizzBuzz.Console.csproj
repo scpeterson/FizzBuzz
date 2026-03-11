@@ -19,4 +19,8 @@
       <ProjectReference Include="..\Scott.FizzBuzz.Core\Scott.FizzBuzz.Core.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <InternalsVisibleTo Include="Scott.FizzBuzz.Console.Tests" />
+    </ItemGroup>
+
 </Project>

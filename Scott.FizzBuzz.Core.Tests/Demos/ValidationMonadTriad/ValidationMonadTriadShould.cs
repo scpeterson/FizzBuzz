@@ -1,4 +1,5 @@
 using FluentAssertions;
+using Scott.FizzBuzz.Core.Tests.TestUtilities;
 using LanguageExt.UnitTesting;
 using Scott.FizzBuzz.Core.Demos.ValidationMonadTriad;
 using Scott.FizzBuzz.Core.Interfaces;
@@ -10,7 +11,7 @@ public class ValidationMonadTriadShould
     [Fact]
     public void RunAllValidationMonadTriadVariantsForHappyPath()
     {
-        var output = new NullOutput();
+        var output = new NullOutputSink();
 
         var demos = new IDemo[]
         {
@@ -39,12 +40,5 @@ public class ValidationMonadTriadShould
             msg.Should().Contain("Name must contain letters only.");
             msg.Should().Contain("Age must be numeric.");
         });
-    }
-
-    private sealed class NullOutput : IOutput
-    {
-        public void WriteLine(string message)
-        {
-        }
     }
 }

@@ -71,7 +71,7 @@ public class DemoRunner
                     .Bind<Unit>(method =>
                         _demos.TryGetValue(method, out var demo)
                             ? demo.Run(options.Name, options.Number)
-                            : Left<string, Unit>($"Unknown demo “{method}”")
+                            : Left<string, Unit>($"Unknown demo \"{method}\"")
                     );
             });
 

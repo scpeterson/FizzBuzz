@@ -1,4 +1,5 @@
 using LanguageExt.UnitTesting;
+using Scott.FizzBuzz.Core.Tests.TestUtilities;
 using Scott.FizzBuzz.Core.Demos.ConcurrencySafetyTriad;
 using Scott.FizzBuzz.Core.Interfaces;
 
@@ -9,7 +10,7 @@ public class ConcurrencySafetyTriadShould
     [Fact]
     public void RunAllConcurrencySafetyTriadVariantsForHappyPath()
     {
-        var output = new NullOutput();
+        var output = new NullOutputSink();
 
         IDemo[] demos =
         [
@@ -48,12 +49,5 @@ public class ConcurrencySafetyTriadShould
         Assert.Equal(languageExt.ExpectedBalance, languageExt.FinalBalance);
         Assert.Equal(0, csharp.LostUpdates);
         Assert.Equal(0, languageExt.LostUpdates);
-    }
-
-    private sealed class NullOutput : IOutput
-    {
-        public void WriteLine(string message)
-        {
-        }
     }
 }

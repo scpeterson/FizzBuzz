@@ -1,4 +1,5 @@
 using FluentAssertions;
+using Scott.FizzBuzz.Core.Tests.TestUtilities;
 using Scott.FizzBuzz.Core.Interfaces;
 
 namespace Scott.FizzBuzz.Core.Tests.Demos;
@@ -35,7 +36,7 @@ public class AllDemosSmokeShould
         var outputCtor = demoType.GetConstructor([typeof(IOutput)]);
         if (outputCtor is not null)
         {
-            return (IDemo)outputCtor.Invoke([new NullOutput()]);
+            return (IDemo)outputCtor.Invoke([new NullOutputSink()]);
         }
 
         var parameterlessCtor = demoType.GetConstructor(Type.EmptyTypes);
@@ -45,12 +46,5 @@ public class AllDemosSmokeShould
         }
 
         throw new InvalidOperationException($"Demo type '{demoType.FullName}' does not expose a supported constructor.");
-    }
-
-    private sealed class NullOutput : IOutput
-    {
-        public void WriteLine(string message)
-        {
-        }
     }
 }

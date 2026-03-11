@@ -1,4 +1,5 @@
 using LanguageExt.UnitTesting;
+using Scott.FizzBuzz.Core.Tests.TestUtilities;
 using Scott.FizzBuzz.Core.Demos.EitherMonadTriad;
 using Scott.FizzBuzz.Core.Interfaces;
 
@@ -9,7 +10,7 @@ public class EitherMonadTriadShould
     [Fact]
     public void RunAllEitherMonadTriadVariantsForHappyPath()
     {
-        var output = new NullOutput();
+        var output = new NullOutputSink();
 
         var demos = new IDemo[]
         {
@@ -33,12 +34,5 @@ public class EitherMonadTriadShould
         var result = demo.Run("unknown-code", "50");
 
         result.ShouldBeLeft();
-    }
-
-    private sealed class NullOutput : IOutput
-    {
-        public void WriteLine(string message)
-        {
-        }
     }
 }

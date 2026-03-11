@@ -1,4 +1,5 @@
 using FluentAssertions;
+using Scott.FizzBuzz.Core.Tests.TestUtilities;
 using Scott.FizzBuzz.Core.Demos.AsyncEffTriad;
 using Scott.FizzBuzz.Core.Interfaces;
 
@@ -9,7 +10,7 @@ public class NegativeDemoPathsShould
     [Fact]
     public void HandleInvalidNumberInImperativeAsyncWorkflowWithoutThrowing()
     {
-        var output = new RecordingOutput();
+        var output = new RecordingOutputSink();
         var demo = new ImperativeAsyncWorkflowDemo(output);
 
         Action act = () => _ = demo.Run("Scott", "bad");
@@ -22,7 +23,7 @@ public class NegativeDemoPathsShould
     [Fact]
     public void EmitLeftOutputForStrictJsonFailureScenarios()
     {
-        var output = new RecordingOutput();
+        var output = new RecordingOutputSink();
         var demo = new FpJsonStrictValidationDemo(output);
 
         _ = demo.Run(null, null);
@@ -35,7 +36,7 @@ public class NegativeDemoPathsShould
     [Fact]
     public void EmitLeftOutputForExtensionMembersInvalidInput()
     {
-        var output = new RecordingOutput();
+        var output = new RecordingOutputSink();
         var demo = new FpExtensionMembersTypeclassesDemo(output);
 
         _ = demo.Run(null, "1");
@@ -44,11 +45,5 @@ public class NegativeDemoPathsShould
             message.Contains("Input '1': Value 2 is not a multiple of four.", StringComparison.Ordinal));
         output.Messages.Should().Contain(message =>
             message.Contains("Input 'abc': Could not parse 'abc' as an integer.", StringComparison.Ordinal));
-    }
-
-    private sealed class RecordingOutput : IOutput
-    {
-        public List<string> Messages { get; } = [];
-        public void WriteLine(string message) => Messages.Add(message);
     }
 }
