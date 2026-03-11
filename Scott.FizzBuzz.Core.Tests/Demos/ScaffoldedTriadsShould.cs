@@ -3,6 +3,7 @@ using Scott.FizzBuzz.Core.Demos.CurryingTriad;
 using Scott.FizzBuzz.Core.Demos.ConcurrencySafetyTriad;
 using Scott.FizzBuzz.Core.Demos.CompositionRootTriad;
 using Scott.FizzBuzz.Core.Demos.DomainWorkflowTriad;
+using Scott.FizzBuzz.Core.Demos.EventSourcingLiteTriad;
 using Scott.FizzBuzz.Core.Demos.EitherMonadTriad;
 using Scott.FizzBuzz.Core.Demos.EffMonadTriad;
 using Scott.FizzBuzz.Core.Demos.AffMonadTriad;
@@ -45,6 +46,9 @@ public class ScaffoldedTriadsShould
             new ImperativeDomainWorkflowComparisonDemo(),
             new CSharpDomainWorkflowComparisonDemo(),
             new LanguageExtDomainWorkflowComparisonDemo(),
+            new ImperativeEventSourcingLiteComparisonDemo(),
+            new CSharpEventSourcingLiteComparisonDemo(),
+            new LanguageExtEventSourcingLiteComparisonDemo(),
             new ImperativeConcurrencySafetyComparisonDemo(),
             new CSharpConcurrencySafetyComparisonDemo(),
             new LanguageExtConcurrencySafetyComparisonDemo(),
