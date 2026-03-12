@@ -1,4 +1,3 @@
-using LanguageExt;
 using Scott.FizzBuzz.Core.Interfaces;
 using static Scott.FizzBuzz.Core.OutputUtilities;
 
@@ -24,18 +23,22 @@ public class ImperativeStreamingLargeDataComparisonDemo : IDemo
     public IReadOnlyCollection<string> Tags => ["imperative", "comparison", "streaming", "large-data"];
     public string Description => "Single-pass mutable loop over a stream to avoid materializing all records in memory.";
 
-    public Either<string, Unit> Run(string? name, string? number) =>
+    public DemoExecutionResult Run(string? name, string? number) =>
         ExecuteWithSpacing(_output, () =>
         {
-            StreamingLargeDataRules.ParseItemCount(name).Match(
-                Right: itemCount =>
-                    StreamingLargeDataRules.ParseChunkSize(number).Match(
-                        Right: chunkSize =>
-                        {
-                            var result = StreamingLargeDataRules.ExecuteImperative(itemCount, chunkSize);
-                            _output.WriteLine(StreamingLargeDataRules.FormatSummary(result));
-                        },
-                        Left: error => _output.WriteLine($"Failed: {error}")),
-                Left: error => _output.WriteLine($"Failed: {error}"));
+            if (!StreamingLargeDataRules.TryParseItemCount(name, out var itemCount, out var error))
+            {
+                _output.WriteLine($"Failed: {error}");
+                return;
+            }
+
+            if (!StreamingLargeDataRules.TryParseChunkSize(number, out var chunkSize, out error))
+            {
+                _output.WriteLine($"Failed: {error}");
+                return;
+            }
+
+            var result = StreamingLargeDataRules.ExecuteImperative(itemCount, chunkSize);
+            _output.WriteLine($"Result: {StreamingLargeDataRules.FormatSummary(result)}");
         }, "Imperative Streaming / Large Data Comparison");
 }

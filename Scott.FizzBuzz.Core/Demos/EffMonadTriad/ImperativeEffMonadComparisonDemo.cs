@@ -1,4 +1,3 @@
-using LanguageExt;
 using Scott.FizzBuzz.Core.Interfaces;
 using static Scott.FizzBuzz.Core.OutputUtilities;
 
@@ -17,8 +16,9 @@ public class ImperativeEffMonadComparisonDemo : IDemo
     public string Key => DemoKey;
     public string Category => "imperative";
     public IReadOnlyCollection<string> Tags => ["imperative", "comparison", "eff", "monad"];
+    public string Description => "Imperative synchronous effect workflow with explicit parsing, branching, and rate selection.";
 
-    public Either<string, Unit> Run(string? name, string? number) =>
+    public DemoExecutionResult Run(string? name, string? number) =>
         ExecuteWithSpacing(_output, () =>
         {
             if (!int.TryParse(number, out var units) || units < 1 || units > 100)

@@ -1,4 +1,3 @@
-using LanguageExt;
 using Scott.FizzBuzz.Core.Interfaces;
 using static Scott.FizzBuzz.Core.OutputUtilities;
 
@@ -24,7 +23,7 @@ public class ImperativeAsyncWorkflowDemo : IDemo
     public IReadOnlyCollection<string> Tags => ["imperative", "comparison", "async", "effects"];
     public string Description => "Imperative equivalent: direct side effects with sync + async calls and exception handling.";
 
-    public Either<string, Unit> Run(string? name, string? number) =>
+    public DemoExecutionResult Run(string? name, string? number) =>
         ExecuteWithSpacing(_output, () =>
         {
             try

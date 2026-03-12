@@ -3,7 +3,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using CommandLine;
-using LanguageExt;
 using Scott.FizzBuzz.Console;
 using Scott.FizzBuzz.Core;
 using Scott.FizzBuzz.Core.Interfaces;
@@ -25,13 +24,14 @@ var exitCode = parser.ParseArguments<Options>(args)
         (Options opts) =>
         {
             var runner = host.Services.GetRequiredService<DemoRunner>();
-            return runner.Execute(opts).Match(
-                Right: _ => 0,
-                Left: err =>
-                {
-                    Console.Error.WriteLine(err);
-                    return 1;
-                });
+            var result = runner.Execute(opts);
+            if (result.IsSuccess)
+            {
+                return 0;
+            }
+
+            Console.Error.WriteLine(result.Error);
+            return 1;
         },
         errors =>
         {

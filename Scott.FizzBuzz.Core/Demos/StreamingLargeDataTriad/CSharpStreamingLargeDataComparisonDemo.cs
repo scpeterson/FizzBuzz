@@ -1,4 +1,3 @@
-using LanguageExt;
 using Scott.FizzBuzz.Core.Interfaces;
 using static Scott.FizzBuzz.Core.OutputUtilities;
 
@@ -24,16 +23,39 @@ public class CSharpStreamingLargeDataComparisonDemo : IDemo
     public IReadOnlyCollection<string> Tags => ["fp", "csharp", "comparison", "streaming", "large-data"];
     public string Description => "Chunked LINQ pipeline over an enumerable stream with compositional aggregation.";
 
-    public Either<string, Unit> Run(string? name, string? number) =>
+    public DemoExecutionResult Run(string? name, string? number) =>
         ExecuteWithSpacing(_output, () =>
         {
-            var result = StreamingLargeDataRules.ParseItemCount(name)
-                .Bind(itemCount =>
-                    StreamingLargeDataRules.ParseChunkSize(number)
-                        .Map(chunkSize => StreamingLargeDataRules.ExecuteCSharpPipeline(itemCount, chunkSize)));
+            var result = ParseItemCount(name)
+                .Bind(itemCount => ParseChunkSize(number).Map(chunkSize => StreamingLargeDataRules.ExecuteCSharpPipeline(itemCount, chunkSize)));
 
-            result.Match(
-                Right: summary => _output.WriteLine($"Result: {StreamingLargeDataRules.FormatSummary(summary)}"),
-                Left: error => _output.WriteLine($"Failed: {error}"));
+            if (result.IsSuccess)
+            {
+                _output.WriteLine($"Result: {StreamingLargeDataRules.FormatSummary(result.Value)}");
+            }
+            else
+            {
+                _output.WriteLine($"Failed: {result.Error}");
+            }
         }, "C# Streaming / Large Data Comparison");
+
+    private static DemoResult<int> ParseItemCount(string? value) =>
+        StreamingLargeDataRules.TryParseItemCount(value, out var itemCount, out var error)
+            ? DemoResult<int>.Success(itemCount)
+            : DemoResult<int>.Failure(error);
+
+    private static DemoResult<int> ParseChunkSize(string? value) =>
+        StreamingLargeDataRules.TryParseChunkSize(value, out var chunkSize, out var error)
+            ? DemoResult<int>.Success(chunkSize)
+            : DemoResult<int>.Failure(error);
+
+    private readonly record struct DemoResult<T>(bool IsSuccess, T Value, string? Error)
+    {
+        public static DemoResult<T> Success(T value) => new(true, value, null);
+        public static DemoResult<T> Failure(string? error) => new(false, default!, error);
+        public DemoResult<TNext> Bind<TNext>(Func<T, DemoResult<TNext>> next) =>
+            IsSuccess ? next(Value) : DemoResult<TNext>.Failure(Error);
+        public DemoResult<TNext> Map<TNext>(Func<T, TNext> map) =>
+            IsSuccess ? DemoResult<TNext>.Success(map(Value)) : DemoResult<TNext>.Failure(Error);
+    }
 }

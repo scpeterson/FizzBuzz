@@ -21,6 +21,19 @@ public class NegativeDemoPathsShould
     }
 
     [Fact]
+    public void HandleInvalidNumberInCSharpAsyncWorkflowWithoutThrowing()
+    {
+        var output = new RecordingOutputSink();
+        var demo = new CSharpAsyncCompositionDemo(output);
+
+        Action act = () => _ = demo.Run("Scott", "bad");
+
+        act.Should().NotThrow();
+        _ = demo.Run("Scott", "bad");
+        output.Messages.Should().Contain(message => message.Contains("Failed:", StringComparison.Ordinal));
+    }
+
+    [Fact]
     public void EmitLeftOutputForStrictJsonFailureScenarios()
     {
         var output = new RecordingOutputSink();

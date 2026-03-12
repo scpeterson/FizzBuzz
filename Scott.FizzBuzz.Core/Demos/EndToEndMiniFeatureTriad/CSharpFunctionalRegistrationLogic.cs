@@ -1,35 +1,48 @@
-using LanguageExt;
-using static LanguageExt.Prelude;
-
 namespace Scott.FizzBuzz.Core.Demos.EndToEndMiniFeatureTriad;
 
 public static class CSharpFunctionalRegistrationLogic
 {
-    public static Either<string, RegisteredUser> Register(string? name, string? ageRaw) =>
+    public static RegistrationResult<RegisteredUser> Register(string? name, string? ageRaw) =>
         ValidateName(name)
             .Bind(validName => ParseAge(ageRaw)
                 .Bind(RequireAdult)
                 .Map(age => new RegistrationRequest(validName, age)))
             .Bind(Save);
 
-    public static Either<string, string> ValidateName(string? value) =>
+    public static RegistrationResult<string> ValidateName(string? value) =>
         !string.IsNullOrWhiteSpace(value)
-            ? Right<string, string>(value.Trim())
-            : Left<string, string>("Name is required.");
+            ? RegistrationResult<string>.Success(value.Trim())
+            : RegistrationResult<string>.Failure("Name is required.");
 
-    public static Either<string, int> ParseAge(string? value) =>
+    public static RegistrationResult<int> ParseAge(string? value) =>
         int.TryParse(value, out var parsed)
-            ? Right<string, int>(parsed)
-            : Left<string, int>("Age must be numeric.");
+            ? RegistrationResult<int>.Success(parsed)
+            : RegistrationResult<int>.Failure("Age must be numeric.");
 
-    public static Either<string, int> RequireAdult(int age) =>
+    public static RegistrationResult<int> RequireAdult(int age) =>
         age >= 18
-            ? Right<string, int>(age)
-            : Left<string, int>("Must be at least 18.");
+            ? RegistrationResult<int>.Success(age)
+            : RegistrationResult<int>.Failure("Must be at least 18.");
 
-    public static Either<string, RegisteredUser> Save(RegistrationRequest request) =>
-        Right<string, RegisteredUser>(new RegisteredUser(
+    public static RegistrationResult<RegisteredUser> Save(RegistrationRequest request) =>
+        RegistrationResult<RegisteredUser>.Success(new RegisteredUser(
             $"{request.Name.ToLowerInvariant()}-{request.Age}",
             request.Name,
             request.Age));
+
+    public readonly record struct RegistrationResult<T>(bool IsSuccess, T? Value, string? Error)
+    {
+        public static RegistrationResult<T> Success(T value) => new(true, value, null);
+        public static RegistrationResult<T> Failure(string error) => new(false, default, error);
+
+        public RegistrationResult<TNext> Bind<TNext>(Func<T, RegistrationResult<TNext>> next) =>
+            IsSuccess && Value is not null
+                ? next(Value)
+                : RegistrationResult<TNext>.Failure(Error ?? "Registration failed.");
+
+        public RegistrationResult<TNext> Map<TNext>(Func<T, TNext> map) =>
+            IsSuccess && Value is not null
+                ? RegistrationResult<TNext>.Success(map(Value))
+                : RegistrationResult<TNext>.Failure(Error ?? "Registration failed.");
+    }
 }

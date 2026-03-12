@@ -1,4 +1,3 @@
-using LanguageExt;
 using Scott.FizzBuzz.Core.Interfaces;
 using static Scott.FizzBuzz.Core.OutputUtilities;
 
@@ -22,8 +21,9 @@ public class CSharpResultRecoveryDemo : IDemo
     public string Key => DemoKey;
     public string Category => "csharp";
     public IReadOnlyCollection<string> Tags => ["fp", "csharp", "comparison", "exceptions"];
+    public string Description => "Plain C# explicit-result boundary that converts exception-prone work into a value-oriented flow.";
 
-    public Either<string, Unit> Run(string? name, string? number) =>
+    public DemoExecutionResult Run(string? name, string? number) =>
         ExecuteWithSpacing(_output, () =>
         {
             var result = DivideByUserInput(number ?? "2");

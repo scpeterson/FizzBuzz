@@ -1,10 +1,7 @@
 using AutoFixture.Xunit2;
 using FluentAssertions;
-using LanguageExt;
-using LanguageExt.UnitTesting;
 using Microsoft.Extensions.DependencyInjection;
 using Scott.FizzBuzz.Core.Interfaces;
-using static LanguageExt.Prelude;
 
 namespace Scott.FizzBuzz.Console.Tests.Integration;
 
@@ -17,7 +14,7 @@ public class ConsoleIntegration
         // Arrange: create a new ServiceCollection (instead of reusing Populate)
         var services = new ServiceCollection();
         // register the stub IDemo
-        services.AddTransient<IDemo>(_ => new StubDemo(methodName, (_, __) => Right<string, Unit>(Unit.Default)));
+        services.AddTransient<IDemo>(_ => new StubDemo(methodName, (_, __) => DemoExecutionResult.Success()));
         // register DemoRunner itself
         services.AddTransient<DemoRunner>();
             
@@ -30,7 +27,7 @@ public class ConsoleIntegration
         var opts = new Options { Method = methodName, Name = null, Number = null };
         var result = runner.Execute(opts);
 
-        // Assert: since our StubDemo always returns Right, we should get Right here
+        // Assert: since our StubDemo always succeeds, we should get success here
         result.ShouldBeRight();
     }
 

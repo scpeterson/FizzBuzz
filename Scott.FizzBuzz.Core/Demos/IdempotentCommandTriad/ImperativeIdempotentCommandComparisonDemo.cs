@@ -1,4 +1,3 @@
-using LanguageExt;
 using Scott.FizzBuzz.Core.Demos.Shared;
 using Scott.FizzBuzz.Core.Interfaces;
 using static Scott.FizzBuzz.Core.OutputUtilities;
@@ -23,8 +22,9 @@ public class ImperativeIdempotentCommandComparisonDemo : IDemo
     public string Key => DemoKey;
     public string Category => "imperative";
     public IReadOnlyCollection<string> Tags => ["imperative", "comparison", "idempotency", "triad"];
+    public string Description => "Imperative idempotency flow that manually checks and mutates processed-command state.";
 
-    public Either<string, Unit> Run(string? name, string? number) =>
+    public DemoExecutionResult Run(string? name, string? number) =>
         ExecuteWithSpacing(_output, () =>
         {
             if (!decimal.TryParse(number, out var amount) || amount < 0m)

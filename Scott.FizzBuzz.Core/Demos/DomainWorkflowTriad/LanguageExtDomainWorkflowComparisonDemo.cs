@@ -20,8 +20,9 @@ public class LanguageExtDomainWorkflowComparisonDemo : IDemo
     public string Key => DemoKey;
     public string Category => "functional";
     public IReadOnlyCollection<string> Tags => ["fp", "languageext", "comparison", "domain-modeling", "triad"];
+    public string Description => "LanguageExt domain workflow with explicit state transitions composed through Either.";
 
-    public Either<string, Unit> Run(string? name, string? number) =>
+    public DemoExecutionResult Run(string? name, string? number) =>
         FunctionalDemoOutput.Render(
             _output,
             "LanguageExt Domain Workflow Comparison",
@@ -33,11 +34,11 @@ public class LanguageExtDomainWorkflowComparisonDemo : IDemo
         var env = new InMemoryFunctionalDemoEnvironment();
 
         return
-            from amount in DomainWorkflowRules.ParseAmount(number)
-            from draft in DomainWorkflowRules.CreateDraft(amount)
-            from authorized in DomainWorkflowRules.Authorize(env, draft)
-            from packed in DomainWorkflowRules.Pack(authorized)
-            from shipped in DomainWorkflowRules.Ship(packed)
+            from amount in LanguageExtDomainWorkflowRules.ParseAmount(number)
+            from draft in LanguageExtDomainWorkflowRules.CreateDraft(amount)
+            from authorized in LanguageExtDomainWorkflowRules.Authorize(env, draft)
+            from packed in LanguageExtDomainWorkflowRules.Pack(authorized)
+            from shipped in LanguageExtDomainWorkflowRules.Ship(packed)
             select (DomainWorkflowRules.FulfillmentState)shipped;
     }
 }

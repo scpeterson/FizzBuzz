@@ -21,7 +21,7 @@ public class LanguageExtOptionMonadComparisonDemo : IDemo
     public IReadOnlyCollection<string> Tags => ["fp", "languageext", "comparison", "option", "monad"];
     public string Description => "Option pipeline for nested optional data with no null-check branching in orchestration.";
 
-    public Either<string, Unit> Run(string? name, string? number) =>
+    public DemoExecutionResult Run(string? name, string? number) =>
         FunctionalDemoOutput.Render(
             _output,
             "LanguageExt Option Monad Comparison",

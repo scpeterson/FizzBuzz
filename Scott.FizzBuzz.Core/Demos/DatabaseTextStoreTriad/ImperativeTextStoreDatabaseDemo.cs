@@ -1,4 +1,3 @@
-using LanguageExt;
 using Scott.FizzBuzz.Core.Interfaces;
 using static Scott.FizzBuzz.Core.OutputUtilities;
 
@@ -24,7 +23,7 @@ public class ImperativeTextStoreDatabaseDemo : IDemo
     public IReadOnlyCollection<string> Tags => ["imperative", "comparison", "database", "io", "text-store"];
     public string Description => "Imperative file-based persistence with inline parsing and mutation.";
 
-    public Either<string, Unit> Run(string? name, string? number) =>
+    public DemoExecutionResult Run(string? name, string? number) =>
         ExecuteWithSpacing(_output, () =>
         {
             var filePath = BuildTempPath();

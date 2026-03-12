@@ -21,7 +21,7 @@ public class LanguageExtReaderMonadComparisonDemo : IDemo
     public IReadOnlyCollection<string> Tags => ["fp", "languageext", "comparison", "reader", "monad"];
     public string Description => "Reader monad composes environment-dependent functions without passing context explicitly.";
 
-    public Either<string, Unit> Run(string? name, string? number) =>
+    public DemoExecutionResult Run(string? name, string? number) =>
         FunctionalDemoOutput.Render(
             _output,
             "LanguageExt Reader Monad Comparison",
@@ -29,8 +29,8 @@ public class LanguageExtReaderMonadComparisonDemo : IDemo
             (output, result) => output.WriteLine($"Result: {result}"));
 
     private static Either<string, string> ComputeResult(string? name, string? number) =>
-        ReaderMonadRules.ResolveContext(name)
-            .Bind(context => ReaderMonadRules.ParseSubtotal(number).Map(subtotal => (context, subtotal)))
+        LanguageExtReaderMonadRules.ResolveContext(name)
+            .Bind(context => LanguageExtReaderMonadRules.ParseSubtotal(number).Map(subtotal => (context, subtotal)))
             .Bind(args =>
             {
                 var program = BuildProgram(args.subtotal);

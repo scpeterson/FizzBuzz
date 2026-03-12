@@ -16,7 +16,8 @@ public class SchrodingerDemo(IOutput output) : IDemo
     public string Key => "demo-cat-monad";
     public string Category => "functional";
     public IReadOnlyCollection<string> Tags => ["fp", "languageext", "monads", "seq", "nondeterminism"];
-    public Either<string, Unit> Run(string? _, string? __) =>
+    public string Description => "Legacy nondeterminism demo using LanguageExt sequences to model multiple possible cat states.";
+    public DemoExecutionResult Run(string? _, string? __) =>
         ExecuteWithSpacing(_output, () =>
             {
                 _output.WriteLine("Generating possible states for Schrödinger's cat...");

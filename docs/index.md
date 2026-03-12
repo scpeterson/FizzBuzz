@@ -4,7 +4,14 @@ This site hosts architecture documentation and decision records for the project.
 
 ## Start Here
 
+- Learning path for imperative programmers:
+  1. Supporting C# features (`pattern-matching`, `tuple-demo`)
+  2. Baseline comparisons (`imperative`, `range-iter`, `demo-currying`)
+  3. Core triads (null handling, parse/validate, validation accumulation, registration)
+  4. Effect/infrastructure triads (async, text-store DB, PostgreSQL DB)
+  5. LanguageExt monad and advanced demos
 - [Architecture Overview](architecture/README.md)
+- [Learning Path](architecture/learning-path.md)
 - [ADR 0001: Demo Triad Structure](architecture/adr/0001-demo-triad-structure.md)
 - [ADR 0002: Output Abstraction via IOutput](architecture/adr/0002-output-abstraction-ioutput.md)
 - [ADR 0003: Demo Discovery Metadata](architecture/adr/0003-demo-discovery-metadata.md)
@@ -59,6 +66,7 @@ This site hosts architecture documentation and decision records for the project.
 - [ADR 0052: Concurrency Safety Triad Comparison](architecture/adr/0052-concurrency-safety-triad-comparison.md)
 - [ADR 0053: Event Sourcing Lite Triad Comparison](architecture/adr/0053-event-sourcing-lite-triad-comparison.md)
 - [ADR 0054: Configuration Validation at Startup Triad Comparison](architecture/adr/0054-configuration-validation-startup-triad-comparison.md)
+- [ADR 0055: Demo Execution Result Contract](architecture/adr/0055-demo-execution-result-contract.md)
 - [PostgreSQL Changelog Workflow](architecture/database-changelog-workflow.md)
 - [PostgreSQL Operations Runbook](architecture/database-operations-runbook.md)
 - [Architecture Docs Contributing Guide](architecture/contributing.md)

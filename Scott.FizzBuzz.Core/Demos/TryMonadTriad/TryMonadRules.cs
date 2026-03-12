@@ -1,14 +1,18 @@
-using LanguageExt;
-using static LanguageExt.Prelude;
-
 namespace Scott.FizzBuzz.Core.Demos.TryMonadTriad;
 
 public static class TryMonadRules
 {
-    public static Either<string, decimal> ParseInput(string? value) =>
-        decimal.TryParse(value, out var parsed)
-            ? Right<string, decimal>(parsed)
-            : Left<string, decimal>("Input must be numeric.");
+    public static bool TryParseInput(string? value, out decimal parsed, out string? error)
+    {
+        if (decimal.TryParse(value, out parsed))
+        {
+            error = null;
+            return true;
+        }
+
+        error = "Input must be numeric.";
+        return false;
+    }
 
     public static decimal RiskyInverse(decimal value)
     {
@@ -19,6 +23,4 @@ public static class TryMonadRules
 
         return 1m / value;
     }
-
-    public static Try<decimal> InverseTry(decimal value) => Try(() => RiskyInverse(value));
 }

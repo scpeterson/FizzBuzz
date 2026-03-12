@@ -22,6 +22,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "legacy", "legacy", "{BEA525
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{95AAB8A4-B7DA-4893-AB8D-077FB1D6DF93}"
 	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
 		docs\index.md = docs\index.md
 			mkdocs.yml = mkdocs.yml
 			mkdocs-pdf.yml = mkdocs-pdf.yml
@@ -32,6 +33,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "architecture", "architecture", "{3FDF6A14-5F9A-4BDE-B2D2-A5DAB0EC9125}"
 	ProjectSection(SolutionItems) = preProject
 		docs\architecture\README.md = docs\architecture\README.md
+		docs\architecture\learning-path.md = docs\architecture\learning-path.md
 		docs\architecture\mermaid-authoring-checklist.md = docs\architecture\mermaid-authoring-checklist.md
 	EndProjectSection
 EndProject
@@ -98,6 +100,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "adr", "adr", "{59C61EE3-1D6
 		docs\architecture\adr\0052-concurrency-safety-triad-comparison.md = docs\architecture\adr\0052-concurrency-safety-triad-comparison.md
 		docs\architecture\adr\0053-event-sourcing-lite-triad-comparison.md = docs\architecture\adr\0053-event-sourcing-lite-triad-comparison.md
 		docs\architecture\adr\0054-configuration-validation-startup-triad-comparison.md = docs\architecture\adr\0054-configuration-validation-startup-triad-comparison.md
+		docs\architecture\adr\0055-demo-execution-result-contract.md = docs\architecture\adr\0055-demo-execution-result-contract.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "database", "database", "{F8F83BB4-30CC-4532-ADFA-2BDF75A245C4}"

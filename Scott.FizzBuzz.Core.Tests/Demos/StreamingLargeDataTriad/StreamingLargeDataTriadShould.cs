@@ -40,7 +40,7 @@ public class StreamingLargeDataTriadShould
 
         var imperative = StreamingLargeDataRules.ExecuteImperative(itemCount, chunkSize);
         var csharp = StreamingLargeDataRules.ExecuteCSharpPipeline(itemCount, chunkSize);
-        var langExt = StreamingLargeDataRules.ExecuteLanguageExtPipeline(itemCount, chunkSize);
+        var langExt = LanguageExtStreamingLargeDataRules.ExecuteLanguageExtPipeline(itemCount, chunkSize);
 
         Assert.Equal(imperative.ItemCount, csharp.ItemCount);
         Assert.Equal(imperative.ItemCount, langExt.ItemCount);

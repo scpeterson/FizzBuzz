@@ -1,4 +1,3 @@
-using LanguageExt;
 using Scott.FizzBuzz.Core.Interfaces;
 using static Scott.FizzBuzz.Core.OutputUtilities;
 
@@ -17,17 +16,41 @@ public class CSharpSeqMonadComparisonDemo : IDemo
     public string Key => DemoKey;
     public string Category => "csharp";
     public IReadOnlyCollection<string> Tags => ["fp", "csharp", "comparison", "seq", "monad"];
+    public string Description => "Plain C# sequence pipeline using enumerable transforms before introducing Seq monad composition.";
 
-    public Either<string, Unit> Run(string? name, string? number) =>
+    public DemoExecutionResult Run(string? name, string? number) =>
         ExecuteWithSpacing(_output, () =>
         {
-            var result =
-                from numbers in SeqMonadRules.ResolveNumbers(name)
-                from threshold in SeqMonadRules.ParseThreshold(number)
-                select numbers.Where(n => n >= threshold).Select(n => n * n).Sum();
+            var result = ResolveNumbers(name)
+                .Bind(numbers => ParseThreshold(number).Map(threshold => numbers.Where(n => n >= threshold).Select(n => n * n).Sum()));
 
-            result.Match(
-                Right: sum => _output.WriteLine($"Result: sum = {sum}"),
-                Left: error => _output.WriteLine($"Failed: {error}"));
+            if (result.IsSuccess)
+            {
+                _output.WriteLine($"Result: sum = {result.Value}");
+            }
+            else
+            {
+                _output.WriteLine($"Failed: {result.Error}");
+            }
         }, "C# Seq Monad Comparison");
+
+    private static DemoResult<IReadOnlyList<int>> ResolveNumbers(string? name) =>
+        SeqMonadRules.TryResolveNumbers(name, out var numbers, out var error)
+            ? DemoResult<IReadOnlyList<int>>.Success(numbers!)
+            : DemoResult<IReadOnlyList<int>>.Failure(error);
+
+    private static DemoResult<int> ParseThreshold(string? number) =>
+        SeqMonadRules.TryParseThreshold(number, out var threshold, out var error)
+            ? DemoResult<int>.Success(threshold)
+            : DemoResult<int>.Failure(error);
+
+    private readonly record struct DemoResult<T>(bool IsSuccess, T Value, string? Error)
+    {
+        public static DemoResult<T> Success(T value) => new(true, value, null);
+        public static DemoResult<T> Failure(string? error) => new(false, default!, error);
+        public DemoResult<TNext> Bind<TNext>(Func<T, DemoResult<TNext>> next) =>
+            IsSuccess ? next(Value) : DemoResult<TNext>.Failure(Error);
+        public DemoResult<TNext> Map<TNext>(Func<T, TNext> map) =>
+            IsSuccess ? DemoResult<TNext>.Success(map(Value)) : DemoResult<TNext>.Failure(Error);
+    }
 }

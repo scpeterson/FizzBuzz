@@ -48,34 +48,36 @@ public class DemoRunner
         _output = output ?? throw new ArgumentNullException(nameof(output));
     }
 
-    public Either<string, Unit> Execute(Options opts)
-        => Optional(opts)
-            .ToEither($"{nameof(opts)} was null")
-            .Bind<Unit>(options =>
-            {
-                var contractValidation = ValidateContract(options);
-                if (contractValidation.IsLeft)
-                {
-                    return contractValidation;
-                }
+    public DemoExecutionResult Execute(Options opts)
+    {
+        if (opts is null)
+        {
+            return DemoExecutionResult.Failure($"{nameof(opts)} was null");
+        }
 
-                if (options.List)
-                {
-                    ShowAvailableDemos(options.Tags);
-                    return unit;
-                }
+        var contractValidation = ValidateContract(opts);
+        if (!contractValidation.IsSuccess)
+        {
+            return contractValidation;
+        }
 
-                return Optional(options.Method)
-                    .Where(m => !string.IsNullOrWhiteSpace(m))
-                    .ToEither("No method specified")
-                    .Bind<Unit>(method =>
-                        _demos.TryGetValue(method, out var demo)
-                            ? demo.Run(options.Name, options.Number)
-                            : Left<string, Unit>($"Unknown demo \"{method}\"")
-                    );
-            });
+        if (opts.List)
+        {
+            ShowAvailableDemos(opts.Tags);
+            return DemoExecutionResult.Success();
+        }
 
-    private static Either<string, Unit> ValidateContract(Options options)
+        if (string.IsNullOrWhiteSpace(opts.Method))
+        {
+            return DemoExecutionResult.Failure("No method specified");
+        }
+
+        return _demos.TryGetValue(opts.Method, out var demo)
+            ? demo.Run(opts.Name, opts.Number)
+            : DemoExecutionResult.Failure($"Unknown demo \"{opts.Method}\"");
+    }
+
+    private static DemoExecutionResult ValidateContract(Options options)
     {
         var hasMethod = !string.IsNullOrWhiteSpace(options.Method);
         var hasName = !string.IsNullOrWhiteSpace(options.Name);
@@ -84,20 +86,20 @@ public class DemoRunner
 
         if (hasTags && !options.List)
         {
-            return Left<string, Unit>("--tag can only be used with --list.");
+            return DemoExecutionResult.Failure("--tag can only be used with --list.");
         }
 
         if (options.List && hasMethod)
         {
-            return Left<string, Unit>("--method cannot be combined with --list.");
+            return DemoExecutionResult.Failure("--method cannot be combined with --list.");
         }
 
         if (options.List && (hasName || hasNumber))
         {
-            return Left<string, Unit>("--name/--number cannot be combined with --list.");
+            return DemoExecutionResult.Failure("--name/--number cannot be combined with --list.");
         }
 
-        return unit;
+        return DemoExecutionResult.Success();
     }
 
     private void ShowAvailableDemos(IEnumerable<string>? tags)
@@ -113,7 +115,8 @@ public class DemoRunner
                            normalizedTags.All(tag =>
                                demo.Tags.Any(demoTag =>
                                    string.Equals(demoTag, tag, StringComparison.OrdinalIgnoreCase))))
-            .OrderBy(demo => demo.Category)
+            .OrderBy(GetLearningStage)
+            .ThenBy(GetCategoryRank)
             .ThenBy(demo => demo.Key)
             .ToList();
 
@@ -139,4 +142,29 @@ public class DemoRunner
             _output.WriteLine(message);
             return unit;
         });
+
+    private static int GetLearningStage(IDemo demo)
+    {
+        if (demo.Tags.Contains("baseline", StringComparer.OrdinalIgnoreCase))
+            return demo.Tags.Contains("supporting-feature", StringComparer.OrdinalIgnoreCase) ? 0 : 1;
+
+        if (demo.Tags.Contains("comparison", StringComparer.OrdinalIgnoreCase))
+            return 2;
+
+        if (demo.Tags.Contains("dotnet10", StringComparer.OrdinalIgnoreCase) ||
+            demo.Tags.Contains("csharp14", StringComparer.OrdinalIgnoreCase))
+            return 3;
+
+        return 4;
+    }
+
+    private static int GetCategoryRank(IDemo demo) => demo.Category switch
+    {
+        "imperative" => 0,
+        "csharp-support" => 1,
+        "csharp" => 2,
+        "functional" => 3,
+        "general" => 4,
+        _ => 5
+    };
 }

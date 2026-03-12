@@ -19,8 +19,9 @@ public class LanguageExtSeqAggregationDemo : IDemo
     public string Key => DemoKey;
     public string Category => "functional";
     public IReadOnlyCollection<string> Tags => ["fp", "languageext", "comparison", "collections", "aggregation"];
+    public string Description => "LanguageExt Seq aggregation pipeline over immutable collections with declarative summary construction.";
 
-    public Either<string, Unit> Run(string? name, string? number) =>
+    public DemoExecutionResult Run(string? name, string? number) =>
         FunctionalDemoOutput.Render(
             _output,
             "LanguageExt Collections + Aggregation",

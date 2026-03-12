@@ -21,7 +21,7 @@ public class LanguageExtFunctionalRegistrationDemo : IDemo
     public IReadOnlyCollection<string> Tags => ["fp", "languageext", "comparison", "end-to-end"];
     public string Description => "LanguageExt registration flow with Validation + Either boundaries.";
 
-    public Either<string, Unit> Run(string? name, string? number) =>
+    public DemoExecutionResult Run(string? name, string? number) =>
         FunctionalDemoOutput.Render(
             _output,
             "LanguageExt End-to-End Registration",

@@ -1,11 +1,9 @@
-using LanguageExt;
-
 namespace Scott.FizzBuzz.Core.Demos.Shared;
 
 public interface IFunctionalDemoEnvironment
 {
-    Either<string, decimal> ResolveDiscountRate(string tier);
-    Either<string, decimal> ResolveTaxRate(string region);
+    bool TryResolveDiscountRate(string tier, out decimal rate, out string? error);
+    bool TryResolveTaxRate(string region, out decimal rate, out string? error);
     decimal MaxAutoApproveAmount { get; }
     IReadOnlySet<string> SeedProcessedCommandIds { get; }
 }

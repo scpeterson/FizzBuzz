@@ -1,4 +1,3 @@
-using LanguageExt;
 using Scott.FizzBuzz.Core.Interfaces;
 using static Scott.FizzBuzz.Core.OutputUtilities;
 
@@ -24,29 +23,25 @@ public class ImperativeIoComparisonDemo : IDemo
     public IReadOnlyCollection<string> Tags => ["imperative", "comparison", "io", "monad"];
     public string Description => "Imperative side-effect flow with explicit sequencing and manual error branching.";
 
-    public Either<string, Unit> Run(string? name, string? number) =>
+    public DemoExecutionResult Run(string? name, string? number) =>
         ExecuteWithSpacing(_output, () =>
         {
-            var profileEither = IoMonadRules.ResolveProfile(name);
-            if (profileEither.IsLeft)
+            if (!IoMonadRules.TryResolveProfile(name, out var profile, out var error))
             {
-                _output.WriteLine($"Failed: {profileEither.LeftToList()[0]}");
+                _output.WriteLine($"Failed: {error}");
                 return;
             }
 
-            var weightEither = IoMonadRules.ParseWeight(number);
-            if (weightEither.IsLeft)
+            if (!IoMonadRules.TryParseWeight(number, out var weight, out error))
             {
-                _output.WriteLine($"Failed: {weightEither.LeftToList()[0]}");
+                _output.WriteLine($"Failed: {error}");
                 return;
             }
 
-            var profile = profileEither.RightToList()[0];
-            var weight = weightEither.RightToList()[0];
-            var quote = IoMonadRules.CalculateQuote(weight, profile);
-            var audit = IoMonadRules.FormatAudit(profile, weight, quote);
+            var quote = IoMonadRules.CalculateQuote(weight, profile!);
+            var audit = IoMonadRules.FormatAudit(profile!, weight, quote);
 
-            _output.WriteLine($"Quote: {quote:0.00}");
+            _output.WriteLine($"Result: quote = {quote:0.00}");
             _output.WriteLine($"Audit: {audit}");
             _output.WriteLine("Imperative comparison note: side-effect ordering is manual and interleaved with branching.");
         }, "Imperative IO Comparison");

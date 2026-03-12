@@ -1,4 +1,3 @@
-using LanguageExt;
 using Scott.FizzBuzz.Core;
 using Scott.FizzBuzz.Core.Interfaces;
 using static LanguageExt.Prelude;
@@ -27,8 +26,9 @@ public class RangeIterationDemo : IDemo
     public string Key => DemoKey;
     public string Category => "functional";
     public IReadOnlyCollection<string> Tags => ["fp", "comparison", "seq", "baseline"];
+    public string Description => "Baseline functional FizzBuzz pipeline using Range, Map, and iteration over a sequence.";
 
-    public Either<string, Unit> Run(string? name, string? number) =>
+    public DemoExecutionResult Run(string? name, string? number) =>
         ExecuteWithSpacing(_output, ShowRangeIterationFizzBuzz, nameof(ShowRangeIterationFizzBuzz));
 
     private void ShowRangeIterationFizzBuzz()

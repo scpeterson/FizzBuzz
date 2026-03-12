@@ -36,19 +36,19 @@ public class RetryBackoffTriadShould
     [Fact]
     public void CalculateExpectedExponentialDelays()
     {
-        var policy = RetryBackoffRules.ResolvePolicy("exp").IfLeft(error => throw new InvalidOperationException(error));
+        Assert.True(RetryBackoffRules.TryResolvePolicy("exp", out var policy, out var error), error);
 
-        Assert.Equal(100d, RetryBackoffRules.DelayForAttempt(policy, 1).TotalMilliseconds);
-        Assert.Equal(200d, RetryBackoffRules.DelayForAttempt(policy, 2).TotalMilliseconds);
-        Assert.Equal(400d, RetryBackoffRules.DelayForAttempt(policy, 3).TotalMilliseconds);
+        Assert.Equal(100d, RetryBackoffRules.DelayForAttempt(policy!, 1).TotalMilliseconds);
+        Assert.Equal(200d, RetryBackoffRules.DelayForAttempt(policy!, 2).TotalMilliseconds);
+        Assert.Equal(400d, RetryBackoffRules.DelayForAttempt(policy!, 3).TotalMilliseconds);
     }
 
     [Fact]
     public void ProduceDeterministicLanguageExtSchedule()
     {
-        var policy = RetryBackoffRules.ResolvePolicy("exp").IfLeft(error => throw new InvalidOperationException(error));
+        Assert.True(RetryBackoffRules.TryResolvePolicy("exp", out var policy, out var error), error);
 
-        var execution = RetryBackoffRules.ExecuteLanguageExtPipeline(policy, failuresBeforeSuccess: 2);
+        var execution = LanguageExtRetryBackoffRules.ExecuteLanguageExtPipeline(policy!, failuresBeforeSuccess: 2);
 
         Assert.True(execution.Success);
         Assert.Equal(3, execution.Attempts);

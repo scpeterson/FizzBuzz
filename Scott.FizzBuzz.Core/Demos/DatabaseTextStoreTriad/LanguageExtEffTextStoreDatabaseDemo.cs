@@ -21,7 +21,7 @@ public class LanguageExtEffTextStoreDatabaseDemo : IDemo
     public IReadOnlyCollection<string> Tags => ["fp", "languageext", "comparison", "database", "io", "text-store", "eff"];
     public string Description => "LanguageExt pipeline with pure transforms and file IO at the Eff boundary.";
 
-    public Either<string, Unit> Run(string? name, string? number)
+    public DemoExecutionResult Run(string? name, string? number)
     {
         var filePath = BuildTempPath();
 

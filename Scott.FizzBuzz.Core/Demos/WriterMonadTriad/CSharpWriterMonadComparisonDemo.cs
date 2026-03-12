@@ -1,4 +1,3 @@
-using LanguageExt;
 using Scott.FizzBuzz.Core.Interfaces;
 using static Scott.FizzBuzz.Core.OutputUtilities;
 
@@ -17,38 +16,50 @@ public class CSharpWriterMonadComparisonDemo : IDemo
     public string Key => DemoKey;
     public string Category => "csharp";
     public IReadOnlyCollection<string> Tags => ["fp", "csharp", "comparison", "writer", "monad"];
+    public string Description => "Plain C# state-plus-log pipeline showing the manual plumbing that Writer later removes.";
 
-    public Either<string, Unit> Run(string? name, string? number) =>
+    public DemoExecutionResult Run(string? name, string? number) =>
         ExecuteWithSpacing(_output, () =>
         {
-            var result =
-                from start in WriterMonadRules.ParseStart(number)
-                from ops in WriterMonadRules.ResolveOps(name)
-                select (start, ops);
-
-            result.Match(
-                Right: tuple =>
-                {
-                    var logs = new List<string>();
-                    var state = tuple.start;
-                    foreach (var op in tuple.ops)
-                    {
-                        if (op >= 0)
+            var result = ParseStart(number)
+                .Bind(start => ResolveOps(name).Map(ops =>
+                    ops.Aggregate(
+                        (State: start, Logs: new List<string>()),
+                        (acc, op) =>
                         {
-                            state += op;
-                            logs.Add($"Added {op}, state={state}");
-                        }
-                        else
-                        {
-                            var amt = Math.Abs(op);
-                            state -= amt;
-                            logs.Add($"Subtracted {amt}, state={state}");
-                        }
-                    }
+                            var next = WriterMonadRules.Step(acc.State, op);
+                            acc.Logs.Add(next.LogEntry);
+                            return (next.NextState, acc.Logs);
+                        })));
 
-                    _output.WriteLine($"Final state: {state}");
-                    logs.ForEach(_output.WriteLine);
-                },
-                Left: error => _output.WriteLine($"Failed: {error}"));
+            if (result.IsSuccess)
+            {
+                _output.WriteLine($"Result: final state = {result.Value.State}");
+                result.Value.Logs.ForEach(_output.WriteLine);
+            }
+            else
+            {
+                _output.WriteLine($"Failed: {result.Error}");
+            }
         }, "C# Writer Monad Comparison");
+
+    private static DemoResult<int> ParseStart(string? number) =>
+        WriterMonadRules.TryParseStart(number, out var start, out var error)
+            ? DemoResult<int>.Success(start)
+            : DemoResult<int>.Failure(error);
+
+    private static DemoResult<IReadOnlyList<int>> ResolveOps(string? name) =>
+        WriterMonadRules.TryResolveOps(name, out var ops, out var error)
+            ? DemoResult<IReadOnlyList<int>>.Success(ops!)
+            : DemoResult<IReadOnlyList<int>>.Failure(error);
+
+    private readonly record struct DemoResult<T>(bool IsSuccess, T Value, string? Error)
+    {
+        public static DemoResult<T> Success(T value) => new(true, value, null);
+        public static DemoResult<T> Failure(string? error) => new(false, default!, error);
+        public DemoResult<TNext> Bind<TNext>(Func<T, DemoResult<TNext>> next) =>
+            IsSuccess ? next(Value) : DemoResult<TNext>.Failure(Error);
+        public DemoResult<TNext> Map<TNext>(Func<T, TNext> map) =>
+            IsSuccess ? DemoResult<TNext>.Success(map(Value)) : DemoResult<TNext>.Failure(Error);
+    }
 }

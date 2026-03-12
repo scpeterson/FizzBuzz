@@ -19,8 +19,9 @@ public class LanguageExtOptionPipelineDemo : IDemo
     public string Key => DemoKey;
     public string Category => "functional";
     public IReadOnlyCollection<string> Tags => ["fp", "languageext", "comparison", "option", "null"];
+    public string Description => "LanguageExt Option pipeline for null-sensitive normalization and validation without nested checks.";
 
-    public Either<string, Unit> Run(string? name, string? number) =>
+    public DemoExecutionResult Run(string? name, string? number) =>
         FunctionalDemoOutput.Render(
             _output,
             "LanguageExt Option Pipeline",

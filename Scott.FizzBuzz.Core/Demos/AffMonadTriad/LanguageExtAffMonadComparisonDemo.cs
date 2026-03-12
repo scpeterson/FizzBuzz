@@ -19,8 +19,9 @@ public class LanguageExtAffMonadComparisonDemo : IDemo
     public string Key => DemoKey;
     public string Category => "functional";
     public IReadOnlyCollection<string> Tags => ["fp", "languageext", "comparison", "aff", "monad"];
+    public string Description => "LanguageExt Aff composition for asynchronous effects with explicit success/failure values.";
 
-    public Either<string, Unit> Run(string? name, string? number) =>
+    public DemoExecutionResult Run(string? name, string? number) =>
         FunctionalDemoOutput.Render(
             _output,
             "LanguageExt Aff Monad Comparison",

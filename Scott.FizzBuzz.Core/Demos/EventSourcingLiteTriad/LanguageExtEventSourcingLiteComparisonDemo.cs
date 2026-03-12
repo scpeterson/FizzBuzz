@@ -21,7 +21,7 @@ public class LanguageExtEventSourcingLiteComparisonDemo : IDemo
     public IReadOnlyCollection<string> Tags => ["fp", "languageext", "comparison", "event-sourcing", "state", "database"];
     public string Description => "Pure event stream replay and command handling via immutable Seq and fold-based projection.";
 
-    public Either<string, Unit> Run(string? name, string? number) =>
+    public DemoExecutionResult Run(string? name, string? number) =>
         FunctionalDemoOutput.Render(
             _output,
             "LanguageExt Event Sourcing Lite Comparison",
@@ -33,9 +33,9 @@ public class LanguageExtEventSourcingLiteComparisonDemo : IDemo
             });
 
     private static Either<string, EventSourcingLiteRules.EventSourcingResult> ComputeResult(string? name, string? number) =>
-        EventSourcingLiteRules.ParseStreamId(name)
+        LanguageExtEventSourcingLiteRules.ParseStreamId(name)
             .Bind(streamId =>
-                EventSourcingLiteRules.ParseDepositAmount(number)
-                    .Map(depositAmount => EventSourcingLiteRules.ExecuteLanguageExtPipeline(streamId, depositAmount)))
+                LanguageExtEventSourcingLiteRules.ParseDepositAmount(number)
+                    .Map(depositAmount => LanguageExtEventSourcingLiteRules.ExecuteLanguageExtPipeline(streamId, depositAmount)))
         ;
 }

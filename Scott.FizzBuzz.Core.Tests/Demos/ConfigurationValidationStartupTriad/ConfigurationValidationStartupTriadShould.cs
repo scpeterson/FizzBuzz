@@ -47,10 +47,10 @@ public class ConfigurationValidationStartupTriadShould
     public void ProduceEquivalentValidatedConfigsAcrossImplementations()
     {
         var imperative = ConfigurationValidationStartupRules.ExecuteImperative("staging", "25")
-            .IfLeft(error => throw new InvalidOperationException(error));
+            .Config ?? throw new InvalidOperationException("Imperative config should be valid.");
         var csharp = ConfigurationValidationStartupRules.ExecuteCSharpPipeline("staging", "25")
-            .IfLeft(error => throw new InvalidOperationException(error));
-        var langExt = ConfigurationValidationStartupRules.ExecuteLanguageExtPipeline("staging", "25")
+            .Config ?? throw new InvalidOperationException("C# config should be valid.");
+        var langExt = LanguageExtConfigurationValidationStartupRules.ExecuteLanguageExtPipeline("staging", "25")
             .IfLeft(error => throw new InvalidOperationException(error));
 
         Assert.Equal(imperative.Environment, csharp.Environment);
@@ -68,8 +68,8 @@ public class ConfigurationValidationStartupTriadShould
     [Fact]
     public void EnforceProdTimeoutRuleAcrossImplementations()
     {
-        ConfigurationValidationStartupRules.ExecuteImperative("prod", "45").ShouldBeLeft();
-        ConfigurationValidationStartupRules.ExecuteCSharpPipeline("prod", "45").ShouldBeLeft();
-        ConfigurationValidationStartupRules.ExecuteLanguageExtPipeline("prod", "45").ShouldBeLeft();
+        ConfigurationValidationStartupRules.ExecuteImperative("prod", "45").IsSuccess.Should().BeFalse();
+        ConfigurationValidationStartupRules.ExecuteCSharpPipeline("prod", "45").IsSuccess.Should().BeFalse();
+        LanguageExtConfigurationValidationStartupRules.ExecuteLanguageExtPipeline("prod", "45").ShouldBeLeft();
     }
 }

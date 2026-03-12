@@ -26,7 +26,8 @@ public class EitherDemo : IDemo
     public string Key => DemoKey;
     public string Category => "functional";
     public IReadOnlyCollection<string> Tags => ["fp", "languageext", "either", "validation", "baseline"];
-    public Either<string, Unit> Run(string? name, string? number)
+    public string Description => "Baseline LanguageExt Either demo contrasting imperative validation with composable fail-fast validation.";
+    public DemoExecutionResult Run(string? name, string? number)
     {
         // 1) Imperative validation
         PrintHeader(_output, "Imperative Validation");
@@ -45,7 +46,7 @@ public class EitherDemo : IDemo
             Right: val => _output.WriteLine($"[Functional] Valid number: {val}"),
             Left: err => _output.WriteLine($"[Functional] Error: {err}")
         );
-        return unit;
+        return DemoExecutionResult.Success();
     }
 
     // Func<int, Validation<Seq<string>, int>> CheckLessThan(int max) =>

@@ -1,27 +1,44 @@
-using LanguageExt;
-using static LanguageExt.Prelude;
-
 namespace Scott.FizzBuzz.Core.Demos.StreamingLargeDataTriad;
 
 public static class StreamingLargeDataRules
 {
     public sealed record StreamAggregationResult(long ItemCount, long ChunkCount, decimal Total, decimal Average, decimal MaxChunkTotal);
 
-    private sealed record LanguageExtFoldState(long ItemCount, long ChunkCount, decimal Total, decimal CurrentChunkTotal, int CurrentChunkSize, decimal MaxChunkTotal);
+    public static bool TryParseItemCount(string? value, out int itemCount, out string? error)
+    {
+        if (!int.TryParse(value, out itemCount))
+        {
+            error = "Item count must be an integer.";
+            return false;
+        }
 
-    public static Either<string, int> ParseItemCount(string? value) =>
-        int.TryParse(value, out var parsed)
-            ? parsed is >= 1 and <= 1_000_000
-                ? Right<string, int>(parsed)
-                : Left<string, int>("Item count must be between 1 and 1000000.")
-            : Left<string, int>("Item count must be an integer.");
+        if (itemCount is < 1 or > 1_000_000)
+        {
+            error = "Item count must be between 1 and 1000000.";
+            return false;
+        }
 
-    public static Either<string, int> ParseChunkSize(string? value) =>
-        int.TryParse(value, out var parsed)
-            ? parsed is >= 1 and <= 100_000
-                ? Right<string, int>(parsed)
-                : Left<string, int>("Chunk size must be between 1 and 100000.")
-            : Left<string, int>("Chunk size must be an integer.");
+        error = null;
+        return true;
+    }
+
+    public static bool TryParseChunkSize(string? value, out int chunkSize, out string? error)
+    {
+        if (!int.TryParse(value, out chunkSize))
+        {
+            error = "Chunk size must be an integer.";
+            return false;
+        }
+
+        if (chunkSize is < 1 or > 100_000)
+        {
+            error = "Chunk size must be between 1 and 100000.";
+            return false;
+        }
+
+        error = null;
+        return true;
+    }
 
     public static int MeasurementForIndex(int oneBasedIndex) => ((oneBasedIndex * 37) % 100) + 1;
 
@@ -81,49 +98,6 @@ public static class StreamingLargeDataRules
 
         var average = summary.Total / itemCount;
         return new StreamAggregationResult(itemCount, summary.ChunkCount, summary.Total, average, summary.MaxChunk);
-    }
-
-    public static StreamAggregationResult ExecuteLanguageExtPipeline(int itemCount, int chunkSize)
-    {
-        var initial = new LanguageExtFoldState(ItemCount: 0, ChunkCount: 0, Total: 0m, CurrentChunkTotal: 0m, CurrentChunkSize: 0, MaxChunkTotal: 0m);
-
-        var folded = Range(1, itemCount).Fold(initial, (state, index) =>
-        {
-            var measurement = MeasurementForIndex(index);
-            var updated = state with
-            {
-                ItemCount = state.ItemCount + 1,
-                Total = state.Total + measurement,
-                CurrentChunkTotal = state.CurrentChunkTotal + measurement,
-                CurrentChunkSize = state.CurrentChunkSize + 1
-            };
-
-            if (updated.CurrentChunkSize < chunkSize)
-            {
-                return updated;
-            }
-
-            return updated with
-            {
-                ChunkCount = updated.ChunkCount + 1,
-                MaxChunkTotal = Math.Max(updated.MaxChunkTotal, updated.CurrentChunkTotal),
-                CurrentChunkTotal = 0m,
-                CurrentChunkSize = 0
-            };
-        });
-
-        var finalized = folded.CurrentChunkSize > 0
-            ? folded with
-            {
-                ChunkCount = folded.ChunkCount + 1,
-                MaxChunkTotal = Math.Max(folded.MaxChunkTotal, folded.CurrentChunkTotal),
-                CurrentChunkTotal = 0m,
-                CurrentChunkSize = 0
-            }
-            : folded;
-
-        var average = finalized.ItemCount == 0 ? 0m : finalized.Total / finalized.ItemCount;
-        return new StreamAggregationResult(finalized.ItemCount, finalized.ChunkCount, finalized.Total, average, finalized.MaxChunkTotal);
     }
 
     public static string FormatSummary(StreamAggregationResult result) =>

@@ -19,8 +19,9 @@ public class LanguageExtEitherParseValidateDemo : IDemo
     public string Key => DemoKey;
     public string Category => "functional";
     public IReadOnlyCollection<string> Tags => ["fp", "languageext", "comparison", "either", "validation", "parsing"];
+    public string Description => "LanguageExt Either pipeline for validate/parse/business-rule composition without branching in orchestration.";
 
-    public Either<string, Unit> Run(string? name, string? number) =>
+    public DemoExecutionResult Run(string? name, string? number) =>
         FunctionalDemoOutput.Render(
             _output,
             "LanguageExt Either Parse + Validate",

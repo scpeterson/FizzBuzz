@@ -26,7 +26,7 @@ public class MonadicFunctionsDemo : IDemo
     public string Category => "functional";
     public IReadOnlyCollection<string> Tags => ["fp", "languageext", "monads", "option", "either", "comparison", "beginner"];
     public string Description => "Why monads help: hidden state and exceptions versus Option/Either composition.";
-    public Either<string, Unit> Run(string? _1, string? _2) =>
+    public DemoExecutionResult Run(string? _1, string? _2) =>
         ExecuteWithSpacing(_output, () =>
         {
             _output.WriteLine("=== Imperative: hidden state ===");

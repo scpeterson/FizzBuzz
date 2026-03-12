@@ -26,7 +26,7 @@ public class ApplicativeValidationDemo : IDemo
     public IReadOnlyCollection<string> Tags => ["fp", "csharp", "validation", "applicative"];
     public string Description => "Applicative validation with reusable Validation functions and accumulated errors.";
 
-    public Either<string, Unit> Run(string? name, string? number) =>
+    public DemoExecutionResult Run(string? name, string? number) =>
         ApplicativeValidation.ValidateToEntity(name, number)
             .Match(
                 Succ: entity =>
@@ -34,5 +34,5 @@ public class ApplicativeValidationDemo : IDemo
                         _output,
                         () => _output.WriteLine($"Result: validated entity = firstName={entity.FirstName}, age={entity.Age}"),
                         "Applicative Validation"),
-                Fail: errors => Left<string, Unit>(string.Join(" | ", errors.Map(error => error.Message))));
+                Fail: errors => DemoExecutionResult.Failure(string.Join(" | ", errors.Map(error => error.Message))));
 }

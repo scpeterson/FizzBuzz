@@ -21,11 +21,11 @@ public class LanguageExtIoMonadComparisonDemo : IDemo
     public IReadOnlyCollection<string> Tags => ["fp", "languageext", "comparison", "io", "monad"];
     public string Description => "LanguageExt IO-style composition using Eff (v4 equivalent) for effectful workflow sequencing.";
 
-    public Either<string, Unit> Run(string? name, string? number)
+    public DemoExecutionResult Run(string? name, string? number)
     {
         var program =
-            from profile in Eff(() => IoMonadRules.ResolveProfile(name))
-            from weight in Eff(() => IoMonadRules.ParseWeight(number))
+            from profile in Eff(() => LanguageExtIoMonadRules.ResolveProfile(name))
+            from weight in Eff(() => LanguageExtIoMonadRules.ParseWeight(number))
             select
                 from p in profile
                 from w in weight

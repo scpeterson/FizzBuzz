@@ -1,4 +1,3 @@
-using LanguageExt;
 using Scott.FizzBuzz.Core.Interfaces;
 using static Scott.FizzBuzz.Core.OutputUtilities;
 
@@ -22,8 +21,9 @@ public class ImperativeNullHandlingDemo : IDemo
     public string Key => DemoKey;
     public string Category => "imperative";
     public IReadOnlyCollection<string> Tags => ["imperative", "comparison", "null"];
+    public string Description => "Imperative null-handling with step-by-step checks and early returns.";
 
-    public Either<string, Unit> Run(string? name, string? number) =>
+    public DemoExecutionResult Run(string? name, string? number) =>
         ExecuteWithSpacing(_output, () =>
         {
             var rawName = name;

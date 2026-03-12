@@ -1,6 +1,3 @@
-using LanguageExt;
-using static LanguageExt.Prelude;
-
 namespace Scott.FizzBuzz.Core.Demos.IOMonadTriad;
 
 public static class IoMonadRules
@@ -14,17 +11,29 @@ public static class IoMonadRules
             ["scott"] = new("Scott", 3.00m, 1.10m, 1.00m)
         };
 
-    public static Either<string, decimal> ParseWeight(string? input) =>
-        decimal.TryParse(input, out var weight) && weight is >= 1m and <= 200m
-            ? Right<string, decimal>(weight)
-            : Left<string, decimal>("Weight must be numeric between 1 and 200.");
+    public static bool TryParseWeight(string? input, out decimal weight, out string? error)
+    {
+        if (decimal.TryParse(input, out weight) && weight is >= 1m and <= 200m)
+        {
+            error = null;
+            return true;
+        }
 
-    public static Either<string, IoRuntimeProfile> ResolveProfile(string? name)
+        error = "Weight must be numeric between 1 and 200.";
+        return false;
+    }
+
+    public static bool TryResolveProfile(string? name, out IoRuntimeProfile? profile, out string? error)
     {
         var key = string.IsNullOrWhiteSpace(name) ? "standard" : name.Trim();
-        return Profiles.TryGetValue(key, out var profile)
-            ? Right<string, IoRuntimeProfile>(profile)
-            : Left<string, IoRuntimeProfile>("Unknown profile. Use standard, priority, or economy.");
+        if (Profiles.TryGetValue(key, out profile))
+        {
+            error = null;
+            return true;
+        }
+
+        error = "Unknown profile. Use standard, priority, or economy.";
+        return false;
     }
 
     public static decimal CalculateQuote(decimal weight, IoRuntimeProfile profile) =>

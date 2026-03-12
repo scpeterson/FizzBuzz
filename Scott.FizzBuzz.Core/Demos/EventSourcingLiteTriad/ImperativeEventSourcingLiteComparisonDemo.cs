@@ -1,4 +1,3 @@
-using LanguageExt;
 using Scott.FizzBuzz.Core.Interfaces;
 using static Scott.FizzBuzz.Core.OutputUtilities;
 
@@ -24,22 +23,23 @@ public class ImperativeEventSourcingLiteComparisonDemo : IDemo
     public IReadOnlyCollection<string> Tags => ["imperative", "comparison", "event-sourcing", "state", "database"];
     public string Description => "Classic mutable event-list workflow: replay, append, replay again to derive current state.";
 
-    public Either<string, Unit> Run(string? name, string? number) =>
+    public DemoExecutionResult Run(string? name, string? number) =>
         ExecuteWithSpacing(_output, () =>
         {
-            var streamResult = EventSourcingLiteRules.ParseStreamId(name);
-            var amountResult = EventSourcingLiteRules.ParseDepositAmount(number);
+            if (!EventSourcingLiteRules.TryParseStreamId(name, out var streamId, out var error))
+            {
+                _output.WriteLine($"Failed: {error}");
+                return;
+            }
 
-            streamResult.Match(
-                Right: streamId =>
-                    amountResult.Match(
-                        Right: depositAmount =>
-                        {
-                            var result = EventSourcingLiteRules.ExecuteImperative(streamId, depositAmount);
-                            _output.WriteLine("Result: event stream updated.");
-                            _output.WriteLine(EventSourcingLiteRules.FormatSummary(result));
-                        },
-                        Left: error => _output.WriteLine($"Failed: {error}")),
-                Left: error => _output.WriteLine($"Failed: {error}"));
+            if (!EventSourcingLiteRules.TryParseDepositAmount(number, out var depositAmount, out error))
+            {
+                _output.WriteLine($"Failed: {error}");
+                return;
+            }
+
+            var result = EventSourcingLiteRules.ExecuteImperative(streamId!, depositAmount);
+            _output.WriteLine("Result: event stream updated.");
+            _output.WriteLine(EventSourcingLiteRules.FormatSummary(result));
         }, "Imperative Event Sourcing Lite Comparison");
 }

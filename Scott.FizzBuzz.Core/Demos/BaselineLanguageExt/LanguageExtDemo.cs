@@ -23,7 +23,8 @@ public class LanguageExtDemo : IDemo
     public string Key => DemoKey;
     public string Category => "functional";
     public IReadOnlyCollection<string> Tags => ["fp", "languageext", "either", "baseline"];
-    public Either<string, Unit> Run(string? name, string? number)
+    public string Description => "Baseline LanguageExt FizzBuzz demo using Either values to represent words versus numeric results.";
+    public DemoExecutionResult Run(string? name, string? number)
     {
         return ExecuteWithSpacing(_output, () =>
         {

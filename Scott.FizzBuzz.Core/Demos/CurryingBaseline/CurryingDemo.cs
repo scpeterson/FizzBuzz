@@ -1,9 +1,7 @@
-using LanguageExt;
 using Scott.FizzBuzz.Core;
 using Scott.FizzBuzz.Core.Currying;
 using Scott.FizzBuzz.Core.Interfaces;
 using static Scott.FizzBuzz.Core.OutputUtilities;
-using static LanguageExt.Prelude;
 
 namespace Scott.FizzBuzz.Core.Demos.CurryingBaseline;
 
@@ -25,7 +23,8 @@ public class CurryingDemo : IDemo
     public string Key => DemoKey;
     public string Category => "csharp";
     public IReadOnlyCollection<string> Tags => ["fp", "csharp", "currying", "comparison", "baseline"];
-    public Either<string, Unit> Run(string? name, string? number)
+    public string Description => "Core plain-C# FP demo: introduces currying and partial application before the monad-focused triads.";
+    public DemoExecutionResult Run(string? name, string? number)
     {
         // 1) Simple curried adder
         // `Func<int, Func<int, int>>` is a function that takes an int and returns another function of type `Func<int, int>`
@@ -63,7 +62,7 @@ public class CurryingDemo : IDemo
         foreach (var e in seniorEmps)
             _output.WriteLine(e.Name);
         
-        return unit;
+        return DemoExecutionResult.Success();
     }
 
     private static IEnumerable<Employee> SampleEmployees() =>

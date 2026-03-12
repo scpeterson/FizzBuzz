@@ -21,7 +21,7 @@ public class LanguageExtEffPostgresDatabaseDemo : IDemo
     public IReadOnlyCollection<string> Tags => ["fp", "languageext", "comparison", "database", "postgres", "io", "eff"];
     public string Description => "LanguageExt PostgreSQL workflow with pure transforms and DB IO at the Eff boundary.";
 
-    public Either<string, Unit> Run(string? name, string? number) =>
+    public DemoExecutionResult Run(string? name, string? number) =>
         FunctionalDemoOutput.Render(
             _output,
             "LanguageExt PostgreSQL Database Demo",

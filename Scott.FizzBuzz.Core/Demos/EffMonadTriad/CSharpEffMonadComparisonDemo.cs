@@ -1,4 +1,3 @@
-using LanguageExt;
 using Scott.FizzBuzz.Core.Interfaces;
 using static Scott.FizzBuzz.Core.OutputUtilities;
 
@@ -17,8 +16,9 @@ public class CSharpEffMonadComparisonDemo : IDemo
     public string Key => DemoKey;
     public string Category => "csharp";
     public IReadOnlyCollection<string> Tags => ["fp", "csharp", "comparison", "eff", "monad"];
+    public string Description => "Plain C# result-style pipeline for synchronous effectful calculations before introducing Eff.";
 
-    public Either<string, Unit> Run(string? name, string? number) =>
+    public DemoExecutionResult Run(string? name, string? number) =>
         ExecuteWithSpacing(_output, () =>
         {
             var result =

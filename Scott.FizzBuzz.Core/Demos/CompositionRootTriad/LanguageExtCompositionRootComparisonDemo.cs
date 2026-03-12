@@ -20,8 +20,9 @@ public class LanguageExtCompositionRootComparisonDemo : IDemo
     public string Key => DemoKey;
     public string Category => "functional";
     public IReadOnlyCollection<string> Tags => ["fp", "languageext", "comparison", "composition-root", "triad"];
+    public string Description => "LanguageExt composition root using Reader-style environment access and Either-based flow.";
 
-    public Either<string, Unit> Run(string? name, string? number) =>
+    public DemoExecutionResult Run(string? name, string? number) =>
         FunctionalDemoOutput.Render(
             _output,
             "LanguageExt Composition Root Comparison",
@@ -34,10 +35,10 @@ public class LanguageExtCompositionRootComparisonDemo : IDemo
         var tier = CompositionRootRules.NormalizeTier(name);
         var normalizedTier = tier is "standard" or "vip" or "employee" ? tier : "standard";
 
-        return CompositionRootRules.ParseAmount(number)
+        return LanguageExtCompositionRootRules.ParseAmount(number)
             .Bind(amount =>
             {
-                var readerResult = CompositionRootRules.QuoteReader(amount, normalizedTier, "us").Run(env);
+                var readerResult = LanguageExtCompositionRootRules.QuoteReader(amount, normalizedTier, "us").Run(env);
                 return readerResult.Match(
                     Succ: total => total,
                     Fail: error => Left<string, decimal>($"Reader failure: {error.Message}"));

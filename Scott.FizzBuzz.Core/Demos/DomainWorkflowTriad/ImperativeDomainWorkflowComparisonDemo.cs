@@ -1,4 +1,3 @@
-using LanguageExt;
 using Scott.FizzBuzz.Core.Demos.Shared;
 using Scott.FizzBuzz.Core.Interfaces;
 using static Scott.FizzBuzz.Core.OutputUtilities;
@@ -23,29 +22,29 @@ public class ImperativeDomainWorkflowComparisonDemo : IDemo
     public string Key => DemoKey;
     public string Category => "imperative";
     public IReadOnlyCollection<string> Tags => ["imperative", "comparison", "domain-modeling", "triad"];
+    public string Description => "Imperative domain workflow with explicit mutable progression through each fulfillment step.";
 
-    public Either<string, Unit> Run(string? name, string? number) =>
+    public DemoExecutionResult Run(string? name, string? number) =>
         ExecuteWithSpacing(_output, () =>
         {
-            if (!decimal.TryParse(number, out var amount) || amount < 0m)
+            if (!DomainWorkflowRules.TryParseAmount(number, out var amount, out var error))
             {
-                _output.WriteLine("Failed: Amount must be a non-negative decimal.");
+                _output.WriteLine($"Failed: {error}");
                 return;
             }
 
             var env = new InMemoryFunctionalDemoEnvironment();
-            var status = "Draft";
+            var draft = DomainWorkflowRules.CreateDraft(amount);
 
-            if (amount > env.MaxAutoApproveAmount)
+            if (!DomainWorkflowRules.TryAuthorize(env, draft, out var authorized, out error))
             {
-                _output.WriteLine($"Failed: Amount {amount:0.00} exceeds auto-approval limit {env.MaxAutoApproveAmount:0.00}.");
+                _output.WriteLine($"Failed: {error}");
                 return;
             }
 
-            status = "Authorized";
-            status = "Packed";
-            status = "Shipped";
+            var packed = DomainWorkflowRules.Pack(authorized!);
+            var shipped = DomainWorkflowRules.Ship(packed);
 
-            _output.WriteLine($"Imperative workflow final state: {status}");
+            _output.WriteLine($"Result: {DomainWorkflowRules.Render(shipped)}");
         }, "Imperative Domain Workflow Comparison");
 }

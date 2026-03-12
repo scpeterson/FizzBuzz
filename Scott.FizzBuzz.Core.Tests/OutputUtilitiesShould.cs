@@ -21,7 +21,7 @@ public class OutputUtilitiesShould
             },
             "DemoMethod");
 
-        result.IsRight.Should().BeTrue();
+        result.IsSuccess.Should().BeTrue();
         actionInvocations.Should().Be(1);
         output.Messages.Should().ContainInOrder(
             "************************************************************",
@@ -52,7 +52,7 @@ public class OutputUtilitiesShould
             },
             "DemoMethod");
 
-        result.IsRight.Should().BeTrue();
+        result.IsSuccess.Should().BeTrue();
         actionInvocations.Should().Be(1);
         output.Messages.Should().ContainInOrder(
             "************************************************************",

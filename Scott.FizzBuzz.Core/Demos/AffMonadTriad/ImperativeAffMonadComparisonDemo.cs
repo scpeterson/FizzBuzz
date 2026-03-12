@@ -1,4 +1,3 @@
-using LanguageExt;
 using Scott.FizzBuzz.Core.Interfaces;
 using static Scott.FizzBuzz.Core.OutputUtilities;
 
@@ -17,8 +16,9 @@ public class ImperativeAffMonadComparisonDemo : IDemo
     public string Key => DemoKey;
     public string Category => "imperative";
     public IReadOnlyCollection<string> Tags => ["imperative", "comparison", "aff", "monad"];
+    public string Description => "Imperative async workflow with manual parsing, branching, and blocking delay orchestration.";
 
-    public Either<string, Unit> Run(string? name, string? number) =>
+    public DemoExecutionResult Run(string? name, string? number) =>
         ExecuteWithSpacing(_output, () =>
         {
             if (!int.TryParse(number, out var count) || count < 1 || count > 100)

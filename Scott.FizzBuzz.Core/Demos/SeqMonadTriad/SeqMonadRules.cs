@@ -1,30 +1,46 @@
-using LanguageExt;
-using static LanguageExt.Prelude;
-
 namespace Scott.FizzBuzz.Core.Demos.SeqMonadTriad;
 
 public static class SeqMonadRules
 {
-    public static Either<string, Seq<int>> ResolveNumbers(string? name)
+    public static bool TryResolveNumbers(string? name, out IReadOnlyList<int>? numbers, out string? error)
     {
         var key = string.IsNullOrWhiteSpace(name) ? "standard" : name.Trim().ToLowerInvariant();
-        return key switch
+        switch (key)
         {
-            "standard" => Right<string, Seq<int>>(Seq(1, 2, 3, 4, 5, 6)),
-            "large" => Right<string, Seq<int>>(Seq(10, 20, 30, 40)),
-            "scott" => Right<string, Seq<int>>(Seq(2, 4, 6, 8)),
-            _ => Left<string, Seq<int>>("Unknown sequence profile. Use standard or large.")
-        };
+            case "standard":
+                numbers = [1, 2, 3, 4, 5, 6];
+                error = null;
+                return true;
+            case "large":
+                numbers = [10, 20, 30, 40];
+                error = null;
+                return true;
+            case "scott":
+                numbers = [2, 4, 6, 8];
+                error = null;
+                return true;
+            default:
+                numbers = null;
+                error = "Unknown sequence profile. Use standard or large.";
+                return false;
+        }
     }
 
-    public static Either<string, int> ParseThreshold(string? number) =>
-        int.TryParse(number, out var threshold)
-            ? Right<string, int>(threshold)
-            : Left<string, int>("Threshold must be numeric.");
+    public static bool TryParseThreshold(string? number, out int threshold, out string? error)
+    {
+        if (int.TryParse(number, out threshold))
+        {
+            error = null;
+            return true;
+        }
 
-    public static int Compute(Seq<int> numbers, int threshold) =>
+        error = "Threshold must be numeric.";
+        return false;
+    }
+
+    public static int Compute(IEnumerable<int> numbers, int threshold) =>
         numbers
-            .Filter(n => n >= threshold)
-            .Map(n => n * n)
-            .Fold(0, (sum, value) => sum + value);
+            .Where(n => n >= threshold)
+            .Select(n => n * n)
+            .Sum();
 }

@@ -20,8 +20,9 @@ public class LanguageExtIdempotentCommandComparisonDemo : IDemo
     public string Key => DemoKey;
     public string Category => "functional";
     public IReadOnlyCollection<string> Tags => ["fp", "languageext", "comparison", "idempotency", "triad"];
+    public string Description => "LanguageExt idempotency flow using explicit immutable updates and Either-based command handling.";
 
-    public Either<string, Unit> Run(string? name, string? number) =>
+    public DemoExecutionResult Run(string? name, string? number) =>
         FunctionalDemoOutput.Render(
             _output,
             "LanguageExt Idempotent Command Comparison",
@@ -39,8 +40,8 @@ public class LanguageExtIdempotentCommandComparisonDemo : IDemo
         var initial = new System.Collections.Generic.HashSet<string>(env.SeedProcessedCommandIds, StringComparer.OrdinalIgnoreCase);
 
         return
-            from _ in IdempotentCommandRules.ParseAmount(number)
-            from updated in IdempotentCommandRules.HandleLanguageExt(initial, commandId)
+            from _ in LanguageExtIdempotentCommandRules.ParseAmount(number)
+            from updated in LanguageExtIdempotentCommandRules.HandleLanguageExt(initial, commandId)
             select updated;
     }
 }

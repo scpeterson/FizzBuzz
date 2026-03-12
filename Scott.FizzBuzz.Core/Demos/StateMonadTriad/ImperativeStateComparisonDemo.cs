@@ -1,4 +1,3 @@
-using LanguageExt;
 using Scott.FizzBuzz.Core.Interfaces;
 using static Scott.FizzBuzz.Core.OutputUtilities;
 
@@ -24,31 +23,26 @@ public class ImperativeStateComparisonDemo : IDemo
     public IReadOnlyCollection<string> Tags => ["imperative", "comparison", "state", "monad"];
     public string Description => "Mutable state updated across imperative steps with explicit reassignment and branching.";
 
-    public Either<string, Unit> Run(string? name, string? number) =>
+    public DemoExecutionResult Run(string? name, string? number) =>
         ExecuteWithSpacing(_output, () =>
         {
-            var planEither = StateMonadRules.ResolvePlan(name);
-            if (planEither.IsLeft)
+            if (!StateMonadRules.TryResolvePlan(name, out var plan, out var error))
             {
-                _output.WriteLine($"Failed: {planEither.LeftToList()[0]}");
+                _output.WriteLine($"Failed: {error}");
                 return;
             }
 
-            var stepEither = StateMonadRules.ParseStep(number);
-            if (stepEither.IsLeft)
+            if (!StateMonadRules.TryParseStep(number, out var step, out error))
             {
-                _output.WriteLine($"Failed: {stepEither.LeftToList()[0]}");
+                _output.WriteLine($"Failed: {error}");
                 return;
             }
-
-            var plan = planEither.RightToList()[0];
-            var step = stepEither.RightToList()[0];
 
             var score = 0;
             var multiplier = 1;
             var penalties = 0;
 
-            foreach (var op in plan)
+            foreach (var op in plan!)
             {
                 if (op == "add")
                 {

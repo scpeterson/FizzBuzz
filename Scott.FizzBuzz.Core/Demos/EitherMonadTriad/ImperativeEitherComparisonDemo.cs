@@ -1,4 +1,3 @@
-using LanguageExt;
 using Scott.FizzBuzz.Core.Interfaces;
 using static Scott.FizzBuzz.Core.OutputUtilities;
 
@@ -24,7 +23,7 @@ public class ImperativeEitherComparisonDemo : IDemo
     public IReadOnlyCollection<string> Tags => ["imperative", "comparison", "either", "monad"];
     public string Description => "Manual error propagation with mutable variables and branch-heavy flow control.";
 
-    public Either<string, Unit> Run(string? name, string? number) =>
+    public DemoExecutionResult Run(string? name, string? number) =>
         ExecuteWithSpacing(_output, () =>
         {
             var errorsChecked = 0;

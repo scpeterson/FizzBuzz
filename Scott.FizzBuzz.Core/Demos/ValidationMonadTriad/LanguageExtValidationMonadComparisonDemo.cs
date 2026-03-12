@@ -20,7 +20,7 @@ public class LanguageExtValidationMonadComparisonDemo : IDemo
     public IReadOnlyCollection<string> Tags => ["fp", "languageext", "comparison", "validation", "monad"];
     public string Description => "LanguageExt Validation applicative composition with error accumulation.";
 
-    public Either<string, Unit> Run(string? name, string? number) =>
+    public DemoExecutionResult Run(string? name, string? number) =>
         FunctionalDemoOutput.Render(
             _output,
             "LanguageExt Validation Monad Comparison",

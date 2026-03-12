@@ -21,11 +21,11 @@ public class LanguageExtConfigurationValidationStartupComparisonDemo : IDemo
     public IReadOnlyCollection<string> Tags => ["fp", "languageext", "comparison", "configuration", "validation", "startup"];
     public string Description => "Applicative startup config validation with accumulated errors and pure result values.";
 
-    public Either<string, Unit> Run(string? name, string? number) =>
+    public DemoExecutionResult Run(string? name, string? number) =>
         FunctionalDemoOutput.Render(
             _output,
             "LanguageExt Startup Configuration Validation Comparison",
-            ConfigurationValidationStartupRules.ExecuteLanguageExtPipeline(name, number),
+            LanguageExtConfigurationValidationStartupRules.ExecuteLanguageExtPipeline(name, number),
             (output, config) =>
             {
                 output.WriteLine("Result: configuration valid.");

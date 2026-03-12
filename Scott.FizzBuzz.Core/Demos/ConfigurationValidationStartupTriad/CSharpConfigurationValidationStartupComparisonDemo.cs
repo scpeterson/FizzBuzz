@@ -1,4 +1,3 @@
-using LanguageExt;
 using Scott.FizzBuzz.Core.Interfaces;
 using static Scott.FizzBuzz.Core.OutputUtilities;
 
@@ -24,17 +23,20 @@ public class CSharpConfigurationValidationStartupComparisonDemo : IDemo
     public IReadOnlyCollection<string> Tags => ["fp", "csharp", "comparison", "configuration", "validation", "startup"];
     public string Description => "Composed C# startup validation pipeline that aggregates rule checks before app bootstrap.";
 
-    public Either<string, Unit> Run(string? name, string? number) =>
+    public DemoExecutionResult Run(string? name, string? number) =>
         ExecuteWithSpacing(_output, () =>
         {
             var result = ConfigurationValidationStartupRules.ExecuteCSharpPipeline(name, number);
 
-            result.Match(
-                Right: config =>
-                {
-                    _output.WriteLine("Result: configuration valid.");
-                    _output.WriteLine(ConfigurationValidationStartupRules.FormatSummary(config));
-                },
-                Left: error => _output.WriteLine($"Failed: {error}"));
+            if (result.IsSuccess && result.Config is not null)
+            {
+                var config = result.Config;
+                _output.WriteLine("Result: configuration valid.");
+                _output.WriteLine(ConfigurationValidationStartupRules.FormatSummary(config));
+            }
+            else
+            {
+                _output.WriteLine($"Failed: {string.Join(" ", result.Errors)}");
+            }
         }, "C# Startup Configuration Validation Comparison");
 }

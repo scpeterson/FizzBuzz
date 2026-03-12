@@ -24,8 +24,9 @@ public class FpExtensionMembersTypeclassesDemo : IDemo
     public string Key => DemoKey;
     public string Category => "functional";
     public IReadOnlyCollection<string> Tags => ["fp", "dotnet10", "csharp14", "extensions", "either"];
+    public string Description => "Advanced .NET 10/C# 14 demo showing extension members used to give Either map/bind a typeclass-style surface.";
 
-    public Either<string, Unit> Run(string? name, string? number)
+    public DemoExecutionResult Run(string? name, string? number)
         => ExecuteWithSpacing(_output, () =>
         {
             var inputs = new[] { number ?? "12", "3", "abc" };

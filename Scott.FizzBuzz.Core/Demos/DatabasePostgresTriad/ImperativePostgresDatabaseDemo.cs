@@ -1,4 +1,3 @@
-using LanguageExt;
 using Npgsql;
 using Scott.FizzBuzz.Core.Interfaces;
 using static Scott.FizzBuzz.Core.OutputUtilities;
@@ -25,7 +24,7 @@ public class ImperativePostgresDatabaseDemo : IDemo
     public IReadOnlyCollection<string> Tags => ["imperative", "comparison", "database", "postgres", "io"];
     public string Description => "Imperative PostgreSQL workflow with inline mutation, SQL, and exception handling.";
 
-    public Either<string, Unit> Run(string? name, string? number) =>
+    public DemoExecutionResult Run(string? name, string? number) =>
         ExecuteWithSpacing(_output, () =>
         {
             var connectionString = Environment.GetEnvironmentVariable(PostgresDemoConfiguration.ConnectionEnvVar);

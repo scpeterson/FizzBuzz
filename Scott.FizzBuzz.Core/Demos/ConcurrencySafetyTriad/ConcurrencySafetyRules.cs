@@ -1,6 +1,4 @@
-using LanguageExt;
 using System.Threading;
-using static LanguageExt.Prelude;
 
 namespace Scott.FizzBuzz.Core.Demos.ConcurrencySafetyTriad;
 
@@ -11,14 +9,24 @@ public static class ConcurrencySafetyRules
         public int LostUpdates => Math.Max(0, ExpectedBalance - FinalBalance);
     }
 
-    public static Either<string, int> ParseIterations(string? value) =>
-        int.TryParse(value, out var parsed)
-            ? parsed is >= 1 and <= 1_000_000
-                ? Right<string, int>(parsed)
-                : Left<string, int>("Iterations must be between 1 and 1000000.")
-            : Left<string, int>("Iterations must be an integer.");
+    public static bool TryParseIterations(string? value, out int iterations, out string? error)
+    {
+        if (!int.TryParse(value, out iterations))
+        {
+            error = "Iterations must be an integer.";
+            return false;
+        }
 
-    // Simulates unsafe read-modify-write interleaving for two concurrent writers.
+        if (iterations is < 1 or > 1_000_000)
+        {
+            error = "Iterations must be between 1 and 1000000.";
+            return false;
+        }
+
+        error = null;
+        return true;
+    }
+
     public static ConcurrencySimulationResult ExecuteImperativeUnsafe(int iterations)
     {
         var balance = 0;
@@ -32,7 +40,7 @@ public static class ConcurrencySafetyRules
             balance = workerBRead + 1;
         }
 
-        return new ConcurrencySimulationResult(InitialBalance: 0, ExpectedBalance: iterations * 2, FinalBalance: balance);
+        return new ConcurrencySimulationResult(0, iterations * 2, balance);
     }
 
     public static ConcurrencySimulationResult ExecuteCSharpAtomic(int iterations)
@@ -44,13 +52,7 @@ public static class ConcurrencySafetyRules
             Interlocked.Increment(ref balance);
         }
 
-        return new ConcurrencySimulationResult(InitialBalance: 0, ExpectedBalance: iterations * 2, FinalBalance: balance);
-    }
-
-    public static ConcurrencySimulationResult ExecuteLanguageExtPure(int iterations)
-    {
-        var finalBalance = Range(1, iterations * 2).Fold(0, (state, _) => state + 1);
-        return new ConcurrencySimulationResult(InitialBalance: 0, ExpectedBalance: iterations * 2, FinalBalance: finalBalance);
+        return new ConcurrencySimulationResult(0, iterations * 2, balance);
     }
 
     public static string FormatSummary(ConcurrencySimulationResult result) =>

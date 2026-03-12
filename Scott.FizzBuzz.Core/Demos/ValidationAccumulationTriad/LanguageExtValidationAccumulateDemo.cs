@@ -20,8 +20,9 @@ public class LanguageExtValidationAccumulateDemo : IDemo
     public string Key => DemoKey;
     public string Category => "functional";
     public IReadOnlyCollection<string> Tags => ["fp", "languageext", "comparison", "validation"];
+    public string Description => "LanguageExt Validation accumulation that collects multiple independent rule failures.";
 
-    public Either<string, Unit> Run(string? name, string? number) =>
+    public DemoExecutionResult Run(string? name, string? number) =>
         FunctionalDemoOutput.Render(
             _output,
             "LanguageExt Validation Accumulation",

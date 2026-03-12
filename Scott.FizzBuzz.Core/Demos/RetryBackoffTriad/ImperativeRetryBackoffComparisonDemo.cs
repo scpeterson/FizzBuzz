@@ -1,4 +1,3 @@
-using LanguageExt;
 using Scott.FizzBuzz.Core.Interfaces;
 using static Scott.FizzBuzz.Core.OutputUtilities;
 
@@ -24,23 +23,24 @@ public class ImperativeRetryBackoffComparisonDemo : IDemo
     public IReadOnlyCollection<string> Tags => ["imperative", "comparison", "retry", "backoff", "policy"];
     public string Description => "Classic loop-based retry orchestration with mutable counters and hand-managed backoff schedule.";
 
-    public Either<string, Unit> Run(string? name, string? number) =>
+    public DemoExecutionResult Run(string? name, string? number) =>
         ExecuteWithSpacing(_output, () =>
         {
-            var policyResult = RetryBackoffRules.ResolvePolicy(name);
-            var failureCountResult = RetryBackoffRules.ParseFailuresBeforeSuccess(number);
+            if (!RetryBackoffRules.TryResolvePolicy(name, out var policy, out var error))
+            {
+                _output.WriteLine($"Failed: {error}");
+                return;
+            }
 
-            policyResult.Match(
-                Right: policy =>
-                    failureCountResult.Match(
-                        Right: failuresBeforeSuccess =>
-                        {
-                            var result = RetryBackoffRules.ExecuteImperative(policy, failuresBeforeSuccess);
-                            _output.WriteLine($"Result: {RetryBackoffRules.FormatSummary(result)}");
-                            _output.WriteLine($"Policy: {policy.Name}");
-                            _output.WriteLine($"Backoff schedule: {RetryBackoffRules.FormatSchedule(result.BackoffSchedule)}");
-                        },
-                        Left: error => _output.WriteLine($"Failed: {error}")),
-                Left: error => _output.WriteLine($"Failed: {error}"));
+            if (!RetryBackoffRules.TryParseFailuresBeforeSuccess(number, out var failuresBeforeSuccess, out error))
+            {
+                _output.WriteLine($"Failed: {error}");
+                return;
+            }
+
+            var result = RetryBackoffRules.ExecuteImperative(policy!, failuresBeforeSuccess);
+            _output.WriteLine($"Result: {RetryBackoffRules.FormatSummary(result)}");
+            _output.WriteLine($"Policy: {policy!.Name}");
+            _output.WriteLine($"Backoff schedule: {RetryBackoffRules.FormatSchedule(result.BackoffSchedule)}");
         }, "Imperative Retry + Backoff Comparison");
 }

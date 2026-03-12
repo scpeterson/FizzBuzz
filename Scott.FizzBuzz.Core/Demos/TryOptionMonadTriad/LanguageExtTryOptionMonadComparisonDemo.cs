@@ -19,8 +19,9 @@ public class LanguageExtTryOptionMonadComparisonDemo : IDemo
     public string Key => DemoKey;
     public string Category => "functional";
     public IReadOnlyCollection<string> Tags => ["fp", "languageext", "comparison", "tryoption", "monad"];
+    public string Description => "LanguageExt TryOption composition for lookups that can both fail and be absent.";
 
-    public Either<string, Unit> Run(string? name, string? number) =>
+    public DemoExecutionResult Run(string? name, string? number) =>
         FunctionalDemoOutput.Render(
             _output,
             "LanguageExt TryOption Monad Comparison",
@@ -30,8 +31,8 @@ public class LanguageExtTryOptionMonadComparisonDemo : IDemo
     private static Either<string, string> ComputeResult(string? number)
     {
         var result =
-            from id in TryOptionMonadRules.ParseId(number)
-            select TryOptionMonadRules.LookupTryOption(id).Map(value => $"Some:{value:0.##}");
+            from id in LanguageExtTryOptionMonadRules.ParseId(number)
+            select LanguageExtTryOptionMonadRules.LookupTryOption(id).Map(value => $"Some:{value:0.##}");
 
         return result.Bind(computation =>
         {

@@ -8,6 +8,34 @@ The project demonstrates common tasks in a triad format:
 2. Functional C# (core language/.NET)
 3. Functional C# using LanguageExt
 
+## Suggested Learning Path
+
+If you're approaching the codebase from an imperative background, the smoothest order is:
+
+1. Supporting C# language features
+   - `pattern-matching`
+   - `tuple-demo`
+2. Baseline comparisons
+   - `imperative`
+   - `range-iter`
+   - `demo-currying`
+3. Core triads
+   - `csharp-parse-validate-pipeline`
+   - `csharp-null-patterns`
+   - `csharp-validation-error-list`
+   - `csharp-functional-registration`
+4. Effect and infrastructure triads
+   - `csharp-async-composition`
+   - `csharp-db-text-store`
+   - `csharp-db-postgres`
+5. LanguageExt monad triads and advanced demos
+   - `langext-option-monad-comparison`
+   - `langext-either-monad-comparison`
+   - `langext-validation-monad-comparison`
+   - `langext-eff-async-workflow`
+
+`dotnet run --project Scott.FizzBuzz.Console -- --list` now follows this learning path more closely.
+
 ## Solution Structure
 
 - `Scott.FizzBuzz.Console`: CLI host and demo runner
@@ -84,4 +112,5 @@ Open: [http://127.0.0.1:8000](http://127.0.0.1:8000)
 ## Architecture and ADRs
 
 - `docs/architecture/README.md`
+- `docs/architecture/learning-path.md`
 - `docs/architecture/adr/`

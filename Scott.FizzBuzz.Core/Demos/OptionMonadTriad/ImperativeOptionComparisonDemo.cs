@@ -1,4 +1,3 @@
-using LanguageExt;
 using Scott.FizzBuzz.Core.Interfaces;
 using static Scott.FizzBuzz.Core.OutputUtilities;
 
@@ -24,7 +23,7 @@ public class ImperativeOptionComparisonDemo : IDemo
     public IReadOnlyCollection<string> Tags => ["imperative", "comparison", "option", "monad"];
     public string Description => "Manual nested null checks to resolve a customer segment from optional data.";
 
-    public Either<string, Unit> Run(string? name, string? number) =>
+    public DemoExecutionResult Run(string? name, string? number) =>
         ExecuteWithSpacing(_output, () =>
         {
             var checks = 0;

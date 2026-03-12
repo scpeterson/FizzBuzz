@@ -1,6 +1,4 @@
-using LanguageExt;
 using Scott.FizzBuzz.Core.Interfaces;
-using static LanguageExt.Prelude;
 using static Scott.FizzBuzz.Core.OutputUtilities;
 
 namespace Scott.FizzBuzz.Core.Demos.EndToEndMiniFeatureTriad;
@@ -23,14 +21,14 @@ public class CSharpFunctionalRegistrationDemo : IDemo
     public string Key => DemoKey;
     public string Category => "csharp";
     public IReadOnlyCollection<string> Tags => ["fp", "csharp", "comparison", "end-to-end"];
-    public string Description => "C# fail-fast registration pipeline with Either composition.";
+    public string Description => "C# fail-fast registration pipeline with a plain C# result type.";
 
-    public Either<string, Unit> Run(string? name, string? number) =>
+    public DemoExecutionResult Run(string? name, string? number) =>
         ExecuteWithSpacing(_output, () =>
         {
-            CSharpFunctionalRegistrationLogic.Register(name, number)
-                .Match(
-                    Right: user => _output.WriteLine($"Result: registered user {user.Id}"),
-                    Left: error => _output.WriteLine(error));
+            var result = CSharpFunctionalRegistrationLogic.Register(name, number);
+            _output.WriteLine(result.IsSuccess
+                ? $"Result: registered user {result.Value!.Id}"
+                : $"Failed: {result.Error}");
         }, "C# Functional Registration");
 }

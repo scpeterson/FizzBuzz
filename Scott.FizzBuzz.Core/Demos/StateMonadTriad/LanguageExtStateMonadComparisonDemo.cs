@@ -21,7 +21,7 @@ public class LanguageExtStateMonadComparisonDemo : IDemo
     public IReadOnlyCollection<string> Tags => ["fp", "languageext", "comparison", "state", "monad"];
     public string Description => "LanguageExt State monad composes transitions without explicit state plumbing.";
 
-    public Either<string, Unit> Run(string? name, string? number) =>
+    public DemoExecutionResult Run(string? name, string? number) =>
         FunctionalDemoOutput.Render(
             _output,
             "LanguageExt State Monad Comparison",
@@ -33,8 +33,8 @@ public class LanguageExtStateMonadComparisonDemo : IDemo
             });
 
     private static Either<string, StateGame> ComputeResult(string? name, string? number) =>
-        from plan in StateMonadRules.ResolvePlan(name)
-        from step in StateMonadRules.ParseStep(number)
+        from plan in LanguageExtStateMonadRules.ResolvePlan(name)
+        from step in LanguageExtStateMonadRules.ParseStep(number)
         from _ in RunProgram(plan, step)
         select plan.Fold(new StateGame(0, 1, 0), (state, op) => StateMonadRules.Apply(op, step, state));
 
@@ -42,7 +42,7 @@ public class LanguageExtStateMonadComparisonDemo : IDemo
     {
         var program = BuildProgram(plan, step);
         _ = program.Run(new StateGame(0, 1, 0));
-        return Right<string, Unit>(unit);
+        return Right<string, Unit>(Unit.Default);
     }
 
     private static State<StateGame, Unit> BuildProgram(Seq<string> plan, int step)

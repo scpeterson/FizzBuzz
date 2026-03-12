@@ -1,30 +1,41 @@
-using LanguageExt;
-using static LanguageExt.Prelude;
-
 namespace Scott.FizzBuzz.Core.Demos.StateMonadTriad;
 
 public static class StateMonadRules
 {
-    private static readonly IReadOnlyDictionary<string, Seq<string>> Plans =
-        new Dictionary<string, Seq<string>>(StringComparer.OrdinalIgnoreCase)
+    private static readonly IReadOnlyDictionary<string, string[]> Plans =
+        new Dictionary<string, string[]>(StringComparer.OrdinalIgnoreCase)
         {
-            ["standard"] = Seq("add", "boost", "add"),
-            ["aggressive"] = Seq("boost", "add", "add", "penalty", "add"),
-            ["defensive"] = Seq("add", "penalty", "add"),
-            ["scott"] = Seq("add", "boost", "add")
+            ["standard"] = ["add", "boost", "add"],
+            ["aggressive"] = ["boost", "add", "add", "penalty", "add"],
+            ["defensive"] = ["add", "penalty", "add"],
+            ["scott"] = ["add", "boost", "add"]
         };
 
-    public static Either<string, int> ParseStep(string? input) =>
-        int.TryParse(input, out var parsed) && parsed is >= 1 and <= 100
-            ? Right<string, int>(parsed)
-            : Left<string, int>("Step must be a number between 1 and 100.");
+    public static bool TryParseStep(string? input, out int step, out string? error)
+    {
+        if (int.TryParse(input, out step) && step is >= 1 and <= 100)
+        {
+            error = null;
+            return true;
+        }
 
-    public static Either<string, Seq<string>> ResolvePlan(string? name)
+        error = "Step must be a number between 1 and 100.";
+        return false;
+    }
+
+    public static bool TryResolvePlan(string? name, out IReadOnlyList<string>? plan, out string? error)
     {
         var key = string.IsNullOrWhiteSpace(name) ? "standard" : name.Trim();
-        return Plans.TryGetValue(key, out var plan)
-            ? Right<string, Seq<string>>(plan)
-            : Left<string, Seq<string>>("Unknown plan. Use standard, aggressive, or defensive.");
+        if (Plans.TryGetValue(key, out var resolved))
+        {
+            plan = resolved;
+            error = null;
+            return true;
+        }
+
+        plan = null;
+        error = "Unknown plan. Use standard, aggressive, or defensive.";
+        return false;
     }
 
     public static StateGame Apply(string operation, int step, StateGame state) =>

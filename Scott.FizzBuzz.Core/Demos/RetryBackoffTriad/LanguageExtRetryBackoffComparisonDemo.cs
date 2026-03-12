@@ -21,7 +21,7 @@ public class LanguageExtRetryBackoffComparisonDemo : IDemo
     public IReadOnlyCollection<string> Tags => ["fp", "languageext", "comparison", "retry", "backoff", "policy"];
     public string Description => "Pure retry/backoff policy encoded as deterministic transformations with no wait or I/O effects.";
 
-    public Either<string, Unit> Run(string? name, string? number) =>
+    public DemoExecutionResult Run(string? name, string? number) =>
         FunctionalDemoOutput.Render(
             _output,
             "LanguageExt Retry + Backoff Comparison",
@@ -33,10 +33,10 @@ public class LanguageExtRetryBackoffComparisonDemo : IDemo
             });
 
     private static Either<string, RetryBackoffRules.RetryExecutionResult> ComputeResult(string? name, string? number) =>
-        RetryBackoffRules.ResolvePolicy(name)
+        LanguageExtRetryBackoffRules.ResolvePolicy(name)
             .Bind(policy =>
-                RetryBackoffRules.ParseFailuresBeforeSuccess(number)
-                    .Map(failuresBeforeSuccess => RetryBackoffRules.ExecuteLanguageExtPipeline(policy, failuresBeforeSuccess)))
+                LanguageExtRetryBackoffRules.ParseFailuresBeforeSuccess(number)
+                    .Map(failuresBeforeSuccess => LanguageExtRetryBackoffRules.ExecuteLanguageExtPipeline(policy, failuresBeforeSuccess)))
             .Bind(execution =>
                 execution.Success
                     ? Right<string, RetryBackoffRules.RetryExecutionResult>(execution)

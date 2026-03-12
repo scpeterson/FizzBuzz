@@ -37,8 +37,9 @@ public class OtherMonadsDemo : IDemo
     public string Key => DemoKey;
     public string Category => "functional";
     public IReadOnlyCollection<string> Tags => ["fp", "languageext", "monads", "advanced"];
+    public string Description => "Advanced LanguageExt monad tour covering Reader, Writer, State, Eff, and Aff in one place.";
 
-    public Either<string, Unit> Run(string? _1, string? _2) =>
+    public DemoExecutionResult Run(string? _1, string? _2) =>
         ExecuteWithSpacing(_output, () =>
             {
                 // 1) LINQ‑style monadic comprehension with Either

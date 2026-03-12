@@ -1,4 +1,3 @@
-using LanguageExt;
 using Scott.FizzBuzz.Core.Demos.Shared;
 using Scott.FizzBuzz.Core.Interfaces;
 using static Scott.FizzBuzz.Core.OutputUtilities;
@@ -23,24 +22,22 @@ public class CSharpIdempotentCommandComparisonDemo : IDemo
     public string Key => DemoKey;
     public string Category => "csharp";
     public IReadOnlyCollection<string> Tags => ["fp", "csharp", "comparison", "idempotency", "triad"];
+    public string Description => "Plain C# idempotency pipeline that returns updated command state instead of mutating inline.";
 
-    public Either<string, Unit> Run(string? name, string? number) =>
+    public DemoExecutionResult Run(string? name, string? number) =>
         ExecuteWithSpacing(_output, () =>
         {
             var env = new InMemoryFunctionalDemoEnvironment();
             var commandId = IdempotentCommandRules.NormalizeCommandId(name);
 
-            var result =
-                from amount in IdempotentCommandRules.ParseAmount(number)
-                let handled = IdempotentCommandRules.HandleCSharp(env.SeedProcessedCommandIds, commandId)
-                select (amount, handled.IsDuplicate);
+            if (!IdempotentCommandRules.TryParseAmount(number, out var amount, out var error))
+            {
+                _output.WriteLine($"Failed: {error}");
+                return;
+            }
 
-            result.Match(
-                Right: tuple =>
-                {
-                    var outcome = tuple.IsDuplicate ? "Duplicate ignored" : "Processed";
-                    _output.WriteLine($"{outcome}: {commandId} ({tuple.amount:0.00})");
-                },
-                Left: error => _output.WriteLine($"Failed: {error}"));
+            var handled = IdempotentCommandRules.HandleCSharp(env.SeedProcessedCommandIds, commandId);
+            var outcome = handled.IsDuplicate ? "Duplicate ignored" : "Processed";
+            _output.WriteLine($"{outcome}: {commandId} ({amount:0.00})");
         }, "C# Idempotent Command Comparison");
 }

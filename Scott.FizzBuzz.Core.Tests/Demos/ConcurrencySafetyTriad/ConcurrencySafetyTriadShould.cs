@@ -43,7 +43,7 @@ public class ConcurrencySafetyTriadShould
     public void PreserveAllUpdatesInCSharpAndLanguageExtSimulations()
     {
         var csharp = ConcurrencySafetyRules.ExecuteCSharpAtomic(iterations: 1000);
-        var languageExt = ConcurrencySafetyRules.ExecuteLanguageExtPure(iterations: 1000);
+        var languageExt = LanguageExtConcurrencySafetyRules.ExecuteLanguageExtPure(iterations: 1000);
 
         Assert.Equal(csharp.ExpectedBalance, csharp.FinalBalance);
         Assert.Equal(languageExt.ExpectedBalance, languageExt.FinalBalance);

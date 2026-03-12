@@ -1,13 +1,11 @@
-using LanguageExt;
 using Scott.FizzBuzz.Core.Interfaces;
-using static LanguageExt.Prelude;
 
 namespace Scott.FizzBuzz.Core;
 
 public static class OutputUtilities
 {
     // Backward-compatible overload for demos that still use direct console output.
-    public static Either<string, Unit> ExecuteWithSpacing(Action action, string methodName) =>
+    public static DemoExecutionResult ExecuteWithSpacing(Action action, string methodName) =>
         ExecuteWithSpacing(new ConsoleOutput(), action, methodName);
 
     // Backward-compatible overload for demos that still use direct console output.
@@ -38,13 +36,13 @@ public static class OutputUtilities
         PrintDivider(output);
     }
     
-    public static Either<string, Unit> ExecuteWithSpacing(IOutput output, Action action, string methodName)
+    public static DemoExecutionResult ExecuteWithSpacing(IOutput output, Action action, string methodName)
     {
         PrintHeader(output, methodName);
         ExecuteActionWithColor(output, action);
         PrintDivider(output);
 
-        return unit;
+        return DemoExecutionResult.Success();
     }
 
     private static void WriteColoredLine(IOutput output, string message, ConsoleColor color)

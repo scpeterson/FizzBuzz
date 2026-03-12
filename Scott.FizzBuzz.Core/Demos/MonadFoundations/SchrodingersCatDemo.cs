@@ -24,13 +24,14 @@ public class SchrodingersCatDemo : IDemo
     public string Key => DemoKey;
     public string Category => "functional";
     public IReadOnlyCollection<string> Tags => ["fp", "languageext", "monads", "state", "try"];
+    public string Description => "Monad foundations demo using cat-state examples to introduce Try and State intuitions.";
     
     private enum CatState { Alive, Dead }
 
     // box holds whether we've opened it and (once opened) the observed state
     private record Box(bool IsOpened, CatState? LastState = null);
     
-    public Either<string, Unit> Run(string? _, string? __) =>
+    public DemoExecutionResult Run(string? _, string? __) =>
         ExecuteWithSpacing(_output, () =>
             {
                 _output.WriteLine("🛸 Schrödinger’s Cat Monad Demo\n");

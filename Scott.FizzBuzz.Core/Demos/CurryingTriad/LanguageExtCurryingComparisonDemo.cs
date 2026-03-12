@@ -19,8 +19,9 @@ public class LanguageExtCurryingComparisonDemo : IDemo
     public string Key => DemoKey;
     public string Category => "functional";
     public IReadOnlyCollection<string> Tags => ["fp", "languageext", "comparison", "currying", "triad"];
+    public string Description => "LanguageExt-oriented currying flow that combines curried functions with monadic result composition.";
 
-    public Either<string, Unit> Run(string? name, string? number) =>
+    public DemoExecutionResult Run(string? name, string? number) =>
         FunctionalDemoOutput.Render(
             _output,
             "LanguageExt Currying Comparison",
@@ -28,7 +29,7 @@ public class LanguageExtCurryingComparisonDemo : IDemo
             (output, total) => output.WriteLine($"Result: total = {total:0.00}"));
 
     private static Either<string, decimal> ComputeResult(string? name, string? number) =>
-        from amount in CurryingTriadRules.ParseBaseAmount(number)
-        from rates in CurryingTriadRules.ResolveRates(name)
+        from amount in LanguageExtCurryingTriadRules.ParseBaseAmount(number)
+        from rates in LanguageExtCurryingTriadRules.ResolveRates(name)
         select CurryingTriadRules.CurriedTotal(amount)(rates.DiscountRate)(rates.TaxRate);
 }

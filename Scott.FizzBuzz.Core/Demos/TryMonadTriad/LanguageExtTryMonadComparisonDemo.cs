@@ -19,8 +19,9 @@ public class LanguageExtTryMonadComparisonDemo : IDemo
     public string Key => DemoKey;
     public string Category => "functional";
     public IReadOnlyCollection<string> Tags => ["fp", "languageext", "comparison", "try", "monad"];
+    public string Description => "LanguageExt Try monad composition around risky calculations that may throw.";
 
-    public Either<string, Unit> Run(string? name, string? number) =>
+    public DemoExecutionResult Run(string? name, string? number) =>
         FunctionalDemoOutput.Render(
             _output,
             "LanguageExt Try Monad Comparison",
@@ -28,9 +29,9 @@ public class LanguageExtTryMonadComparisonDemo : IDemo
             (output, result) => output.WriteLine($"Result: {result:0.####}"));
 
     private static Either<string, decimal> ComputeResult(string? number) =>
-        TryMonadRules.ParseInput(number)
+        LanguageExtTryMonadRules.ParseInput(number)
             .Bind(value =>
-                TryMonadRules.InverseTry(value)
+                LanguageExtTryMonadRules.InverseTry(value)
                     .Match(
                         Succ: inverse => Right<string, decimal>(inverse),
                         Fail: ex => Left<string, decimal>(ex.Message)));

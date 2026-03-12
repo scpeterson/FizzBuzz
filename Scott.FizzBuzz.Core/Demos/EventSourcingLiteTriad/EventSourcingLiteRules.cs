@@ -1,6 +1,3 @@
-using LanguageExt;
-using static LanguageExt.Prelude;
-
 namespace Scott.FizzBuzz.Core.Demos.EventSourcingLiteTriad;
 
 public static class EventSourcingLiteRules
@@ -22,31 +19,55 @@ public static class EventSourcingLiteRules
         public int Delta => After.Balance - Before.Balance;
     }
 
-    public static Either<string, string> ParseStreamId(string? value)
+    public static bool TryParseStreamId(string? value, out string? streamId, out string? error)
     {
-        var streamId = (value ?? string.Empty).Trim();
-        return string.IsNullOrWhiteSpace(streamId)
-            ? Left<string, string>("Stream id is required.")
-            : streamId.Length > 64
-                ? Left<string, string>("Stream id must be 64 characters or fewer.")
-                : Right<string, string>(streamId);
+        streamId = (value ?? string.Empty).Trim();
+        if (string.IsNullOrWhiteSpace(streamId))
+        {
+            error = "Stream id is required.";
+            streamId = null;
+            return false;
+        }
+
+        if (streamId.Length > 64)
+        {
+            error = "Stream id must be 64 characters or fewer.";
+            streamId = null;
+            return false;
+        }
+
+        error = null;
+        return true;
     }
 
-    public static Either<string, int> ParseDepositAmount(string? value) =>
-        int.TryParse(value, out var parsed)
-            ? parsed is >= 1 and <= 10_000
-                ? Right<string, int>(parsed)
-                : Left<string, int>("Deposit amount must be between 1 and 10000.")
-            : Left<string, int>("Deposit amount must be an integer.");
+    public static bool TryParseDepositAmount(string? value, out int amount, out string? error)
+    {
+        if (!int.TryParse(value, out amount))
+        {
+            error = "Deposit amount must be an integer.";
+            return false;
+        }
 
-    public static Seq<AccountEvent> SeedHistory(string streamId) =>
+        if (amount is < 1 or > 10_000)
+        {
+            error = "Deposit amount must be between 1 and 10000.";
+            return false;
+        }
+
+        error = null;
+        return true;
+    }
+
+    public static IReadOnlyList<AccountEvent> SeedHistory(string streamId) =>
         string.Equals(streamId, "new-stream", StringComparison.OrdinalIgnoreCase)
-            ? Seq<AccountEvent>()
-            : Seq<AccountEvent>(
+            ? Array.Empty<AccountEvent>()
+            : new AccountEvent[]
+            {
                 new AccountOpened(streamId),
                 new FundsDeposited(30),
                 new FundsWithdrawn(12),
-                new FundsDeposited(5));
+                new FundsDeposited(5)
+            };
 
     public static AccountProjection ProjectImperative(IEnumerable<AccountEvent> history)
     {
@@ -86,17 +107,6 @@ public static class EventSourcingLiteRules
                 _ => state
             });
 
-    public static AccountProjection ProjectLanguageExt(Seq<AccountEvent> history) =>
-        history.Fold(
-            new AccountProjection(Opened: false, Balance: 0, Version: 0),
-            (state, evt) => evt switch
-            {
-                AccountOpened => state with { Opened = true, Version = state.Version + 1 },
-                FundsDeposited deposit => state with { Balance = state.Balance + deposit.Amount, Version = state.Version + 1 },
-                FundsWithdrawn withdrawal => state with { Balance = state.Balance - withdrawal.Amount, Version = state.Version + 1 },
-                _ => state
-            });
-
     public static EventSourcingResult ExecuteImperative(string streamId, int depositAmount)
     {
         var history = SeedHistory(streamId).ToList();
@@ -120,25 +130,10 @@ public static class EventSourcingLiteRules
 
         var withOpen = before.Opened
             ? history
-            : history.Add(new AccountOpened(streamId));
+            : history.Append(new AccountOpened(streamId)).ToArray();
 
-        var afterHistory = withOpen.Add(new FundsDeposited(depositAmount));
+        var afterHistory = withOpen.Append(new FundsDeposited(depositAmount)).ToArray();
         var after = ProjectCSharpPipeline(afterHistory);
-
-        return new EventSourcingResult(streamId, before, after, before.Version, after.Version);
-    }
-
-    public static EventSourcingResult ExecuteLanguageExtPipeline(string streamId, int depositAmount)
-    {
-        var history = SeedHistory(streamId);
-        var before = ProjectLanguageExt(history);
-
-        var withOpen = before.Opened
-            ? history
-            : history.Add(new AccountOpened(streamId));
-
-        var afterHistory = withOpen.Add(new FundsDeposited(depositAmount));
-        var after = ProjectLanguageExt(afterHistory);
 
         return new EventSourcingResult(streamId, before, after, before.Version, after.Version);
     }

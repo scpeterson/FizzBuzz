@@ -1,6 +1,4 @@
-using LanguageExt;
 using Scott.FizzBuzz.Core.Interfaces;
-using static LanguageExt.Prelude;
 using static Scott.FizzBuzz.Core.OutputUtilities;
 
 namespace Scott.FizzBuzz.Core.Demos.ParseValidateTriad;
@@ -23,20 +21,45 @@ public class CSharpParseValidatePipelineDemo : IDemo
     public string Key => DemoKey;
     public string Category => "csharp";
     public IReadOnlyCollection<string> Tags => ["fp", "csharp", "comparison", "validation", "pipeline"];
+    public string Description => "Plain C# pipeline: validate, parse, and enforce business rules through explicit step composition.";
 
-    public Either<string, Unit> Run(string? name, string? number) =>
+    public DemoExecutionResult Run(string? name, string? number) =>
         ExecuteWithSpacing(_output, () =>
         {
-            ParsePositive(number ?? "12")
-                .Match(
-                    Right: value => _output.WriteLine($"Result: accepted = {value}"),
-                    Left: error => _output.WriteLine(error));
+            // Each step returns the same local result type, so the pipeline stays
+            // explicit without introducing a third-party monad into the C# variant.
+            var result = ValidateNotEmpty(number)
+                .Bind(ParseInt)
+                .Bind(RequirePositive);
+
+            _output.WriteLine(result.IsSuccess
+                ? $"Result: accepted = {result.Value}"
+                : $"Failed: {result.Error}");
         }, "C# Parse + Validate Pipeline");
 
-    private static Either<string, int> ParsePositive(string raw) =>
+    private static ParseResult<string> ValidateNotEmpty(string? raw) =>
+        !string.IsNullOrWhiteSpace(raw)
+            ? ParseResult<string>.Success(raw)
+            : ParseResult<string>.Failure("Number is required.");
+
+    private static ParseResult<int> ParseInt(string raw) =>
         int.TryParse(raw, out var parsed)
-            ? parsed > 0
-                ? Right<string, int>(parsed)
-                : Left<string, int>("Must be > 0.")
-            : Left<string, int>("Not an integer.");
+            ? ParseResult<int>.Success(parsed)
+            : ParseResult<int>.Failure("Not an integer.");
+
+    private static ParseResult<int> RequirePositive(int value) =>
+        value > 0
+            ? ParseResult<int>.Success(value)
+            : ParseResult<int>.Failure("Must be > 0.");
+
+    private readonly record struct ParseResult<T>(bool IsSuccess, T Value, string? Error)
+    {
+        public static ParseResult<T> Success(T value) => new(true, value, null);
+        public static ParseResult<T> Failure(string error) => new(false, default!, error);
+
+        public ParseResult<TNext> Bind<TNext>(Func<T, ParseResult<TNext>> next) =>
+            IsSuccess
+                ? next(Value)
+                : ParseResult<TNext>.Failure(Error ?? "Parse/validate pipeline failed.");
+    }
 }

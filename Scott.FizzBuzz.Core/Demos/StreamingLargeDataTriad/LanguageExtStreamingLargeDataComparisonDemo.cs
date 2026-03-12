@@ -21,7 +21,7 @@ public class LanguageExtStreamingLargeDataComparisonDemo : IDemo
     public IReadOnlyCollection<string> Tags => ["fp", "languageext", "comparison", "streaming", "large-data"];
     public string Description => "Pure fold-based stream policy in LanguageExt with deterministic, side-effect-free aggregation.";
 
-    public Either<string, Unit> Run(string? name, string? number) =>
+    public DemoExecutionResult Run(string? name, string? number) =>
         FunctionalDemoOutput.Render(
             _output,
             "LanguageExt Streaming Large Data Comparison",
@@ -29,10 +29,10 @@ public class LanguageExtStreamingLargeDataComparisonDemo : IDemo
             (output, result) => output.WriteLine($"Result: {StreamingLargeDataRules.FormatSummary(result)}"));
 
     private static Either<string, StreamingLargeDataRules.StreamAggregationResult> ComputeResult(string? name, string? number) =>
-        StreamingLargeDataRules.ParseItemCount(name)
+        LanguageExtStreamingLargeDataRules.ParseItemCount(name)
             .Bind(itemCount =>
-                StreamingLargeDataRules.ParseChunkSize(number)
-                    .Map(chunkSize => StreamingLargeDataRules.ExecuteLanguageExtPipeline(itemCount, chunkSize)))
+                LanguageExtStreamingLargeDataRules.ParseChunkSize(number)
+                    .Map(chunkSize => LanguageExtStreamingLargeDataRules.ExecuteLanguageExtPipeline(itemCount, chunkSize)))
             .Bind(summary =>
                 summary.ItemCount > 0
                     ? Right<string, StreamingLargeDataRules.StreamAggregationResult>(summary)

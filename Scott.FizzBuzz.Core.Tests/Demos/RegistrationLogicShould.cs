@@ -9,27 +9,31 @@ public class RegistrationLogicShould
     [Fact]
     public void CSharpLogicReturnLeftWhenNameMissing()
     {
-        CSharpFunctionalRegistrationLogic.Register("", "21")
-            .ShouldBeLeft(error => error.Should().Be("Name is required."));
+        var result = CSharpFunctionalRegistrationLogic.Register("", "21");
+
+        result.IsSuccess.Should().BeFalse();
+        result.Error.Should().Be("Name is required.");
     }
 
     [Fact]
     public void CSharpLogicReturnLeftWhenAgeIsNotNumeric()
     {
-        CSharpFunctionalRegistrationLogic.Register("Scott", "bad")
-            .ShouldBeLeft(error => error.Should().Be("Age must be numeric."));
+        var result = CSharpFunctionalRegistrationLogic.Register("Scott", "bad");
+
+        result.IsSuccess.Should().BeFalse();
+        result.Error.Should().Be("Age must be numeric.");
     }
 
     [Fact]
     public void CSharpLogicReturnRightForValidInput()
     {
-        CSharpFunctionalRegistrationLogic.Register("Scott", "21")
-            .ShouldBeRight(user =>
-            {
-                user.Name.Should().Be("Scott");
-                user.Age.Should().Be(21);
-                user.Id.Should().Be("scott-21");
-            });
+        var result = CSharpFunctionalRegistrationLogic.Register("Scott", "21");
+
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().NotBeNull();
+        result.Value!.Name.Should().Be("Scott");
+        result.Value.Age.Should().Be(21);
+        result.Value.Id.Should().Be("scott-21");
     }
 
     [Fact]

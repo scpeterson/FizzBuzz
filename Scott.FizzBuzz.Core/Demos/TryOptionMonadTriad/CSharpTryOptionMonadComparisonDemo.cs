@@ -1,4 +1,3 @@
-using LanguageExt;
 using Scott.FizzBuzz.Core.Interfaces;
 using static Scott.FizzBuzz.Core.OutputUtilities;
 
@@ -17,24 +16,23 @@ public class CSharpTryOptionMonadComparisonDemo : IDemo
     public string Key => DemoKey;
     public string Category => "csharp";
     public IReadOnlyCollection<string> Tags => ["fp", "csharp", "comparison", "tryoption", "monad"];
+    public string Description => "Plain C# pipeline combining parse failure and optional lookup absence with explicit result values.";
 
-    public Either<string, Unit> Run(string? name, string? number) =>
+    public DemoExecutionResult Run(string? name, string? number) =>
         ExecuteWithSpacing(_output, () =>
         {
-            var parsed = TryOptionMonadRules.ParseId(number);
-            if (parsed.IsLeft)
+            if (!TryOptionMonadRules.TryParseId(number, out var id, out var error))
             {
-                _output.WriteLine($"Failed: {parsed.LeftToList()[0]}");
+                _output.WriteLine($"Failed: {error}");
                 return;
             }
 
-            var id = parsed.RightToList()[0];
             try
             {
-                var opt = TryOptionMonadRules.LookupOption(id);
-                _output.WriteLine(opt.Match(
-                    Some: value => $"Value found: {value:0.##}",
-                    None: () => "No value for id."));
+                var value = TryOptionMonadRules.LookupNullable(id);
+                _output.WriteLine(value.HasValue
+                    ? $"Result: {value.Value:0.##}"
+                    : "Failed: No value for id.");
             }
             catch (Exception ex)
             {

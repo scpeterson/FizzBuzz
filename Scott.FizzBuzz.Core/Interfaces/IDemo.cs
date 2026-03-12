@@ -1,5 +1,3 @@
-using LanguageExt;
-
 namespace Scott.FizzBuzz.Core.Interfaces;
 
 public interface IDemo
@@ -26,7 +24,7 @@ public interface IDemo
     
     /// <summary>
     /// Run the demo, given two optional string parameters (name and number).
-    /// Returns Either&lt;string,Unit&gt; (Left = error message, Right = success).
+    /// Returns DemoExecutionResult (Error = failure message, success otherwise).
     /// </summary>
-    Either<string, Unit> Run(string? name, string? number);
+    DemoExecutionResult Run(string? name, string? number);
 }

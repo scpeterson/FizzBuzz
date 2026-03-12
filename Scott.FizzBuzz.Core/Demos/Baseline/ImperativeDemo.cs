@@ -1,4 +1,3 @@
-using LanguageExt;
 using Scott.FizzBuzz.Core.Interfaces;
 using static Scott.FizzBuzz.Core.ImperativeExample;
 using static Scott.FizzBuzz.Core.OutputUtilities;
@@ -25,7 +24,8 @@ public class ImperativeDemo : IDemo
     public string Key => DemoKey;
     public string Category => "imperative";
     public IReadOnlyCollection<string> Tags => ["imperative", "baseline"];
-    public Either<string, Unit> Run(string? name, string? number) =>
+    public string Description => "Baseline imperative FizzBuzz using a mutable loop and per-iteration output side effects.";
+    public DemoExecutionResult Run(string? name, string? number) =>
         ExecuteWithSpacing(_output, ShowImperativeFizzBuzz, nameof(ShowImperativeFizzBuzz));
 
     private void ShowImperativeFizzBuzz()

@@ -40,7 +40,7 @@ public class EventSourcingLiteTriadShould
 
         var imperative = EventSourcingLiteRules.ExecuteImperative(streamId, deposit);
         var csharp = EventSourcingLiteRules.ExecuteCSharpPipeline(streamId, deposit);
-        var langExt = EventSourcingLiteRules.ExecuteLanguageExtPipeline(streamId, deposit);
+        var langExt = LanguageExtEventSourcingLiteRules.ExecuteLanguageExtPipeline(streamId, deposit);
 
         Assert.Equal(imperative.After.Balance, csharp.After.Balance);
         Assert.Equal(imperative.After.Balance, langExt.After.Balance);
@@ -58,7 +58,7 @@ public class EventSourcingLiteTriadShould
 
         var imperative = EventSourcingLiteRules.ExecuteImperative(streamId, deposit);
         var csharp = EventSourcingLiteRules.ExecuteCSharpPipeline(streamId, deposit);
-        var langExt = EventSourcingLiteRules.ExecuteLanguageExtPipeline(streamId, deposit);
+        var langExt = LanguageExtEventSourcingLiteRules.ExecuteLanguageExtPipeline(streamId, deposit);
 
         Assert.True(imperative.After.Opened);
         Assert.True(csharp.After.Opened);

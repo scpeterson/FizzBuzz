@@ -1,4 +1,3 @@
-using LanguageExt;
 using Scott.FizzBuzz.Core.Interfaces;
 using static Scott.FizzBuzz.Core.OutputUtilities;
 
@@ -17,40 +16,32 @@ public class ImperativeWriterMonadComparisonDemo : IDemo
     public string Key => DemoKey;
     public string Category => "imperative";
     public IReadOnlyCollection<string> Tags => ["imperative", "comparison", "writer", "monad"];
+    public string Description => "Imperative logging flow that manually threads both state and log accumulation.";
 
-    public Either<string, Unit> Run(string? name, string? number) =>
+    public DemoExecutionResult Run(string? name, string? number) =>
         ExecuteWithSpacing(_output, () =>
         {
-            if (!int.TryParse(number, out var state))
+            if (!WriterMonadRules.TryParseStart(number, out var state, out var error))
             {
-                _output.WriteLine("Failed: Start value must be numeric.");
+                _output.WriteLine($"Failed: {error}");
                 return;
             }
 
-            var opsEither = WriterMonadRules.ResolveOps(name);
-            if (opsEither.IsLeft)
+            if (!WriterMonadRules.TryResolveOps(name, out var ops, out error))
             {
-                _output.WriteLine($"Failed: {opsEither.LeftToList()[0]}");
+                _output.WriteLine($"Failed: {error}");
                 return;
             }
 
             var logs = new List<string>();
-            foreach (var op in opsEither.RightToList()[0])
+            foreach (var op in ops!)
             {
-                if (op >= 0)
-                {
-                    state += op;
-                    logs.Add($"Added {op}, state={state}");
-                }
-                else
-                {
-                    var amt = Math.Abs(op);
-                    state -= amt;
-                    logs.Add($"Subtracted {amt}, state={state}");
-                }
+                var next = WriterMonadRules.Step(state, op);
+                state = next.NextState;
+                logs.Add(next.LogEntry);
             }
 
-            _output.WriteLine($"Final state: {state}");
+            _output.WriteLine($"Result: final state = {state}");
             logs.ForEach(_output.WriteLine);
         }, "Imperative Writer Monad Comparison");
 }

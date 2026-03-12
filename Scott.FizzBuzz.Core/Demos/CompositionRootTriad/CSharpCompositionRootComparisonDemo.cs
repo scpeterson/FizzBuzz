@@ -1,4 +1,3 @@
-using LanguageExt;
 using Scott.FizzBuzz.Core.Demos.Shared;
 using Scott.FizzBuzz.Core.Interfaces;
 using static Scott.FizzBuzz.Core.OutputUtilities;
@@ -23,26 +22,53 @@ public class CSharpCompositionRootComparisonDemo : IDemo
     public string Key => DemoKey;
     public string Category => "csharp";
     public IReadOnlyCollection<string> Tags => ["fp", "csharp", "comparison", "composition-root", "triad"];
+    public string Description => "Plain C# composition root flow using local result types to sequence dependency-provided calculations.";
 
-    public Either<string, Unit> Run(string? name, string? number) =>
+    public DemoExecutionResult Run(string? name, string? number) =>
         ExecuteWithSpacing(_output, () =>
         {
             var env = new InMemoryFunctionalDemoEnvironment();
             var tier = CompositionRootRules.NormalizeTier(name);
             var region = "us";
+            var normalizedTier = tier is "standard" or "vip" or "employee" ? tier : "standard";
 
-            var totalResult =
-                from amount in CompositionRootRules.ParseAmount(number)
-                from total in CompositionRootRules.QuoteWithInjectedFunctions(
-                    amount,
-                    env.ResolveDiscountRate,
-                    env.ResolveTaxRate,
-                    tier is "standard" or "vip" or "employee" ? tier : "standard",
-                    region)
-                select total;
+            var amountResult = ParseAmount(number)
+                .Bind(amount => ResolveDiscountRate(env, normalizedTier)
+                    .Bind(discount => ResolveTaxRate(env, region)
+                        .Map(tax => CompositionRootRules.CalculateTotal(amount, discount, tax))));
 
-            totalResult.Match(
-                Right: total => _output.WriteLine($"Result: total = {total:0.00}"),
-                Left: error => _output.WriteLine($"Failed: {error}"));
+            if (amountResult.IsSuccess)
+            {
+                _output.WriteLine($"Result: total = {amountResult.Value:0.00}");
+            }
+            else
+            {
+                _output.WriteLine($"Failed: {amountResult.Error}");
+            }
         }, "C# Composition Root Comparison");
+
+    private static DemoResult<decimal> ParseAmount(string? number) =>
+        CompositionRootRules.TryParseAmount(number, out var amount, out var error)
+            ? DemoResult<decimal>.Success(amount)
+            : DemoResult<decimal>.Failure(error);
+
+    private static DemoResult<decimal> ResolveDiscountRate(IFunctionalDemoEnvironment env, string tier) =>
+        env.TryResolveDiscountRate(tier, out var rate, out var error)
+            ? DemoResult<decimal>.Success(rate)
+            : DemoResult<decimal>.Failure(error);
+
+    private static DemoResult<decimal> ResolveTaxRate(IFunctionalDemoEnvironment env, string region) =>
+        env.TryResolveTaxRate(region, out var rate, out var error)
+            ? DemoResult<decimal>.Success(rate)
+            : DemoResult<decimal>.Failure(error);
+
+    private readonly record struct DemoResult<T>(bool IsSuccess, T Value, string? Error)
+    {
+        public static DemoResult<T> Success(T value) => new(true, value, null);
+        public static DemoResult<T> Failure(string? error) => new(false, default!, error);
+        public DemoResult<TNext> Bind<TNext>(Func<T, DemoResult<TNext>> next) =>
+            IsSuccess ? next(Value) : DemoResult<TNext>.Failure(Error);
+        public DemoResult<TNext> Map<TNext>(Func<T, TNext> map) =>
+            IsSuccess ? DemoResult<TNext>.Success(map(Value)) : DemoResult<TNext>.Failure(Error);
+    }
 }

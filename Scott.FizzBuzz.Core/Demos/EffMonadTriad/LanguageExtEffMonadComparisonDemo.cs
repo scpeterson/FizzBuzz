@@ -19,8 +19,9 @@ public class LanguageExtEffMonadComparisonDemo : IDemo
     public string Key => DemoKey;
     public string Category => "functional";
     public IReadOnlyCollection<string> Tags => ["fp", "languageext", "comparison", "eff", "monad"];
+    public string Description => "LanguageExt Eff composition for synchronous effects with pure transforms at the boundary.";
 
-    public Either<string, Unit> Run(string? name, string? number) =>
+    public DemoExecutionResult Run(string? name, string? number) =>
         FunctionalDemoOutput.Render(
             _output,
             "LanguageExt Eff Monad Comparison",

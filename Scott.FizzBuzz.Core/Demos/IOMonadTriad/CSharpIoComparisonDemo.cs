@@ -1,4 +1,3 @@
-using LanguageExt;
 using Scott.FizzBuzz.Core.Interfaces;
 using static Scott.FizzBuzz.Core.OutputUtilities;
 
@@ -24,23 +23,44 @@ public class CSharpIoComparisonDemo : IDemo
     public IReadOnlyCollection<string> Tags => ["fp", "csharp", "comparison", "io", "monad"];
     public string Description => "C# functional composition with explicit side-effect boundaries and manual orchestration.";
 
-    public Either<string, Unit> Run(string? name, string? number) =>
+    public DemoExecutionResult Run(string? name, string? number) =>
         ExecuteWithSpacing(_output, () =>
         {
-            var result =
-                from profile in IoMonadRules.ResolveProfile(name)
-                from weight in IoMonadRules.ParseWeight(number)
-                select (profile, weight, quote: IoMonadRules.CalculateQuote(weight, profile));
+            var result = ResolveProfile(name)
+                .Bind(profile => ParseWeight(number).Map(weight => (profile, weight, quote: IoMonadRules.CalculateQuote(weight, profile))));
 
-            result.Match(
-                Right: tuple =>
-                {
-                    var audit = IoMonadRules.FormatAudit(tuple.profile, tuple.weight, tuple.quote);
-                    _output.WriteLine($"Result: quote = {tuple.quote:0.00}");
-                    _output.WriteLine($"Audit: {audit}");
-                },
-                Left: error => _output.WriteLine($"Failed: {error}"));
+            if (result.IsSuccess)
+            {
+                var tuple = result.Value;
+                var audit = IoMonadRules.FormatAudit(tuple.profile, tuple.weight, tuple.quote);
+                _output.WriteLine($"Result: quote = {tuple.quote:0.00}");
+                _output.WriteLine($"Audit: {audit}");
+            }
+            else
+            {
+                _output.WriteLine($"Failed: {result.Error}");
+            }
 
             _output.WriteLine("C#/.NET comparison note: side effects are explicit but still manually sequenced.");
         }, "C# IO Comparison");
+
+    private static DemoResult<IoRuntimeProfile> ResolveProfile(string? name) =>
+        IoMonadRules.TryResolveProfile(name, out var profile, out var error)
+            ? DemoResult<IoRuntimeProfile>.Success(profile!)
+            : DemoResult<IoRuntimeProfile>.Failure(error);
+
+    private static DemoResult<decimal> ParseWeight(string? input) =>
+        IoMonadRules.TryParseWeight(input, out var weight, out var error)
+            ? DemoResult<decimal>.Success(weight)
+            : DemoResult<decimal>.Failure(error);
+
+    private readonly record struct DemoResult<T>(bool IsSuccess, T Value, string? Error)
+    {
+        public static DemoResult<T> Success(T value) => new(true, value, null);
+        public static DemoResult<T> Failure(string? error) => new(false, default!, error);
+        public DemoResult<TNext> Bind<TNext>(Func<T, DemoResult<TNext>> next) =>
+            IsSuccess ? next(Value) : DemoResult<TNext>.Failure(Error);
+        public DemoResult<TNext> Map<TNext>(Func<T, TNext> map) =>
+            IsSuccess ? DemoResult<TNext>.Success(map(Value)) : DemoResult<TNext>.Failure(Error);
+    }
 }

@@ -21,7 +21,7 @@ public class LanguageExtAsyncEffWorkflowDemo : IDemo
     public IReadOnlyCollection<string> Tags => ["fp", "languageext", "comparison", "async", "eff", "aff", "effects"];
     public string Description => "LanguageExt composition using Eff (sync effect) + Aff (async effect).";
 
-    public Either<string, Unit> Run(string? name, string? number) =>
+    public DemoExecutionResult Run(string? name, string? number) =>
         FunctionalDemoOutput.Render(
             _output,
             "LanguageExt Eff/Aff Workflow",

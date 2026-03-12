@@ -13,7 +13,7 @@ public class ImperativePostgresDatabaseDemoShould
     {
         var output = new RecordingOutputSink();
 
-        WithTempConnectionString(null, () =>
+        PostgresTestEnvironment.WithTempConnectionString(null, () =>
         {
             var result = new ImperativePostgresDatabaseDemo(output).Run("Scott", "21");
 
@@ -29,7 +29,7 @@ public class ImperativePostgresDatabaseDemoShould
     {
         var output = new RecordingOutputSink();
 
-        WithTempConnectionString("Host=127.0.0.1;Port=1;Database=fizzbuzz;Username=fizzbuzz_app;Password=fizzbuzz_app;Timeout=1", () =>
+        PostgresTestEnvironment.WithTempConnectionString("Host=127.0.0.1;Port=1;Database=fizzbuzz;Username=fizzbuzz_app;Password=fizzbuzz_app;Timeout=1", () =>
         {
             var result = new ImperativePostgresDatabaseDemo(output).Run("Scott", "not-an-int");
 
@@ -44,7 +44,7 @@ public class ImperativePostgresDatabaseDemoShould
     {
         var output = new RecordingOutputSink();
 
-        WithTempConnectionString("Host=127.0.0.1;Port=1;Database=fizzbuzz;Username=fizzbuzz_app;Password=fizzbuzz_app;Timeout=1", () =>
+        PostgresTestEnvironment.WithTempConnectionString("Host=127.0.0.1;Port=1;Database=fizzbuzz;Username=fizzbuzz_app;Password=fizzbuzz_app;Timeout=1", () =>
         {
             var result = new ImperativePostgresDatabaseDemo(output).Run("Scott", "21");
 
@@ -54,18 +54,4 @@ public class ImperativePostgresDatabaseDemoShould
         });
     }
 
-    private static void WithTempConnectionString(string? value, Action action)
-    {
-        var original = Environment.GetEnvironmentVariable(PostgresDemoConfiguration.ConnectionEnvVar);
-
-        try
-        {
-            Environment.SetEnvironmentVariable(PostgresDemoConfiguration.ConnectionEnvVar, value);
-            action();
-        }
-        finally
-        {
-            Environment.SetEnvironmentVariable(PostgresDemoConfiguration.ConnectionEnvVar, original);
-        }
-    }
 }

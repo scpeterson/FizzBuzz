@@ -1,6 +1,3 @@
-using LanguageExt;
-using static LanguageExt.Prelude;
-
 namespace Scott.FizzBuzz.Core.Demos.Shared;
 
 public sealed class InMemoryFunctionalDemoEnvironment : IFunctionalDemoEnvironment
@@ -26,13 +23,27 @@ public sealed class InMemoryFunctionalDemoEnvironment : IFunctionalDemoEnvironme
         "cmd-processed"
     };
 
-    public Either<string, decimal> ResolveDiscountRate(string tier) =>
-        DiscountRates.TryGetValue(tier, out var rate)
-            ? Right<string, decimal>(rate)
-            : Left<string, decimal>($"Unknown tier '{tier}'.");
+    public bool TryResolveDiscountRate(string tier, out decimal rate, out string? error)
+    {
+        if (DiscountRates.TryGetValue(tier, out rate))
+        {
+            error = null;
+            return true;
+        }
 
-    public Either<string, decimal> ResolveTaxRate(string region) =>
-        TaxRates.TryGetValue(region, out var rate)
-            ? Right<string, decimal>(rate)
-            : Left<string, decimal>($"Unknown region '{region}'.");
+        error = $"Unknown tier '{tier}'.";
+        return false;
+    }
+
+    public bool TryResolveTaxRate(string region, out decimal rate, out string? error)
+    {
+        if (TaxRates.TryGetValue(region, out rate))
+        {
+            error = null;
+            return true;
+        }
+
+        error = $"Unknown region '{region}'.";
+        return false;
+    }
 }

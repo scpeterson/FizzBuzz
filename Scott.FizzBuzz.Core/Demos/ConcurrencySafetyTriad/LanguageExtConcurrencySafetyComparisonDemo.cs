@@ -21,7 +21,7 @@ public class LanguageExtConcurrencySafetyComparisonDemo : IDemo
     public IReadOnlyCollection<string> Tags => ["fp", "languageext", "comparison", "concurrency", "safety"];
     public string Description => "Pure fold-based update model that avoids shared mutable state and lost updates.";
 
-    public Either<string, Unit> Run(string? name, string? number) =>
+    public DemoExecutionResult Run(string? name, string? number) =>
         FunctionalDemoOutput.Render(
             _output,
             "LanguageExt Concurrency Safety Comparison",
@@ -33,8 +33,8 @@ public class LanguageExtConcurrencySafetyComparisonDemo : IDemo
             });
 
     private static Either<string, ConcurrencySafetyRules.ConcurrencySimulationResult> ComputeResult(string? number) =>
-        ConcurrencySafetyRules.ParseIterations(number)
-            .Map(ConcurrencySafetyRules.ExecuteLanguageExtPure)
+        LanguageExtConcurrencySafetyRules.ParseIterations(number)
+            .Map(LanguageExtConcurrencySafetyRules.ExecuteLanguageExtPure)
             .Bind(result =>
                 result.FinalBalance == result.ExpectedBalance
                     ? Right<string, ConcurrencySafetyRules.ConcurrencySimulationResult>(result)

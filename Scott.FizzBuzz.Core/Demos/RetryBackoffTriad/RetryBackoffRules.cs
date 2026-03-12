@@ -1,33 +1,54 @@
-using LanguageExt;
-using static LanguageExt.Prelude;
-
 namespace Scott.FizzBuzz.Core.Demos.RetryBackoffTriad;
 
 public static class RetryBackoffRules
 {
     public sealed record RetryPolicy(string Name, int MaxRetries, TimeSpan InitialDelay, decimal Multiplier);
 
-    public sealed record RetryExecutionResult(bool Success, int Attempts, Seq<TimeSpan> BackoffSchedule)
+    public sealed record RetryExecutionResult(bool Success, int Attempts, IReadOnlyList<TimeSpan> BackoffSchedule)
     {
         public int RetriesUsed => Math.Max(0, Attempts - 1);
     }
 
-    private sealed record FoldState(bool Completed, bool Success, int Attempts, Seq<TimeSpan> Schedule);
+    private sealed record FoldState(bool Completed, bool Success, int Attempts, IReadOnlyList<TimeSpan> Schedule);
 
-    public static Either<string, RetryPolicy> ResolvePolicy(string? name) =>
-        (name ?? string.Empty).Trim().ToLowerInvariant() switch
+    public static bool TryResolvePolicy(string? name, out RetryPolicy? policy, out string? error)
+    {
+        switch ((name ?? string.Empty).Trim().ToLowerInvariant())
         {
-            "linear" => Right<string, RetryPolicy>(new RetryPolicy("linear", MaxRetries: 5, InitialDelay: TimeSpan.FromMilliseconds(100), Multiplier: 1m)),
-            "exponential" or "exp" or "" => Right<string, RetryPolicy>(new RetryPolicy("exponential", MaxRetries: 5, InitialDelay: TimeSpan.FromMilliseconds(100), Multiplier: 2m)),
-            _ => Left<string, RetryPolicy>("Policy must be one of: exponential|exp|linear.")
-        };
+            case "linear":
+                policy = new RetryPolicy("linear", MaxRetries: 5, InitialDelay: TimeSpan.FromMilliseconds(100), Multiplier: 1m);
+                error = null;
+                return true;
+            case "exponential":
+            case "exp":
+            case "":
+                policy = new RetryPolicy("exponential", MaxRetries: 5, InitialDelay: TimeSpan.FromMilliseconds(100), Multiplier: 2m);
+                error = null;
+                return true;
+            default:
+                policy = null;
+                error = "Policy must be one of: exponential|exp|linear.";
+                return false;
+        }
+    }
 
-    public static Either<string, int> ParseFailuresBeforeSuccess(string? number) =>
-        int.TryParse(number, out var parsed)
-            ? parsed is >= 0 and <= 10
-                ? Right<string, int>(parsed)
-                : Left<string, int>("Failures-before-success must be between 0 and 10.")
-            : Left<string, int>("Failures-before-success must be an integer.");
+    public static bool TryParseFailuresBeforeSuccess(string? number, out int failuresBeforeSuccess, out string? error)
+    {
+        if (!int.TryParse(number, out failuresBeforeSuccess))
+        {
+            error = "Failures-before-success must be an integer.";
+            return false;
+        }
+
+        if (failuresBeforeSuccess is < 0 or > 10)
+        {
+            error = "Failures-before-success must be between 0 and 10.";
+            return false;
+        }
+
+        error = null;
+        return true;
+    }
 
     public static TimeSpan DelayForAttempt(RetryPolicy policy, int retryAttempt)
     {
@@ -42,7 +63,7 @@ public static class RetryBackoffRules
     public static RetryExecutionResult ExecuteImperative(RetryPolicy policy, int failuresBeforeSuccess)
     {
         var attempt = 0;
-        var schedule = Seq<TimeSpan>();
+        var schedule = new List<TimeSpan>();
 
         while (attempt <= policy.MaxRetries)
         {
@@ -56,7 +77,7 @@ public static class RetryBackoffRules
 
             if (attempt <= policy.MaxRetries)
             {
-                schedule = schedule.Add(DelayForAttempt(policy, attempt));
+                schedule.Add(DelayForAttempt(policy, attempt));
             }
         }
 
@@ -65,7 +86,7 @@ public static class RetryBackoffRules
 
     public static RetryExecutionResult ExecuteCSharpPipeline(RetryPolicy policy, int failuresBeforeSuccess)
     {
-        var initial = new FoldState(Completed: false, Success: false, Attempts: 0, Schedule: Seq<TimeSpan>());
+        var initial = new FoldState(Completed: false, Success: false, Attempts: 0, Schedule: Array.Empty<TimeSpan>());
 
         var final = Enumerable.Range(1, policy.MaxRetries + 1)
             .Aggregate(initial, (state, attempt) =>
@@ -81,7 +102,7 @@ public static class RetryBackoffRules
                 }
 
                 var nextSchedule = attempt <= policy.MaxRetries
-                    ? state.Schedule.Add(DelayForAttempt(policy, attempt))
+                    ? state.Schedule.Append(DelayForAttempt(policy, attempt)).ToArray()
                     : state.Schedule;
 
                 var exhausted = attempt == policy.MaxRetries + 1;
@@ -97,41 +118,7 @@ public static class RetryBackoffRules
         return new RetryExecutionResult(final.Success, final.Attempts, final.Schedule);
     }
 
-    public static RetryExecutionResult ExecuteLanguageExtPipeline(RetryPolicy policy, int failuresBeforeSuccess)
-    {
-        var initial = new FoldState(Completed: false, Success: false, Attempts: 0, Schedule: Seq<TimeSpan>());
-
-        var final = Range(1, policy.MaxRetries + 1)
-            .Fold(initial, (state, attempt) =>
-            {
-                if (state.Completed)
-                {
-                    return state;
-                }
-
-                if (attempt > failuresBeforeSuccess)
-                {
-                    return state with { Completed = true, Success = true, Attempts = attempt };
-                }
-
-                var nextSchedule = attempt <= policy.MaxRetries
-                    ? state.Schedule.Add(DelayForAttempt(policy, attempt))
-                    : state.Schedule;
-
-                var exhausted = attempt == policy.MaxRetries + 1;
-                return state with
-                {
-                    Completed = exhausted,
-                    Success = false,
-                    Attempts = attempt,
-                    Schedule = nextSchedule
-                };
-            });
-
-        return new RetryExecutionResult(final.Success, final.Attempts, final.Schedule);
-    }
-
-    public static string FormatSchedule(Seq<TimeSpan> schedule) =>
+    public static string FormatSchedule(IReadOnlyList<TimeSpan> schedule) =>
         schedule.Count == 0
             ? "[none]"
             : string.Join(", ", schedule.Select(delay => $"{delay.TotalMilliseconds:0}ms"));

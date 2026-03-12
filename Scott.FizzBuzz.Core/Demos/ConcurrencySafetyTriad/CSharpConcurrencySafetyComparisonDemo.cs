@@ -1,4 +1,3 @@
-using LanguageExt;
 using Scott.FizzBuzz.Core.Interfaces;
 using static Scott.FizzBuzz.Core.OutputUtilities;
 
@@ -24,19 +23,18 @@ public class CSharpConcurrencySafetyComparisonDemo : IDemo
     public IReadOnlyCollection<string> Tags => ["fp", "csharp", "comparison", "concurrency", "safety"];
     public string Description => "Atomic increment boundary using BCL concurrency primitives to preserve updates.";
 
-    public Either<string, Unit> Run(string? name, string? number) =>
+    public DemoExecutionResult Run(string? name, string? number) =>
         ExecuteWithSpacing(_output, () =>
         {
-            var result = ConcurrencySafetyRules.ParseIterations(number)
-                .Map(ConcurrencySafetyRules.ExecuteCSharpAtomic);
+            if (!ConcurrencySafetyRules.TryParseIterations(number, out var iterations, out var error))
+            {
+                _output.WriteLine($"Failed: {error}");
+                return;
+            }
 
-            result.Match(
-                Right: summary =>
-                {
-                    _output.WriteLine("Result: no lost updates.");
-                    _output.WriteLine(ConcurrencySafetyRules.FormatSummary(summary));
-                    _output.WriteLine("C# note: explicit atomic operations are required for shared mutable state.");
-                },
-                Left: error => _output.WriteLine($"Failed: {error}"));
+            var summary = ConcurrencySafetyRules.ExecuteCSharpAtomic(iterations);
+            _output.WriteLine("Result: no lost updates.");
+            _output.WriteLine(ConcurrencySafetyRules.FormatSummary(summary));
+            _output.WriteLine("C# note: explicit atomic operations are required for shared mutable state.");
         }, "C# Concurrency Safety Comparison");
 }

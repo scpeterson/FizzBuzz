@@ -1,6 +1,3 @@
-using LanguageExt;
-using static LanguageExt.Prelude;
-
 namespace Scott.FizzBuzz.Core.Demos.ConfigurationValidationStartupTriad;
 
 public static class ConfigurationValidationStartupRules
@@ -12,10 +9,17 @@ public static class ConfigurationValidationStartupRules
     public static string NormalizeProfile(string? profile) =>
         string.IsNullOrWhiteSpace(profile) ? "dev" : profile.Trim().ToLowerInvariant();
 
-    public static Either<string, int> ParseTimeoutSeconds(string? value) =>
-        int.TryParse(value, out var parsed)
-            ? Right<string, int>(parsed)
-            : Left<string, int>("Timeout seconds must be an integer.");
+    public static bool TryParseTimeoutSeconds(string? value, out int timeoutSeconds, out string? error)
+    {
+        if (int.TryParse(value, out timeoutSeconds))
+        {
+            error = null;
+            return true;
+        }
+
+        error = "Timeout seconds must be an integer.";
+        return false;
+    }
 
     public static StartupConfigInput BuildCandidate(string profile, int timeoutSeconds) =>
         profile switch
@@ -27,61 +31,75 @@ public static class ConfigurationValidationStartupRules
             _ => new StartupConfigInput(profile, "", timeoutSeconds, MaxRetries: 2, CacheEnabled: true)
         };
 
-    public static Either<string, StartupConfigInput> ResolveCandidate(string? profile, string? timeoutValue) =>
-        ParseTimeoutSeconds(timeoutValue)
-            .Map(timeout => BuildCandidate(NormalizeProfile(profile), timeout));
+    public static bool TryResolveCandidate(string? profile, string? timeoutValue, out StartupConfigInput? input, out string? error)
+    {
+        if (!TryParseTimeoutSeconds(timeoutValue, out var timeout, out error))
+        {
+            input = null;
+            return false;
+        }
 
-    public static Either<string, StartupConfig> ExecuteImperative(string? profile, string? timeoutValue) =>
-        ResolveCandidate(profile, timeoutValue)
-            .Bind(ValidateImperative);
+        input = BuildCandidate(NormalizeProfile(profile), timeout);
+        error = null;
+        return true;
+    }
 
-    public static Either<string, StartupConfig> ExecuteCSharpPipeline(string? profile, string? timeoutValue) =>
-        ResolveCandidate(profile, timeoutValue)
-            .Bind(ValidateCSharp);
+    public static StartupValidationResult ExecuteImperative(string? profile, string? timeoutValue)
+    {
+        if (!TryResolveCandidate(profile, timeoutValue, out var input, out var error))
+        {
+            return StartupValidationResult.Fail(error ?? "Timeout seconds must be an integer.");
+        }
 
-    public static Either<string, StartupConfig> ExecuteLanguageExtPipeline(string? profile, string? timeoutValue) =>
-        ResolveCandidate(profile, timeoutValue)
-            .Bind(input =>
-                ValidateLanguageExt(input)
-                    .ToEither()
-                    .MapLeft(errors => string.Join(" ", errors)));
+        return ValidateImperative(input!);
+    }
 
-    public static Either<string, StartupConfig> ValidateImperative(StartupConfigInput input)
+    public static StartupValidationResult ExecuteCSharpPipeline(string? profile, string? timeoutValue)
+    {
+        if (!TryResolveCandidate(profile, timeoutValue, out var input, out var error))
+        {
+            return StartupValidationResult.Fail(error ?? "Timeout seconds must be an integer.");
+        }
+
+        return ValidateCSharp(input!);
+    }
+
+    public static StartupValidationResult ValidateImperative(StartupConfigInput input)
     {
         if (!IsAllowedEnvironment(input.Environment))
         {
-            return Left<string, StartupConfig>("Environment must be one of: dev|staging|prod.");
+            return StartupValidationResult.Fail("Environment must be one of: dev|staging|prod.");
         }
 
         if (!IsConnectionStringValid(input.ConnectionString))
         {
-            return Left<string, StartupConfig>("Connection string must include Host and Database segments.");
+            return StartupValidationResult.Fail("Connection string must include Host and Database segments.");
         }
 
         if (input.TimeoutSeconds is < 1 or > 120)
         {
-            return Left<string, StartupConfig>("Timeout must be between 1 and 120 seconds.");
+            return StartupValidationResult.Fail("Timeout must be between 1 and 120 seconds.");
         }
 
         if (input.MaxRetries is < 0 or > 10)
         {
-            return Left<string, StartupConfig>("Max retries must be between 0 and 10.");
+            return StartupValidationResult.Fail("Max retries must be between 0 and 10.");
         }
 
         if (input.Environment == "prod" && input.TimeoutSeconds > 30)
         {
-            return Left<string, StartupConfig>("Prod timeout must be 30 seconds or less.");
+            return StartupValidationResult.Fail("Prod timeout must be 30 seconds or less.");
         }
 
         if (input.Environment == "prod" && input.CacheEnabled)
         {
-            return Left<string, StartupConfig>("Caching must be disabled in prod.");
+            return StartupValidationResult.Fail("Caching must be disabled in prod.");
         }
 
-        return Right<string, StartupConfig>(ToValidatedConfig(input));
+        return StartupValidationResult.Success(ToValidatedConfig(input));
     }
 
-    public static Either<string, StartupConfig> ValidateCSharp(StartupConfigInput input)
+    public static StartupValidationResult ValidateCSharp(StartupConfigInput input)
     {
         var errors = new List<string>();
 
@@ -116,21 +134,9 @@ public static class ConfigurationValidationStartupRules
         }
 
         return errors.Count == 0
-            ? Right<string, StartupConfig>(ToValidatedConfig(input))
-            : Left<string, StartupConfig>(string.Join(" ", errors));
+            ? StartupValidationResult.Success(ToValidatedConfig(input))
+            : StartupValidationResult.Fail(errors);
     }
-
-    public static Validation<Seq<string>, StartupConfig> ValidateLanguageExt(StartupConfigInput input) =>
-        (
-            ValidateEnvironment(input.Environment),
-            ValidateConnectionString(input.ConnectionString),
-            ValidateTimeout(input.TimeoutSeconds),
-            ValidateMaxRetries(input.MaxRetries),
-            ValidateProdTimeout(input.Environment, input.TimeoutSeconds),
-            ValidateProdCaching(input.Environment, input.CacheEnabled)
-        )
-        .Apply((environment, connectionString, timeout, retries, _, _) =>
-            new StartupConfig(environment, connectionString, timeout, retries, input.CacheEnabled));
 
     public static string FormatSummary(StartupConfig config) =>
         $"Environment={config.Environment}, Timeout={config.TimeoutSeconds}s, Retries={config.MaxRetries}, CacheEnabled={config.CacheEnabled}";
@@ -138,41 +144,22 @@ public static class ConfigurationValidationStartupRules
     private static StartupConfig ToValidatedConfig(StartupConfigInput input) =>
         new(input.Environment, input.ConnectionString, input.TimeoutSeconds, input.MaxRetries, input.CacheEnabled);
 
-    private static bool IsAllowedEnvironment(string environment) =>
+    internal static bool IsAllowedEnvironment(string environment) =>
         environment is "dev" or "staging" or "prod";
 
-    private static bool IsConnectionStringValid(string connectionString) =>
+    internal static bool IsConnectionStringValid(string connectionString) =>
         !string.IsNullOrWhiteSpace(connectionString) &&
         connectionString.Contains("Host=", StringComparison.OrdinalIgnoreCase) &&
         connectionString.Contains("Database=", StringComparison.OrdinalIgnoreCase);
 
-    private static Validation<Seq<string>, string> ValidateEnvironment(string environment) =>
-        IsAllowedEnvironment(environment)
-            ? Success<Seq<string>, string>(environment)
-            : Fail<Seq<string>, string>(Seq1("Environment must be one of: dev|staging|prod."));
+    public sealed record StartupValidationResult(ConfigurationValidationStartupRules.StartupConfig? Config, IReadOnlyList<string> Errors)
+    {
+        public bool IsSuccess => Errors.Count == 0 && Config is not null;
 
-    private static Validation<Seq<string>, string> ValidateConnectionString(string connectionString) =>
-        IsConnectionStringValid(connectionString)
-            ? Success<Seq<string>, string>(connectionString)
-            : Fail<Seq<string>, string>(Seq1("Connection string must include Host and Database segments."));
+        public static StartupValidationResult Success(ConfigurationValidationStartupRules.StartupConfig config) => new(config, Array.Empty<string>());
 
-    private static Validation<Seq<string>, int> ValidateTimeout(int timeoutSeconds) =>
-        timeoutSeconds is >= 1 and <= 120
-            ? Success<Seq<string>, int>(timeoutSeconds)
-            : Fail<Seq<string>, int>(Seq1("Timeout must be between 1 and 120 seconds."));
+        public static StartupValidationResult Fail(string error) => new(null, new[] { error });
 
-    private static Validation<Seq<string>, int> ValidateMaxRetries(int maxRetries) =>
-        maxRetries is >= 0 and <= 10
-            ? Success<Seq<string>, int>(maxRetries)
-            : Fail<Seq<string>, int>(Seq1("Max retries must be between 0 and 10."));
-
-    private static Validation<Seq<string>, Unit> ValidateProdTimeout(string environment, int timeoutSeconds) =>
-        environment == "prod" && timeoutSeconds > 30
-            ? Fail<Seq<string>, Unit>(Seq1("Prod timeout must be 30 seconds or less."))
-            : Success<Seq<string>, Unit>(unit);
-
-    private static Validation<Seq<string>, Unit> ValidateProdCaching(string environment, bool cacheEnabled) =>
-        environment == "prod" && cacheEnabled
-            ? Fail<Seq<string>, Unit>(Seq1("Caching must be disabled in prod."))
-            : Success<Seq<string>, Unit>(unit);
+        public static StartupValidationResult Fail(IReadOnlyList<string> errors) => new(null, errors);
+    }
 }

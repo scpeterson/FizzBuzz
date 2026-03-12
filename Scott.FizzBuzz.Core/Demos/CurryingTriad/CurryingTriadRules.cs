@@ -1,28 +1,44 @@
-using LanguageExt;
-using static LanguageExt.Prelude;
-
 namespace Scott.FizzBuzz.Core.Demos.CurryingTriad;
 
 public static class CurryingTriadRules
 {
-    public static Either<string, decimal> ParseBaseAmount(string? number) =>
-        decimal.TryParse(number, out var amount) && amount >= 0m
-            ? Right<string, decimal>(amount)
-            : Left<string, decimal>("Base amount must be a non-negative decimal.");
+    public static bool TryParseBaseAmount(string? number, out decimal amount, out string? error)
+    {
+        if (decimal.TryParse(number, out amount) && amount >= 0m)
+        {
+            error = null;
+            return true;
+        }
 
-    public static Either<string, (decimal DiscountRate, decimal TaxRate)> ResolveRates(string? tier)
+        error = "Base amount must be a non-negative decimal.";
+        return false;
+    }
+
+    public static bool TryResolveRates(string? tier, out (decimal DiscountRate, decimal TaxRate) rates, out string? error)
     {
         var normalized = string.IsNullOrWhiteSpace(tier)
             ? "standard"
             : tier.Trim().ToLowerInvariant();
 
-        return normalized switch
+        switch (normalized)
         {
-            "standard" => Right<string, (decimal, decimal)>((0.05m, 0.07m)),
-            "vip" => Right<string, (decimal, decimal)>((0.15m, 0.05m)),
-            "employee" => Right<string, (decimal, decimal)>((0.30m, 0.00m)),
-            _ => Left<string, (decimal, decimal)>("Tier must be one of: standard, vip, employee.")
-        };
+            case "standard":
+                rates = (0.05m, 0.07m);
+                error = null;
+                return true;
+            case "vip":
+                rates = (0.15m, 0.05m);
+                error = null;
+                return true;
+            case "employee":
+                rates = (0.30m, 0.00m);
+                error = null;
+                return true;
+            default:
+                rates = default;
+                error = "Tier must be one of: standard, vip, employee.";
+                return false;
+        }
     }
 
     public static decimal CalculateTotalNonCurried(decimal baseAmount, decimal discountRate, decimal taxRate) =>

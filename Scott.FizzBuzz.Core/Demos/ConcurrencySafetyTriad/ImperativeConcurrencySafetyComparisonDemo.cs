@@ -1,4 +1,3 @@
-using LanguageExt;
 using Scott.FizzBuzz.Core.Interfaces;
 using static Scott.FizzBuzz.Core.OutputUtilities;
 
@@ -24,17 +23,18 @@ public class ImperativeConcurrencySafetyComparisonDemo : IDemo
     public IReadOnlyCollection<string> Tags => ["imperative", "comparison", "concurrency", "safety"];
     public string Description => "Unsafe mutable read-modify-write flow that demonstrates lost updates under concurrent interleaving.";
 
-    public Either<string, Unit> Run(string? name, string? number) =>
+    public DemoExecutionResult Run(string? name, string? number) =>
         ExecuteWithSpacing(_output, () =>
         {
-            ConcurrencySafetyRules.ParseIterations(number).Match(
-                Right: iterations =>
-                {
-                    var result = ConcurrencySafetyRules.ExecuteImperativeUnsafe(iterations);
-                    _output.WriteLine("Result: lost updates detected.");
-                    _output.WriteLine(ConcurrencySafetyRules.FormatSummary(result));
-                    _output.WriteLine("Imperative note: non-atomic read-modify-write can lose updates.");
-                },
-                Left: error => _output.WriteLine($"Failed: {error}"));
+            if (!ConcurrencySafetyRules.TryParseIterations(number, out var iterations, out var error))
+            {
+                _output.WriteLine($"Failed: {error}");
+                return;
+            }
+
+            var result = ConcurrencySafetyRules.ExecuteImperativeUnsafe(iterations);
+            _output.WriteLine("Result: lost updates detected.");
+            _output.WriteLine(ConcurrencySafetyRules.FormatSummary(result));
+            _output.WriteLine("Imperative note: non-atomic read-modify-write can lose updates.");
         }, "Imperative Concurrency Safety Comparison");
 }

@@ -1,4 +1,3 @@
-using LanguageExt;
 using Scott.FizzBuzz.Core.Interfaces;
 using static Scott.FizzBuzz.Core.OutputUtilities;
 
@@ -24,7 +23,7 @@ public class CSharpEitherComparisonDemo : IDemo
     public IReadOnlyCollection<string> Tags => ["fp", "csharp", "comparison", "either", "monad"];
     public string Description => "C#-only Result emulation shows extra scaffolding needed to mimic Either bind/map behavior.";
 
-    public Either<string, Unit> Run(string? name, string? number) =>
+    public DemoExecutionResult Run(string? name, string? number) =>
         ExecuteWithSpacing(_output, () =>
         {
             var result = ParseAmount(number)
@@ -45,26 +44,22 @@ public class CSharpEitherComparisonDemo : IDemo
         }, "C# Either Comparison");
 
     private static CSharpEitherResult<decimal> ParseAmount(string? input) =>
-        EitherMonadRules.ParseAmount(input)
-            .Match(
-                Right: CSharpEitherResult<decimal>.Success,
-                Left: CSharpEitherResult<decimal>.Failure);
+        EitherMonadRules.TryParseAmount(input, out var amount, out var error)
+            ? CSharpEitherResult<decimal>.Success(amount)
+            : CSharpEitherResult<decimal>.Failure(error ?? "Amount must be a valid decimal value.");
 
     private static CSharpEitherResult<decimal> ValidateAmountRange(decimal amount) =>
-        EitherMonadRules.ValidateAmountRange(amount)
-            .Match(
-                Right: CSharpEitherResult<decimal>.Success,
-                Left: CSharpEitherResult<decimal>.Failure);
+        EitherMonadRules.TryValidateAmountRange(amount, out var error)
+            ? CSharpEitherResult<decimal>.Success(amount)
+            : CSharpEitherResult<decimal>.Failure(error ?? "Amount must be between 1 and 1000.");
 
     private static CSharpEitherResult<EitherDiscountCode> ParseDiscountCode(string? code) =>
-        EitherMonadRules.ParseDiscountCode(code)
-            .Match(
-                Right: CSharpEitherResult<EitherDiscountCode>.Success,
-                Left: CSharpEitherResult<EitherDiscountCode>.Failure);
+        EitherMonadRules.TryParseDiscountCode(code, out var parsedCode, out var error)
+            ? CSharpEitherResult<EitherDiscountCode>.Success(parsedCode)
+            : CSharpEitherResult<EitherDiscountCode>.Failure(error ?? "Unknown discount code. Use vip, student, or employee.");
 
     private static CSharpEitherResult<decimal> EnsureMinimumCharge(decimal amount) =>
-        EitherMonadRules.EnsureMinimumCharge(amount)
-            .Match(
-                Right: CSharpEitherResult<decimal>.Success,
-                Left: CSharpEitherResult<decimal>.Failure);
+        EitherMonadRules.TryEnsureMinimumCharge(amount, out var error)
+            ? CSharpEitherResult<decimal>.Success(amount)
+            : CSharpEitherResult<decimal>.Failure(error ?? "Final amount is below the minimum charge.");
 }

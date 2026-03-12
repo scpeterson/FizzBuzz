@@ -1,4 +1,3 @@
-using LanguageExt;
 using Scott.FizzBuzz.Core.Interfaces;
 using static Scott.FizzBuzz.Core.NoDependencyExample;
 using static Scott.FizzBuzz.Core.OutputUtilities;
@@ -24,11 +23,12 @@ public class NoDependencyDemo : IDemo
     public string Key => DemoKey;
     public string Category => "general";
     public IReadOnlyCollection<string> Tags => ["general", "baseline"];
+    public string Description => "Simple functional-style FizzBuzz pipeline using only C#/.NET plus sequence helpers, with no extra demo scaffolding.";
     
     /// <summary>
     /// Returns either an error (Left) or a single string containing all the lines to print (Right).
     /// </summary>
-    public Either<string, Unit> Run(string? name, string? number) =>
+    public DemoExecutionResult Run(string? name, string? number) =>
         ExecuteWithSpacing(_output, ShowNoDependencyExample, nameof(ShowNoDependencyExample));
 
     private void ShowNoDependencyExample()

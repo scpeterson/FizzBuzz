@@ -32,7 +32,7 @@ public class MonadBasicsCatDemo : IDemo
     public IReadOnlyCollection<string> Tags => ["fp", "languageext", "monads", "option", "either", "comparison", "beginner"];
     public string Description => "Imperative null checks versus Option/Either pipeline on the same cat lookup.";
 
-    public Either<string, Unit> Run(string? name, string? _) =>
+    public DemoExecutionResult Run(string? name, string? _) =>
         ExecuteWithSpacing(_output, () =>
         {
             var query = string.IsNullOrWhiteSpace(name) ? "milo" : name;

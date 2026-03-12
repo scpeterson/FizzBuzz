@@ -25,8 +25,9 @@ public class FpJsonStrictValidationDemo : IDemo
     public string Key => DemoKey;
     public string Category => "functional";
     public IReadOnlyCollection<string> Tags => ["fp", "dotnet10", "json", "validation", "strict"];
+    public string Description => "Advanced .NET 10 demo combining strict JSON parsing with functional validation and explicit error reporting.";
 
-    public Either<string, Unit> Run(string? name, string? number)
+    public DemoExecutionResult Run(string? name, string? number)
         => ExecuteWithSpacing(_output, () =>
         {
             var scenarios = new[]

@@ -20,7 +20,7 @@ public class LanguageExtEitherMonadComparisonDemo : IDemo
     public IReadOnlyCollection<string> Tags => ["fp", "languageext", "comparison", "either", "monad"];
     public string Description => "Either pipeline with short-circuiting error flow and no orchestration branching.";
 
-    public Either<string, Unit> Run(string? name, string? number) =>
+    public DemoExecutionResult Run(string? name, string? number) =>
         FunctionalDemoOutput.Render(
             _output,
             "LanguageExt Either Monad Comparison",
@@ -28,10 +28,10 @@ public class LanguageExtEitherMonadComparisonDemo : IDemo
             (output, result) => output.WriteLine($"Result: {result:0.00}"));
 
     private static Either<string, decimal> ComputeResult(string? name, string? number) =>
-        EitherMonadRules.ParseAmount(number)
-            .Bind(EitherMonadRules.ValidateAmountRange)
+        LanguageExtEitherMonadRules.ParseAmount(number)
+            .Bind(LanguageExtEitherMonadRules.ValidateAmountRange)
             .Bind(amount =>
-                EitherMonadRules.ParseDiscountCode(name)
+                LanguageExtEitherMonadRules.ParseDiscountCode(name)
                     .Map(code => amount * EitherMonadRules.DiscountFactor(code)))
-            .Bind(EitherMonadRules.EnsureMinimumCharge);
+            .Bind(LanguageExtEitherMonadRules.EnsureMinimumCharge);
 }

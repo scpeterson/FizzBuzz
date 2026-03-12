@@ -1,36 +1,64 @@
-using LanguageExt;
-using static LanguageExt.Prelude;
-
 namespace Scott.FizzBuzz.Core.Demos.EitherMonadTriad;
 
 public static class EitherMonadRules
 {
-    public static Either<string, decimal> ParseAmount(string? input) =>
-        decimal.TryParse(input, out var amount)
-            ? Right<string, decimal>(amount)
-            : Left<string, decimal>("Amount must be a valid decimal value.");
+    public static bool TryParseAmount(string? input, out decimal amount, out string? error)
+    {
+        if (decimal.TryParse(input, out amount))
+        {
+            error = null;
+            return true;
+        }
 
-    public static Either<string, decimal> ValidateAmountRange(decimal amount) =>
-        amount is >= 1m and <= 1000m
-            ? Right<string, decimal>(amount)
-            : Left<string, decimal>("Amount must be between 1 and 1000.");
+        error = "Amount must be a valid decimal value.";
+        return false;
+    }
 
-    public static Either<string, EitherDiscountCode> ParseDiscountCode(string? code)
+    public static bool TryValidateAmountRange(decimal amount, out string? error)
+    {
+        if (amount is >= 1m and <= 1000m)
+        {
+            error = null;
+            return true;
+        }
+
+        error = "Amount must be between 1 and 1000.";
+        return false;
+    }
+
+    public static bool TryParseDiscountCode(string? code, out EitherDiscountCode parsedCode, out string? error)
     {
         if (string.IsNullOrWhiteSpace(code))
         {
-            return Right<string, EitherDiscountCode>(EitherDiscountCode.None);
+            parsedCode = EitherDiscountCode.None;
+            error = null;
+            return true;
         }
 
         var normalized = code.Trim().ToLowerInvariant();
-        return normalized switch
+        switch (normalized)
         {
-            "vip" => Right<string, EitherDiscountCode>(EitherDiscountCode.Vip),
-            "student" => Right<string, EitherDiscountCode>(EitherDiscountCode.Student),
-            "employee" => Right<string, EitherDiscountCode>(EitherDiscountCode.Employee),
-            "scott" => Right<string, EitherDiscountCode>(EitherDiscountCode.None),
-            _ => Left<string, EitherDiscountCode>("Unknown discount code. Use vip, student, or employee.")
-        };
+            case "vip":
+                parsedCode = EitherDiscountCode.Vip;
+                error = null;
+                return true;
+            case "student":
+                parsedCode = EitherDiscountCode.Student;
+                error = null;
+                return true;
+            case "employee":
+                parsedCode = EitherDiscountCode.Employee;
+                error = null;
+                return true;
+            case "scott":
+                parsedCode = EitherDiscountCode.None;
+                error = null;
+                return true;
+            default:
+                parsedCode = EitherDiscountCode.None;
+                error = "Unknown discount code. Use vip, student, or employee.";
+                return false;
+        }
     }
 
     public static decimal DiscountFactor(EitherDiscountCode code) =>
@@ -43,8 +71,15 @@ public static class EitherMonadRules
             _ => 1.00m
         };
 
-    public static Either<string, decimal> EnsureMinimumCharge(decimal amount) =>
-        amount >= 1m
-            ? Right<string, decimal>(amount)
-            : Left<string, decimal>("Final amount is below the minimum charge.");
+    public static bool TryEnsureMinimumCharge(decimal amount, out string? error)
+    {
+        if (amount >= 1m)
+        {
+            error = null;
+            return true;
+        }
+
+        error = "Final amount is below the minimum charge.";
+        return false;
+    }
 }

@@ -1,4 +1,3 @@
-using LanguageExt;
 using Scott.FizzBuzz.Core.Interfaces;
 using static Scott.FizzBuzz.Core.OutputUtilities;
 
@@ -22,28 +21,36 @@ public class CSharpValidationErrorListDemo : IDemo
     public string Key => DemoKey;
     public string Category => "csharp";
     public IReadOnlyCollection<string> Tags => ["fp", "csharp", "comparison", "validation"];
+    public string Description => "Plain C# validation accumulation built from small validators that each contribute zero or more errors.";
 
-    public Either<string, Unit> Run(string? name, string? number) =>
+    public DemoExecutionResult Run(string? name, string? number) =>
         ExecuteWithSpacing(_output, () =>
         {
+            // Unlike the imperative first-error example, this version lets each
+            // validator contribute its own errors before we render the summary.
             var errors = Validate(name, number);
             _output.WriteLine(errors.Count == 0
-                ? "Validation passed."
-                : string.Join(" | ", errors));
+                ? "Result: validation passed."
+                : $"Failed: {string.Join(" | ", errors)}");
         }, "C# Validation (Error List)");
 
-    private static List<string> Validate(string? name, string? number)
+    private static IReadOnlyList<string> Validate(string? name, string? number) =>
+        ValidateName(name)
+            .Concat(ValidateAge(number))
+            .ToArray();
+
+    private static IEnumerable<string> ValidateName(string? name) =>
+        string.IsNullOrWhiteSpace(name)
+            ? ["Name is required."]
+            : [];
+
+    private static IEnumerable<string> ValidateAge(string? number)
     {
-        var errors = new List<string>();
-
-        if (string.IsNullOrWhiteSpace(name))
-            errors.Add("Name is required.");
-
         if (!int.TryParse(number, out var age))
-            errors.Add("Age must be numeric.");
-        else if (age < 18)
-            errors.Add("Age must be at least 18.");
+            return ["Age must be numeric."];
 
-        return errors;
+        return age < 18
+            ? ["Age must be at least 18."]
+            : [];
     }
 }

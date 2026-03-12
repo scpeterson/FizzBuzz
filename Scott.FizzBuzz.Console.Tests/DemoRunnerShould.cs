@@ -1,9 +1,6 @@
 ﻿using AutoFixture.Xunit2;
 using FluentAssertions;
-using LanguageExt;
-using LanguageExt.UnitTesting;
 using Scott.FizzBuzz.Core.Demos.DotNet10Features;
-using static LanguageExt.Prelude;
 
 namespace Scott.FizzBuzz.Console.Tests;
 
@@ -14,8 +11,8 @@ public class DemoRunnerShould
     {
         // Arrange / Act
         Action ctor = () => _ = new DemoRunner([
-            new StubDemo("duplicate-key", (_, _) => Right<string, Unit>(Unit.Default)),
-            new StubDemo("duplicate-key", (_, _) => Right<string, Unit>(Unit.Default))
+            new StubDemo("duplicate-key", (_, _) => DemoExecutionResult.Success()),
+            new StubDemo("duplicate-key", (_, _) => DemoExecutionResult.Success())
         ]);
 
         // Assert
@@ -107,8 +104,8 @@ public class DemoRunnerShould
     public void ListDemosWithoutTagFilters()
     {
         // Arrange
-        var fpDemo = new StubDemo("fp-demo", (_, _) => Right<string, Unit>(Unit.Default));
-        var imperativeDemo = new StubDemo("imperative-demo", (_, _) => Right<string, Unit>(Unit.Default));
+        var fpDemo = new StubDemo("fp-demo", (_, _) => DemoExecutionResult.Success());
+        var imperativeDemo = new StubDemo("imperative-demo", (_, _) => DemoExecutionResult.Success());
         var runner = new DemoRunner([fpDemo, imperativeDemo]);
         var opts = new Options { List = true };
         var output = new StringWriter();
@@ -138,7 +135,7 @@ public class DemoRunnerShould
         // Arrange
         var describedDemo = new StubDemo(
             "described-demo",
-            (_, _) => Right<string, Unit>(Unit.Default),
+            (_, _) => DemoExecutionResult.Success(),
             description: "Demonstrates a described listing entry.");
         var runner = new DemoRunner([describedDemo]);
         var opts = new Options { List = true };
@@ -168,12 +165,12 @@ public class DemoRunnerShould
         // Arrange
         var fpDemo = new StubDemo(
             "fp-demo",
-            (_, _) => Right<string, Unit>(Unit.Default),
+            (_, _) => DemoExecutionResult.Success(),
             category: "functional",
             tags: ["fp", "dotnet10"]);
         var imperativeDemo = new StubDemo(
             "imperative-demo",
-            (_, _) => Right<string, Unit>(Unit.Default),
+            (_, _) => DemoExecutionResult.Success(),
             category: "imperative",
             tags: ["imperative"]);
         var runner = new DemoRunner([fpDemo, imperativeDemo]);
@@ -207,7 +204,7 @@ public class DemoRunnerShould
         var dotnet10ExtensionDemo = new FpExtensionMembersTypeclassesDemo();
         var nonDotNet10Demo = new StubDemo(
             "legacy-demo",
-            (_, _) => Right<string, Unit>(Unit.Default),
+            (_, _) => DemoExecutionResult.Success(),
             category: "functional",
             tags: ["fp", "legacy"]);
 
@@ -240,7 +237,7 @@ public class DemoRunnerShould
     public void ReturnRightForKnownDemo(string knownDemoName)
     {
         // Arrange: stub that always succeeds
-        var stub = new StubDemo(knownDemoName, (_, _) => Right<string, Unit>(Unit.Default));
+        var stub = new StubDemo(knownDemoName, (_, _) => DemoExecutionResult.Success());
         var runner = new DemoRunner([stub]);
         var opts = new Options { Method = knownDemoName, Name = null, Number = null };
 
@@ -248,7 +245,7 @@ public class DemoRunnerShould
         var result = runner.Execute(opts);
 
         // Assert
-        result.ShouldBeRight(x => x.Should().BeAssignableTo<Unit>());
+        result.ShouldBeRight(x => x.IsSuccess.Should().BeTrue());
     }
     
     [Theory]
@@ -256,7 +253,7 @@ public class DemoRunnerShould
     public void ReturnsLeftWhenThereIsAnError(string knownDemoName, string name, string number, string error)
     {
         // Arrange: stub that fails
-        var stub = new StubDemo(knownDemoName, (_, _) => Left<string, Unit>(error));
+        var stub = new StubDemo(knownDemoName, (_, _) => DemoExecutionResult.Failure(error));
         var runner = new DemoRunner([stub]);
         var opts = new Options { Method = knownDemoName, Name = name, Number = number };
 

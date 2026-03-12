@@ -19,8 +19,9 @@ public class LanguageExtWriterMonadComparisonDemo : IDemo
     public string Key => DemoKey;
     public string Category => "functional";
     public IReadOnlyCollection<string> Tags => ["fp", "languageext", "comparison", "writer", "monad"];
+    public string Description => "LanguageExt Writer composition that carries log output alongside computed state.";
 
-    public Either<string, Unit> Run(string? name, string? number) =>
+    public DemoExecutionResult Run(string? name, string? number) =>
         FunctionalDemoOutput.Render(
             _output,
             "LanguageExt Writer Monad Comparison",
@@ -35,8 +36,8 @@ public class LanguageExtWriterMonadComparisonDemo : IDemo
             });
 
     private static Either<string, (int FinalState, Seq<string> Logs)> ComputeResult(string? name, string? number) =>
-        from start in WriterMonadRules.ParseStart(number)
-        from ops in WriterMonadRules.ResolveOps(name)
-        let run = WriterMonadRules.RunProgram(start, ops).Run()
+        from start in LanguageExtWriterMonadRules.ParseStart(number)
+        from ops in LanguageExtWriterMonadRules.ResolveOps(name)
+        let run = LanguageExtWriterMonadRules.RunProgram(start, ops).Run()
         select (ifNoneOrFail(run.Value, () => start, _ => start), run.Output);
 }

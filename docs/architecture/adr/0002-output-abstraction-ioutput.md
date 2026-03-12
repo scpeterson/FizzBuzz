@@ -24,6 +24,11 @@ Centralize test doubles for output contracts in a shared test utility module (`N
 
 Keep rule/helper functions pure where practical, and treat demo classes as the presentation boundary that renders success/failure summaries through `IOutput`.
 
+This applies equally to demos that perform IO:
+
+- async workflow demos compute results first and render them at the demo boundary
+- file/database demos isolate persistence at explicit boundaries and use `IOutput` only for user-facing summaries
+
 ## Alternatives Considered
 
 - Keep direct `Console` usage
@@ -39,6 +44,7 @@ Keep rule/helper functions pure where practical, and treat demo classes as the p
 - Clear side-effect boundary.
 - Retains optional styling without forcing it on all outputs.
 - Allows pure LanguageExt rule paths to remain side-effect free while still presenting comparable CLI output.
+- Keeps infrastructure-oriented demos consistent with the rest of the codebase by rendering persistence/async outcomes through the same output boundary.
 
 ### Negative
 
