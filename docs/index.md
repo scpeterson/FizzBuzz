@@ -5,11 +5,24 @@ This site hosts architecture documentation and decision records for the project.
 ## Start Here
 
 - Learning path for imperative programmers:
-  1. Supporting C# features (`pattern-matching`, `tuple-demo`)
-  2. Baseline comparisons (`imperative`, `range-iter`, `demo-currying`)
-  3. Core triads (null handling, parse/validate, validation accumulation, registration)
-  4. Effect/infrastructure triads (async, text-store DB, PostgreSQL DB)
-  5. LanguageExt monad and advanced demos
+  1. Supporting C# features:
+     [Pattern Matching Demo Baseline](architecture/adr/0026-pattern-matching-demo-baseline.md),
+     [Tuple Demo Baseline](architecture/adr/0027-tuple-demo-baseline.md)
+  2. Baseline comparisons:
+     [Imperative Demo Baseline](architecture/adr/0023-imperative-demo-baseline.md),
+     [Range Iteration Demo Baseline](architecture/adr/0024-range-iteration-demo-baseline.md),
+     [Currying Baseline Demo](architecture/adr/0028-currying-baseline-demo.md)
+  3. Core triads:
+     [Null Option Triad Comparison](architecture/adr/0038-null-option-triad-comparison.md),
+     [Parse Validate Triad Comparison](architecture/adr/0039-parse-validate-triad-comparison.md),
+     [Validation Accumulation Triad Comparison](architecture/adr/0040-validation-accumulation-triad-comparison.md),
+     [End-to-End Registration Triad Comparison](architecture/adr/0044-end-to-end-registration-triad-comparison.md)
+  4. Effect/infrastructure triads:
+     [Async Eff Workflow Triad Comparison](architecture/adr/0043-async-eff-workflow-triad-comparison.md),
+     [Database Text-Store Triad Comparison](architecture/adr/0045-database-text-store-triad-comparison.md),
+     [Database PostgreSQL Triad Comparison](architecture/adr/0046-database-postgres-triad-comparison.md)
+  5. LanguageExt monad and advanced demos:
+     [Learning Path](architecture/learning-path.md)
 - [Architecture Overview](architecture/README.md)
 - [Learning Path](architecture/learning-path.md)
 - [ADR 0001: Demo Triad Structure](architecture/adr/0001-demo-triad-structure.md)

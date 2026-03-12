@@ -51,3 +51,6 @@ nav:
   - 0050 Retries + Backoff as Pure Policy Triad Comparison: 0050-retries-backoff-pure-policy-triad-comparison.md
   - 0051 Streaming / Large Data Processing Triad Comparison: 0051-streaming-large-data-processing-triad-comparison.md
   - 0052 Concurrency Safety Triad Comparison: 0052-concurrency-safety-triad-comparison.md
+  - 0053 Event Sourcing Lite Triad Comparison: 0053-event-sourcing-lite-triad-comparison.md
+  - 0054 Configuration Validation at Startup Triad Comparison: 0054-configuration-validation-startup-triad-comparison.md
+  - 0055 Demo Execution Result Contract: 0055-demo-execution-result-contract.md

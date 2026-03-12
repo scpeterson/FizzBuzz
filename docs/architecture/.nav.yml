@@ -1,5 +1,6 @@
 nav:
   - Overview: README.md
+  - Learning Path: learning-path.md
   - Contributing: contributing.md
   - Mermaid Authoring Checklist: mermaid-authoring-checklist.md
   - Tags: tags.md
