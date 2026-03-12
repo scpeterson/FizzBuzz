@@ -7,6 +7,8 @@ namespace Scott.FizzBuzz.Console;
 
 public class DemoRunner
 {
+    private const int DescriptionWrapWidth = 100;
+
     // Keep both structures intentionally:
     // - _allDemos supports list/filter/sort views without rebuilding a sequence.
     // - _demos provides O(1) key lookup for method execution.
@@ -122,26 +124,49 @@ public class DemoRunner
 
         if (demos.Count == 0)
         {
-            WriteLineEff("No demos match the supplied filters.").Run();
+            WriteLine("No demos match the supplied filters.");
             return;
         }
 
-        foreach (var demo in demos)
+        int? currentStage = null;
+
+        for (var index = 0; index < demos.Count; index++)
         {
+            var demo = demos[index];
             var tagOutput = demo.Tags.Count == 0 ? "none" : string.Join(",", demo.Tags);
-            var descriptionOutput = string.IsNullOrWhiteSpace(demo.Description)
-                ? string.Empty
-                : $" | description={demo.Description}";
-            WriteLineEff($"{demo.Key} | category={demo.Category} | tags={tagOutput}{descriptionOutput}").Run();
+            var learningStage = GetLearningStage(demo);
+
+            if (currentStage != learningStage)
+            {
+                if (index > 0)
+                {
+                    WriteLine(string.Empty);
+                }
+
+                WriteLine($"== {GetLearningStageHeader(learningStage)} ==");
+                WriteLine(string.Empty);
+                currentStage = learningStage;
+            }
+            else if (index > 0)
+            {
+                WriteLine(string.Empty);
+            }
+
+            WriteLine(demo.Key);
+            WriteLine($"  category: {demo.Category}");
+            WriteLine($"  tags: {tagOutput}");
+
+            if (!string.IsNullOrWhiteSpace(demo.Description))
+            {
+                foreach (var line in WrapDescription(demo.Description))
+                {
+                    WriteLine(line);
+                }
+            }
         }
     }
 
-    private Eff<Unit> WriteLineEff(string message) =>
-        Eff(() =>
-        {
-            _output.WriteLine(message);
-            return unit;
-        });
+    private void WriteLine(string message) => _output.WriteLine(message);
 
     private static int GetLearningStage(IDemo demo)
     {
@@ -156,6 +181,48 @@ public class DemoRunner
             return 3;
 
         return 4;
+    }
+
+    private static string GetLearningStageHeader(int learningStage) => learningStage switch
+    {
+        0 => "Supporting C# Features",
+        1 => "Core Baseline Demos",
+        2 => "Triad Comparisons",
+        3 => ".NET 10 / C# 14 FP Features",
+        _ => "Advanced Functional Topics"
+    };
+
+    private static IReadOnlyList<string> WrapDescription(string description)
+    {
+        const string firstPrefix = "  description: ";
+        const string continuationPrefix = "               ";
+
+        var words = description
+            .Split(' ', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+
+        if (words.Length == 0)
+        {
+            return [$"{firstPrefix}{description}"];
+        }
+
+        var lines = new List<string>();
+        var currentLine = firstPrefix;
+
+        foreach (var word in words)
+        {
+            var separator = currentLine == firstPrefix || currentLine == continuationPrefix ? string.Empty : " ";
+            if (currentLine.Length + separator.Length + word.Length > DescriptionWrapWidth)
+            {
+                lines.Add(currentLine);
+                currentLine = continuationPrefix + word;
+                continue;
+            }
+
+            currentLine += separator + word;
+        }
+
+        lines.Add(currentLine);
+        return lines;
     }
 
     private static int GetCategoryRank(IDemo demo) => demo.Category switch

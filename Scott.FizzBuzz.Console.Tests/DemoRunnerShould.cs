@@ -104,29 +104,33 @@ public class DemoRunnerShould
     public void ListDemosWithoutTagFilters()
     {
         // Arrange
-        var fpDemo = new StubDemo("fp-demo", (_, _) => DemoExecutionResult.Success());
-        var imperativeDemo = new StubDemo("imperative-demo", (_, _) => DemoExecutionResult.Success());
-        var runner = new DemoRunner([fpDemo, imperativeDemo]);
+        var fpDemo = new StubDemo(
+            "fp-demo",
+            (_, _) => DemoExecutionResult.Success(),
+            category: "csharp",
+            tags: ["comparison", "fp"]);
+        var imperativeDemo = new StubDemo(
+            "imperative-demo",
+            (_, _) => DemoExecutionResult.Success(),
+            category: "imperative",
+            tags: ["baseline"]);
+        var output = new RecordingOutputSink();
+        var runner = new DemoRunner([fpDemo, imperativeDemo], output);
         var opts = new Options { List = true };
-        var output = new StringWriter();
-        var originalOut = System.Console.Out;
 
-        try
-        {
-            System.Console.SetOut(output);
+        // Act
+        var result = runner.Execute(opts);
 
-            // Act
-            var result = runner.Execute(opts);
-
-            // Assert
-            result.ShouldBeRight();
-            output.ToString().Should().Contain("fp-demo");
-            output.ToString().Should().Contain("imperative-demo");
-        }
-        finally
-        {
-            System.Console.SetOut(originalOut);
-        }
+        // Assert
+        result.ShouldBeRight();
+        output.Lines.Should().Contain("== Triad Comparisons ==");
+        output.Lines.Should().Contain("== Core Baseline Demos ==");
+        output.Lines.Should().Contain("fp-demo");
+        output.Lines.Should().Contain("imperative-demo");
+        output.Lines.Should().Contain("  category: csharp");
+        output.Lines.Should().Contain("  category: imperative");
+        output.Lines.Should().Contain("  tags: comparison,fp");
+        output.Lines.Should().Contain("  tags: baseline");
     }
 
     [Fact]
@@ -137,26 +141,16 @@ public class DemoRunnerShould
             "described-demo",
             (_, _) => DemoExecutionResult.Success(),
             description: "Demonstrates a described listing entry.");
-        var runner = new DemoRunner([describedDemo]);
+        var output = new RecordingOutputSink();
+        var runner = new DemoRunner([describedDemo], output);
         var opts = new Options { List = true };
-        var output = new StringWriter();
-        var originalOut = System.Console.Out;
 
-        try
-        {
-            System.Console.SetOut(output);
+        // Act
+        var result = runner.Execute(opts);
 
-            // Act
-            var result = runner.Execute(opts);
-
-            // Assert
-            result.ShouldBeRight();
-            output.ToString().Should().Contain("description=Demonstrates a described listing entry.");
-        }
-        finally
-        {
-            System.Console.SetOut(originalOut);
-        }
+        // Assert
+        result.ShouldBeRight();
+        output.Lines.Should().Contain("  description: Demonstrates a described listing entry.");
     }
 
     [Fact]
@@ -173,27 +167,17 @@ public class DemoRunnerShould
             (_, _) => DemoExecutionResult.Success(),
             category: "imperative",
             tags: ["imperative"]);
-        var runner = new DemoRunner([fpDemo, imperativeDemo]);
+        var output = new RecordingOutputSink();
+        var runner = new DemoRunner([fpDemo, imperativeDemo], output);
         var opts = new Options { List = true, Tags = ["fp"] };
-        var output = new StringWriter();
-        var originalOut = System.Console.Out;
 
-        try
-        {
-            System.Console.SetOut(output);
-            
-            // Act
-            var result = runner.Execute(opts);
+        // Act
+        var result = runner.Execute(opts);
 
-            // Assert
-            result.ShouldBeRight();
-            output.ToString().Should().Contain("fp-demo");
-            output.ToString().Should().NotContain("imperative-demo");
-        }
-        finally
-        {
-            System.Console.SetOut(originalOut);
-        }
+        // Assert
+        result.ShouldBeRight();
+        output.Lines.Should().Contain("fp-demo");
+        output.Lines.Should().NotContain("imperative-demo");
     }
 
     [Fact]
@@ -208,28 +192,127 @@ public class DemoRunnerShould
             category: "functional",
             tags: ["fp", "legacy"]);
 
-        var runner = new DemoRunner([dotnet10JsonDemo, dotnet10ExtensionDemo, nonDotNet10Demo]);
+        var output = new RecordingOutputSink();
+        var runner = new DemoRunner([dotnet10JsonDemo, dotnet10ExtensionDemo, nonDotNet10Demo], output);
         var opts = new Options { List = true, Tags = ["dotnet10"] };
-        var output = new StringWriter();
-        var originalOut = System.Console.Out;
 
-        try
-        {
-            System.Console.SetOut(output);
+        // Act
+        var result = runner.Execute(opts);
 
-            // Act
-            var result = runner.Execute(opts);
+        // Assert
+        result.ShouldBeRight();
+        output.Lines.Should().Contain("fp-json-strict-validation");
+        output.Lines.Should().Contain("fp-extension-members-typeclasses");
+        output.Lines.Should().NotContain("legacy-demo");
+    }
 
-            // Assert
-            result.ShouldBeRight();
-            output.ToString().Should().Contain("fp-json-strict-validation");
-            output.ToString().Should().Contain("fp-extension-members-typeclasses");
-            output.ToString().Should().NotContain("legacy-demo");
-        }
-        finally
-        {
-            System.Console.SetOut(originalOut);
-        }
+    [Fact]
+    public void ListDemosSeparateEntriesWithBlankLines()
+    {
+        // Arrange
+        var firstDemo = new StubDemo(
+            "alpha",
+            (_, _) => DemoExecutionResult.Success(),
+            category: "functional",
+            tags: ["comparison", "fp"],
+            description: "First demo");
+        var secondDemo = new StubDemo(
+            "beta",
+            (_, _) => DemoExecutionResult.Success(),
+            category: "functional",
+            tags: ["comparison", "fp"],
+            description: "Second demo");
+        var output = new RecordingOutputSink();
+        var runner = new DemoRunner([firstDemo, secondDemo], output);
+
+        // Act
+        var result = runner.Execute(new Options { List = true });
+
+        // Assert
+        result.ShouldBeRight();
+        output.Lines.Should().ContainInOrder(
+            "== Triad Comparisons ==",
+            string.Empty,
+            "alpha",
+            "  category: functional",
+            "  tags: comparison,fp",
+            "  description: First demo",
+            string.Empty,
+            "beta",
+            "  category: functional",
+            "  tags: comparison,fp",
+            "  description: Second demo");
+    }
+
+    [Fact]
+    public void ListDemosGroupEntriesUnderLearningStageHeaders()
+    {
+        // Arrange
+        var supportingDemo = new StubDemo(
+            "patterns",
+            (_, _) => DemoExecutionResult.Success(),
+            category: "csharp-support",
+            tags: ["csharp", "supporting-feature", "baseline"]);
+        var baselineDemo = new StubDemo(
+            "imperative",
+            (_, _) => DemoExecutionResult.Success(),
+            category: "imperative",
+            tags: ["baseline"]);
+        var comparisonDemo = new StubDemo(
+            "triad",
+            (_, _) => DemoExecutionResult.Success(),
+            category: "csharp",
+            tags: ["comparison"]);
+        var advancedDemo = new StubDemo(
+            "advanced",
+            (_, _) => DemoExecutionResult.Success(),
+            category: "functional",
+            tags: ["languageext"]);
+        var output = new RecordingOutputSink();
+        var runner = new DemoRunner([advancedDemo, comparisonDemo, baselineDemo, supportingDemo], output);
+
+        // Act
+        var result = runner.Execute(new Options { List = true });
+
+        // Assert
+        result.ShouldBeRight();
+        output.Lines.Should().ContainInOrder(
+            "== Supporting C# Features ==",
+            string.Empty,
+            "patterns",
+            string.Empty,
+            "== Core Baseline Demos ==",
+            string.Empty,
+            "imperative",
+            string.Empty,
+            "== Triad Comparisons ==",
+            string.Empty,
+            "triad",
+            string.Empty,
+            "== Advanced Functional Topics ==",
+            string.Empty,
+            "advanced");
+    }
+
+    [Fact]
+    public void ListDemosWrapLongDescriptionsAcrossIndentedLines()
+    {
+        // Arrange
+        var demo = new StubDemo(
+            "wrapped-demo",
+            (_, _) => DemoExecutionResult.Success(),
+            description: "This description is intentionally long so the console listing wraps it across multiple " +
+                         "indented lines instead of forcing the reader to scan a very wide terminal row.");
+        var output = new RecordingOutputSink();
+        var runner = new DemoRunner([demo], output);
+
+        // Act
+        var result = runner.Execute(new Options { List = true });
+
+        // Assert
+        result.ShouldBeRight();
+        output.Lines.Should().Contain(line => line.StartsWith("  description: "));
+        output.Lines.Should().Contain(line => line.StartsWith("               "));
     }
     
     [Theory]
