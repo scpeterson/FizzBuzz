@@ -2,3 +2,7 @@ exclude = [
   "http://127.0.0.1:8000",
   "https://github.com/scpeterson/Scott.FunctionalProgrammingTriads"
 ]
+
+exclude_path = [
+  "docs/index.md"
+]
