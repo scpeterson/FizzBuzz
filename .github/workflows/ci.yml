@@ -34,22 +34,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Detect Docs Changes
-        id: changes
-        uses: dorny/paths-filter@v3
-        with:
-          filters: |
-            docs:
-              - 'docs/**'
-              - '**/*.md'
-              - 'mkdocs.yml'
-              - 'mkdocs-pdf.yml'
-              - 'requirements-docs.txt'
-              - 'requirements-docs-pdf.txt'
-              - 'lychee.toml'
-              - '.markdownlint.json'
+        uses: actions/checkout@v5
 
       - name: Check For Stale Project Paths
         run: |
@@ -59,7 +44,7 @@ jobs:
           fi
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
         with:
           global-json-file: global.json
           cache: true
@@ -69,8 +54,7 @@ jobs:
             global.json
 
       - name: Setup Python
-        if: steps.changes.outputs.docs == 'true'
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.10"
           cache: "pip"
@@ -83,23 +67,19 @@ jobs:
         run: dotnet build Scott.FunctionalProgrammingTriads.sln --configuration Release --no-restore -m:1
 
       - name: Install Docs Dependencies
-        if: steps.changes.outputs.docs == 'true'
         run: pip install -r requirements-docs.txt
 
       - name: Build Docs (Strict)
-        if: steps.changes.outputs.docs == 'true'
         run: mkdocs build --strict
 
       - name: Markdown Lint
-        if: steps.changes.outputs.docs == 'true'
-        uses: DavidAnson/markdownlint-cli2-action@v19
+        uses: DavidAnson/markdownlint-cli2-action@v20
         with:
           config: .markdownlint.json
           globs: |
             docs/**/*.md
 
       - name: Link Check (Offline/Internal)
-        if: steps.changes.outputs.docs == 'true'
         uses: lycheeverse/lychee-action@v2
         with:
           args: --offline --config lychee.toml docs
