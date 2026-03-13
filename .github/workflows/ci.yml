@@ -60,6 +60,11 @@ jobs:
           cache: "pip"
           cache-dependency-path: requirements-docs.txt
 
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+
       - name: Restore
         run: dotnet restore Scott.FunctionalProgrammingTriads.sln
 
@@ -72,12 +77,11 @@ jobs:
       - name: Build Docs (Strict)
         run: mkdocs build --strict
 
+      - name: Install Markdown Lint CLI
+        run: npm install --global markdownlint-cli2
+
       - name: Markdown Lint
-        uses: DavidAnson/markdownlint-cli2-action@v20
-        with:
-          config: .markdownlint.json
-          globs: |
-            docs/**/*.md
+        run: markdownlint-cli2 --config .markdownlint.json "docs/**/*.md"
 
       - name: Link Check (Offline/Internal)
         uses: lycheeverse/lychee-action@v2
