@@ -21,64 +21,64 @@ This sequence gives you a gentle ramp from helpful C# language tools to plain C#
 
 ### Supporting C# features
 
-   - `pattern-matching`
-   - `tuple-demo`
+- `pattern-matching`
+- `tuple-demo`
 
 ### Baseline comparisons
 
-   - `imperative`
-   - `range-iter`
-   - `demo-currying`
-   - `demo-either`
-   - `lang-ext`
+- `imperative`
+- `range-iter`
+- `demo-currying`
+- `demo-either`
+- `lang-ext`
 
 ### Core comparison triads
 
-   - `imperative-null-handling`
-   - `csharp-null-patterns`
-   - `langext-option-pipeline`
-   - `imperative-parse-validate`
-   - `csharp-parse-validate-pipeline`
-   - `langext-either-parse-validate`
-   - `imperative-validation-first-error`
-   - `csharp-validation-error-list`
-   - `langext-validation-accumulate`
-   - `imperative-user-registration`
-   - `csharp-functional-registration`
-   - `langext-functional-registration`
+- `imperative-null-handling`
+- `csharp-null-patterns`
+- `langext-option-pipeline`
+- `imperative-parse-validate`
+- `csharp-parse-validate-pipeline`
+- `langext-either-parse-validate`
+- `imperative-validation-first-error`
+- `csharp-validation-error-list`
+- `langext-validation-accumulate`
+- `imperative-user-registration`
+- `csharp-functional-registration`
+- `langext-functional-registration`
 
 ### Effect and infrastructure triads
 
-   - `imperative-async-workflow`
-   - `csharp-async-composition`
-   - `langext-eff-async-workflow`
-   - `imperative-db-text-store`
-   - `csharp-db-text-store`
-   - `langext-db-text-store-eff`
-   - `imperative-db-postgres`
-   - `csharp-db-postgres`
-   - `langext-db-postgres-eff`
+- `imperative-async-workflow`
+- `csharp-async-composition`
+- `langext-eff-async-workflow`
+- `imperative-db-text-store`
+- `csharp-db-text-store`
+- `langext-db-text-store-eff`
+- `imperative-db-postgres`
+- `csharp-db-postgres`
+- `langext-db-postgres-eff`
 
 ### LanguageExt monad comparisons
 
-   - `csharp-option-comparison` / `langext-option-monad-comparison`
-   - `csharp-either-comparison` / `langext-either-monad-comparison`
-   - `csharp-validation-monad-comparison` / `langext-validation-monad-comparison`
-   - `csharp-reader-comparison` / `langext-reader-monad-comparison`
-   - `csharp-state-comparison` / `langext-state-monad-comparison`
-   - `csharp-io-comparison` / `langext-io-monad-comparison`
-   - `csharp-try-monad-comparison` / `langext-try-monad-comparison`
-   - `csharp-tryoption-monad-comparison` / `langext-tryoption-monad-comparison`
-   - `csharp-seq-monad-comparison` / `langext-seq-monad-comparison`
-   - `csharp-writer-monad-comparison` / `langext-writer-monad-comparison`
-   - `csharp-eff-monad-comparison` / `langext-eff-monad-comparison`
-   - `csharp-aff-monad-comparison` / `langext-aff-monad-comparison`
+- `csharp-option-comparison` / `langext-option-monad-comparison`
+- `csharp-either-comparison` / `langext-either-monad-comparison`
+- `csharp-validation-monad-comparison` / `langext-validation-monad-comparison`
+- `csharp-reader-comparison` / `langext-reader-monad-comparison`
+- `csharp-state-comparison` / `langext-state-monad-comparison`
+- `csharp-io-comparison` / `langext-io-monad-comparison`
+- `csharp-try-monad-comparison` / `langext-try-monad-comparison`
+- `csharp-tryoption-monad-comparison` / `langext-tryoption-monad-comparison`
+- `csharp-seq-monad-comparison` / `langext-seq-monad-comparison`
+- `csharp-writer-monad-comparison` / `langext-writer-monad-comparison`
+- `csharp-eff-monad-comparison` / `langext-eff-monad-comparison`
+- `csharp-aff-monad-comparison` / `langext-aff-monad-comparison`
 
 ### Advanced and .NET 10 material
 
-   - `fp-extension-members-typeclasses`
-   - `fp-json-strict-validation`
-   - `other-monads`
+- `fp-extension-members-typeclasses`
+- `fp-json-strict-validation`
+- `other-monads`
 
 ## How To Read A Triad
 
