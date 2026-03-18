@@ -15,15 +15,19 @@ Maintain a PostgreSQL persistence triad:
 2. `csharp-db-postgres`
 3. `langext-db-postgres-eff`
 
+The triad reads its runtime connection from `FUNCTIONAL_PROGRAMMING_TRIADS_POSTGRES_CONNECTION`. A temporary fallback to the legacy `FIZZBUZZ_POSTGRES_CONNECTION` variable is retained for local compatibility during the rename transition.
+
 ## Consequences
 
 ### Positive
 
 - Demonstrates production-style side-effect handling with a real database.
+- Uses database-facing names that now match the renamed repository and solution.
 
 ### Negative
 
 - Requires environmental setup and migration discipline.
+- The temporary legacy environment-variable fallback should eventually be removed once local setups have migrated.
 
 ## References
 

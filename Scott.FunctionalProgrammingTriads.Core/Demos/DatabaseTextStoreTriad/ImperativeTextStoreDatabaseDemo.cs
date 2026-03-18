@@ -70,5 +70,5 @@ public class ImperativeTextStoreDatabaseDemo : IDemo
         }, "Imperative Text-Store Database");
 
     private static string BuildTempPath() =>
-        Path.Combine(Path.GetTempPath(), $"fizzbuzz-db-imperative-{Guid.NewGuid():N}.txt");
+        Path.Combine(Path.GetTempPath(), $"functional-programming-triads-db-imperative-{Guid.NewGuid():N}.txt");
 }

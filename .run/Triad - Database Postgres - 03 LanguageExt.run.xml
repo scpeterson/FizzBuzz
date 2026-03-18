@@ -6,7 +6,7 @@
     <option name="PROJECT_KIND" value="DotNetCore" />
     <option name="PROJECT_TFM" value="net10.0" />
     <envs>
-      <env name="FIZZBUZZ_POSTGRES_CONNECTION" value="Host=localhost;Port=5432;Database=fizzbuzz_demo;Username=fizzbuzz_app;Password=fizzbuzz_app_pw" />
+      <env name="FUNCTIONAL_PROGRAMMING_TRIADS_POSTGRES_CONNECTION" value="Host=localhost;Port=5432;Database=functional_programming_triads_demo;Username=functional_programming_triads_app;Password=functional_programming_triads_app_pw" />
     </envs>
     <method v="2">
       <option name="Build" />

@@ -78,7 +78,7 @@ dotnet run --project Scott.FunctionalProgrammingTriads.Console/Scott.FunctionalP
 For PostgreSQL demos, set:
 
 ```bash
-export FIZZBUZZ_POSTGRES_CONNECTION="Host=localhost;Port=5432;Database=fizzbuzz_demo;Username=fizzbuzz_app;Password=fizzbuzz_app_pw"
+export FUNCTIONAL_PROGRAMMING_TRIADS_POSTGRES_CONNECTION="Host=localhost;Port=5432;Database=functional_programming_triads_demo;Username=functional_programming_triads_app;Password=functional_programming_triads_app_pw"
 ```
 
 ## Database Setup (PostgreSQL)

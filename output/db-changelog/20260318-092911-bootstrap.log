@@ -1,0 +1,6 @@
+==> Bootstrap changelog
+Ensuring bootstrap history table...
+CREATE TABLE
+SKIP B001_create_role.sql (already applied)
+SKIP B002_create_database.sql (already applied)
+SKIP B003_grants.sql (already applied)

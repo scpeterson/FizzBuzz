@@ -18,6 +18,7 @@ Adopt a SQL-first workflow using versioned SQL files and shell orchestration scr
 
 - Bootstrap SQL is stored in `db/bootstrap/B*.sql` and tracked in `public.admin_bootstrap_history` (admin DB).
 - App migrations are stored in `db/migrations/V*.sql` and tracked in `public.db_migration_history` (app DB).
+- Default bootstrap/runtime naming follows the repository name (`functional_programming_triads_demo`, `functional_programming_triads_app`, `FUNCTIONAL_PROGRAMMING_TRIADS_POSTGRES_CONNECTION`).
 - Seed SQL is stored in `db/seeds/S*.sql` and tracked in `public.db_migration_history` with `kind='seed'`.
 - Verification SQL is stored in `db/verify/Q*.sql` and executed as read-only checks.
 - All phases emit timestamped execution logs under `output/db-changelog/`.
@@ -38,6 +39,7 @@ Adopt a SQL-first workflow using versioned SQL files and shell orchestration scr
 - Full SQL lifecycle is versioned in-repo.
 - Deterministic local rebuild (`db-reset.sh`).
 - Auditable execution history and log artifacts.
+- Database role, database name, and connection environment variable now align with the repository identity instead of the earlier FizzBuzz naming.
 
 ### Negative
 

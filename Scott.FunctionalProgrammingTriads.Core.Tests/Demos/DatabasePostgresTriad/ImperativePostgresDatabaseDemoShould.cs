@@ -29,7 +29,7 @@ public class ImperativePostgresDatabaseDemoShould
     {
         var output = new RecordingOutputSink();
 
-        PostgresTestEnvironment.WithTempConnectionString("Host=127.0.0.1;Port=1;Database=fizzbuzz;Username=fizzbuzz_app;Password=fizzbuzz_app;Timeout=1", () =>
+        PostgresTestEnvironment.WithTempConnectionString("Host=127.0.0.1;Port=1;Database=functional_programming_triads_demo;Username=functional_programming_triads_app;Password=functional_programming_triads_app;Timeout=1", () =>
         {
             var result = new ImperativePostgresDatabaseDemo(output).Run("Scott", "not-an-int");
 
@@ -44,7 +44,7 @@ public class ImperativePostgresDatabaseDemoShould
     {
         var output = new RecordingOutputSink();
 
-        PostgresTestEnvironment.WithTempConnectionString("Host=127.0.0.1;Port=1;Database=fizzbuzz;Username=fizzbuzz_app;Password=fizzbuzz_app;Timeout=1", () =>
+        PostgresTestEnvironment.WithTempConnectionString("Host=127.0.0.1;Port=1;Database=functional_programming_triads_demo;Username=functional_programming_triads_app;Password=functional_programming_triads_app;Timeout=1", () =>
         {
             var result = new ImperativePostgresDatabaseDemo(output).Run("Scott", "21");
 

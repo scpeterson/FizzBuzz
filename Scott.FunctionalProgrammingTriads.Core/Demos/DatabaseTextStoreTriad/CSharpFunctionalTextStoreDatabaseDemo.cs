@@ -82,7 +82,7 @@ public class CSharpFunctionalTextStoreDatabaseDemo : IDemo
     }
 
     private static string BuildTempPath() =>
-        Path.Combine(Path.GetTempPath(), $"fizzbuzz-db-csharp-{Guid.NewGuid():N}.txt");
+        Path.Combine(Path.GetTempPath(), $"functional-programming-triads-db-csharp-{Guid.NewGuid():N}.txt");
 
     private static DatabaseResult<List<PersonRecord>> ParseRecords(string? content)
     {

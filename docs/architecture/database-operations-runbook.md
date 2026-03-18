@@ -25,9 +25,9 @@ export DB_HOST=localhost
 export DB_PORT=5432
 export DB_ADMIN_USER=postgres
 export DB_ADMIN_DB=postgres
-export DB_APP_USER=fizzbuzz_app
-export DB_APP_PASSWORD=fizzbuzz_app_pw
-export DB_NAME=fizzbuzz_demo
+export DB_APP_USER=functional_programming_triads_app
+export DB_APP_PASSWORD=functional_programming_triads_app_pw
+export DB_NAME=functional_programming_triads_demo
 ```
 
 ## First-Time Setup (From Scratch)
@@ -51,7 +51,7 @@ What this does:
 Set this before running PostgreSQL demos:
 
 ```bash
-export FIZZBUZZ_POSTGRES_CONNECTION="Host=localhost;Port=5432;Database=fizzbuzz_demo;Username=fizzbuzz_app;Password=fizzbuzz_app_pw"
+export FUNCTIONAL_PROGRAMMING_TRIADS_POSTGRES_CONNECTION="Host=localhost;Port=5432;Database=functional_programming_triads_demo;Username=functional_programming_triads_app;Password=functional_programming_triads_app_pw"
 ```
 
 ## Normal Development Workflow

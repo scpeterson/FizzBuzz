@@ -24,9 +24,9 @@ public static class ConfigurationValidationStartupRules
     public static StartupConfigInput BuildCandidate(string profile, int timeoutSeconds) =>
         profile switch
         {
-            "dev" => new StartupConfigInput("dev", "Host=localhost;Database=fizzbuzz_dev;", timeoutSeconds, MaxRetries: 2, CacheEnabled: true),
-            "staging" => new StartupConfigInput("staging", "Host=staging-db;Database=fizzbuzz_stage;", timeoutSeconds, MaxRetries: 4, CacheEnabled: true),
-            "prod" => new StartupConfigInput("prod", "Host=prod-db;Database=fizzbuzz_prod;", timeoutSeconds, MaxRetries: 6, CacheEnabled: false),
+            "dev" => new StartupConfigInput("dev", "Host=localhost;Database=functional_programming_triads_dev;", timeoutSeconds, MaxRetries: 2, CacheEnabled: true),
+            "staging" => new StartupConfigInput("staging", "Host=staging-db;Database=functional_programming_triads_stage;", timeoutSeconds, MaxRetries: 4, CacheEnabled: true),
+            "prod" => new StartupConfigInput("prod", "Host=prod-db;Database=functional_programming_triads_prod;", timeoutSeconds, MaxRetries: 6, CacheEnabled: false),
             "misconfigured" => new StartupConfigInput("misconfigured", "", timeoutSeconds, MaxRetries: 15, CacheEnabled: true),
             _ => new StartupConfigInput(profile, "", timeoutSeconds, MaxRetries: 2, CacheEnabled: true)
         };

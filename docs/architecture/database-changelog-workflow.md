@@ -24,7 +24,7 @@ For day-to-day commands and cleanup/reset procedures, see:
 ## History Tables
 
 - Admin DB (`postgres`): `public.admin_bootstrap_history`
-- App DB (`fizzbuzz_demo` by default): `public.db_migration_history`
+- App DB (`functional_programming_triads_demo` by default): `public.db_migration_history`
 
 Both store:
 
@@ -39,9 +39,9 @@ Both store:
 - `DB_PORT` (default `5432`)
 - `DB_ADMIN_USER` (default `postgres`)
 - `DB_ADMIN_DB` (default `postgres`)
-- `DB_APP_USER` (default `fizzbuzz_app`)
-- `DB_APP_PASSWORD` (default `fizzbuzz_app_pw`)
-- `DB_NAME` (default `fizzbuzz_demo`)
+- `DB_APP_USER` (default `functional_programming_triads_app`)
+- `DB_APP_PASSWORD` (default `functional_programming_triads_app_pw`)
+- `DB_NAME` (default `functional_programming_triads_demo`)
 
 `psql` authentication still follows PostgreSQL conventions (`PGPASSWORD`, `.pgpass`, etc.).
 
@@ -81,10 +81,10 @@ DB_RESET_CONFIRM=YES scripts/db-reset.sh
 
 The Postgres-based demos read connection details from:
 
-- `FIZZBUZZ_POSTGRES_CONNECTION`
+- `FUNCTIONAL_PROGRAMMING_TRIADS_POSTGRES_CONNECTION`
 
 Example:
 
 ```bash
-export FIZZBUZZ_POSTGRES_CONNECTION="Host=localhost;Port=5432;Database=fizzbuzz_demo;Username=fizzbuzz_app;Password=fizzbuzz_app_pw"
+export FUNCTIONAL_PROGRAMMING_TRIADS_POSTGRES_CONNECTION="Host=localhost;Port=5432;Database=functional_programming_triads_demo;Username=functional_programming_triads_app;Password=functional_programming_triads_app_pw"
 ```
