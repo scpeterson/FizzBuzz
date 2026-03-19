@@ -61,6 +61,7 @@ scripts/db-update.sh seed
 scripts/db-verify.sh
 scripts/db-status.sh
 ```
+
 The legacy `scripts/db-bootstrap.sh`, `scripts/db-migrate.sh`, and `scripts/db-seed.sh` commands are still present as thin compatibility wrappers around `scripts/db-update.sh`.
 
 Reset local DB (destructive):
