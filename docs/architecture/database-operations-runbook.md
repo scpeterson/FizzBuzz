@@ -1,24 +1,6 @@
-# PostgreSQL Database Operations Runbook
+# Database Operations Runbook
 
-Use this runbook for day-to-day execution. Keep ADRs for architectural decisions and use this document for operational steps.
-
-## When To Use Which Document
-
-- `architecture/adr/*.md`: why decisions were made
-- `architecture/database-changelog-workflow.md`: structure/rules
-- `architecture/database-operations-runbook.md` (this file): exactly what to run and when
-
-## Prerequisites
-
-1. PostgreSQL is installed and running.
-2. `psql` is available on your PATH.
-3. You are in the repository root:
-
-```bash
-cd /Users/scottpeterson/Dev/FizzBuzz/Scott.FizzBuzz
-```
-
-1. If needed, set admin/app credentials:
+## Default Local Values
 
 ```bash
 export DB_HOST=localhost
@@ -30,139 +12,55 @@ export DB_APP_PASSWORD=functional_programming_triads_app_pw
 export DB_NAME=functional_programming_triads_demo
 ```
 
-## First-Time Setup (From Scratch)
-
-Run all phases in order (bootstrap, migrate, seed, verify):
+## Bootstrap + Build From Scratch
 
 ```bash
 scripts/db-init.sh
 ```
 
-What this does:
+That runs:
 
-1. Creates/updates role and database (`db/bootstrap/*`).
-2. Applies versioned schema SQL (`db/migrations/*`).
-3. Loads seed data (`db/seeds/*`).
-4. Runs verify queries (`db/verify/*`).
-5. Writes logs to `output/db-changelog/`.
+1. `scripts/db-bootstrap.sh`
+2. `scripts/db-migrate.sh`
+3. `scripts/db-seed.sh`
+4. `scripts/db-verify.sh`
 
-## Configure Demo Runtime Connection
-
-Set this before running PostgreSQL demos:
-
-```bash
-export FUNCTIONAL_PROGRAMMING_TRIADS_POSTGRES_CONNECTION="Host=localhost;Port=5432;Database=functional_programming_triads_demo;Username=functional_programming_triads_app;Password=functional_programming_triads_app_pw"
-```
-
-## Normal Development Workflow
-
-### 1. Check status/history
+## Inspect Current Liquibase State
 
 ```bash
 scripts/db-status.sh
 ```
 
-### 2. Add schema changes
-
-1. Add a new `V*.sql` in `db/migrations/`.
-2. Apply migrations:
-
-```bash
-scripts/db-migrate.sh
-```
-
-### 3. Add/update seed data
-
-1. Add or update `S*.sql` in `db/seeds/`.
-2. Apply seeds:
-
-```bash
-scripts/db-seed.sh
-```
-
-### 4. Validate DB state
-
-```bash
-scripts/db-verify.sh
-```
-
-## Cleaning Data Without Dropping the Database
-
-Use this when you want to keep schema and migration history but refresh demo rows.
-
-Option A: targeted delete (recommended for iterative work)
-
-```bash
-psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_APP_USER" -d "$DB_NAME" -c "DELETE FROM demo_people WHERE name IN ('Scott', 'Guest');"
-```
-
-Option B: reset all rows and identity in the demo table
-
-```bash
-psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_APP_USER" -d "$DB_NAME" -c "TRUNCATE TABLE demo_people RESTART IDENTITY;"
-```
-
-Then reapply seed data if needed:
-
-```bash
-scripts/db-seed.sh
-```
-
-## Full Reset (Drop and Rebuild Database)
-
-Use when changing bootstrap assumptions or when local state is inconsistent.
+## Rebuild The Local Database
 
 ```bash
 DB_RESET_CONFIRM=YES scripts/db-reset.sh
 ```
 
-This is destructive for the target database.
+This will:
 
-## If You Change Existing SQL Files
+1. terminate active connections to the app database
+2. drop the app database
+3. drop the app role
+4. clear Liquibase bootstrap tracking tables from the admin database
+5. clear the legacy `admin_bootstrap_history` table if it exists
+6. rerun bootstrap, migrations, seeds, and verification
 
-Rules:
-
-1. Do not edit an applied `V*.sql` migration. Create a new migration instead.
-2. If you changed a `B*.sql` or `S*.sql` file intentionally, rerun its phase.
-3. If local history is no longer trustworthy, run a full reset.
-
-## Common Command Sequences
-
-### Rebuild everything from zero
+## Runtime Demo Connection
 
 ```bash
-DB_RESET_CONFIRM=YES scripts/db-reset.sh
+export FUNCTIONAL_PROGRAMMING_TRIADS_POSTGRES_CONNECTION="Host=localhost;Port=5432;Database=functional_programming_triads_demo;Username=functional_programming_triads_app;Password=functional_programming_triads_app_pw"
 ```
 
-### Apply only new schema migration(s)
+## Liquibase Notes
+
+- Liquibase is used as the orchestration layer.
+- The actual schema and seed work still lives primarily in SQL files under `db/`.
+- The local PostgreSQL JDBC driver used by Liquibase is expected at:
+  - `tools/liquibase/postgresql-42.7.9.jar`
+- The JDBC driver is intentionally not committed. Install it locally with:
 
 ```bash
-scripts/db-migrate.sh
-scripts/db-verify.sh
+mkdir -p tools/liquibase
+curl -L --fail --output tools/liquibase/postgresql-42.7.9.jar https://jdbc.postgresql.org/download/postgresql-42.7.9.jar
 ```
-
-### Clear test/demo rows and reseed
-
-```bash
-psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_APP_USER" -d "$DB_NAME" -c "TRUNCATE TABLE demo_people RESTART IDENTITY;"
-scripts/db-seed.sh
-scripts/db-verify.sh
-```
-
-## Rider Run Configurations
-
-Available run configs include:
-
-- `DB - init`
-- `DB - status`
-- `DB - reset (safe)`
-- `DB - reset (confirmed)`
-
-And demo configs:
-
-- `Demos - imperative-db-postgres`
-- `Demos - csharp-db-postgres`
-- `Demos - langext-db-postgres-eff`
-- `Triad - Database Postgres - 01 Imperative`
-- `Triad - Database Postgres - 02 CSharp`
-- `Triad - Database Postgres - 03 LanguageExt`

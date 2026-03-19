@@ -1,5 +1,0 @@
-==> Migration changelog
-Ensuring migration history table...
-CREATE TABLE
-SKIP V001__create_demo_people_table.sql (already applied)
-SKIP V002__add_demo_people_uniqueness_and_indexes.sql (already applied)

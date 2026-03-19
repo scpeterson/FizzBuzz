@@ -21,3 +21,8 @@ coverage*.info
 *.iws
 .venv-docs/
 site/
+
+# Local Liquibase/JDBC artifacts
+output/db-changelog/
+tmp/liquibase*
+tools/liquibase/

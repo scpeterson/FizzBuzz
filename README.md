@@ -56,13 +56,14 @@ If you're approaching the codebase from an imperative background, the smoothest 
 - `Scott.FunctionalProgrammingTriads.Core.Tests`: core tests
 - `Scott.FunctionalProgrammingTriads.Console.Tests`: console/registration tests
 - `docs/`: architecture docs and ADRs (MkDocs site)
-- `db/`: SQL changelog files (bootstrap, migrations, seeds, verify)
+- `db/`: SQL and Liquibase changelog files for bootstrap, migrations, seeds, and verify
 - `scripts/`: database automation scripts
 
 ## Prerequisites
 
 - .NET 10 SDK
 - PostgreSQL (for DB demos)
+- Liquibase 5.0.2
 - Python 3.10 (for docs site)
 
 ## Run Demos
@@ -83,7 +84,16 @@ export FUNCTIONAL_PROGRAMMING_TRIADS_POSTGRES_CONNECTION="Host=localhost;Port=54
 
 ## Database Setup (PostgreSQL)
 
-Initialize role/database/schema/seeds/verification:
+Install the PostgreSQL JDBC driver for local Liquibase runs:
+
+```bash
+mkdir -p tools/liquibase
+curl -L --fail --output tools/liquibase/postgresql-42.7.9.jar https://jdbc.postgresql.org/download/postgresql-42.7.9.jar
+```
+
+If you keep the driver somewhere else, set `LIQUIBASE_JDBC_CLASSPATH` to that jar path before running the DB scripts.
+
+Initialize role/database/schema/seeds/verification with Liquibase orchestration:
 
 ```bash
 scripts/db-init.sh

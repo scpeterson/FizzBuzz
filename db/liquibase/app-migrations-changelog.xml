@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="migration-v001-create-demo-people" author="codex">
+        <sqlFile path="../migrations/V001__create_demo_people_table.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+
+    <changeSet id="migration-v002-demo-people-indexes" author="codex">
+        <sqlFile path="../migrations/V002__add_demo_people_uniqueness_and_indexes.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+</databaseChangeLog>

@@ -1,49 +1,48 @@
-# PostgreSQL Changelog Workflow
+# Database Changelog Workflow
 
-This project uses SQL-first changelogs for database lifecycle management in local development.
+This repository now uses Liquibase to orchestrate PostgreSQL bootstrap, schema migration, and seed execution while preserving SQL files for the actual database changes.
 
-For day-to-day commands and cleanup/reset procedures, see:
+## Structure
 
-- `architecture/database-operations-runbook.md`
-
-## Goals
-
-- Keep all SQL changes versioned and reviewable.
-- Preserve an auditable execution history for bootstrap and app-level SQL.
-- Support deterministic reset/rebuild for demos and tests.
-
-## Directory Layout
-
-- `db/bootstrap/`: cluster-level SQL (role/database/grants)
-- `db/migrations/`: schema/version changes (`V*.sql`)
-- `db/seeds/`: test/demo data (`S*.sql`)
+- `db/bootstrap/`: SQL used by the admin-side Liquibase bootstrap changelog (`B*.sql`)
+- `db/migrations/`: application-schema Liquibase SQL migrations (`V*.sql`)
+- `db/seeds/`: application-data Liquibase SQL seeds (`S*.sql`)
 - `db/verify/`: read-only verification queries (`Q*.sql`)
+- `db/liquibase/`: Liquibase changelog XML files that reference the SQL files above
 - `scripts/`: orchestration scripts (`db-*.sh`)
 - `output/db-changelog/`: execution logs
+- `tools/liquibase/postgresql-42.7.9.jar`: recommended local location for the PostgreSQL JDBC driver used by Liquibase
 
-## History Tables
+## Liquibase Changelogs
 
-- Admin DB (`postgres`): `public.admin_bootstrap_history`
-- App DB (`functional_programming_triads_demo` by default): `public.db_migration_history`
+- Admin DB (`postgres` by default): `db/liquibase/bootstrap-changelog.xml`
+- App DB (`functional_programming_triads_demo` by default):
+  - `db/liquibase/app-migrations-changelog.xml`
+  - `db/liquibase/app-seed-changelog.xml`
 
-Both store:
-
-- script name
-- checksum (SHA-256)
-- execution timestamp
-- executing user
+Liquibase tracks execution in the standard `databasechangelog` and `databasechangeloglock` tables. The reset script also clears the old `admin_bootstrap_history` table if it exists from the pre-Liquibase workflow.
 
 ## Environment Variables
 
 - `DB_HOST` (default `localhost`)
 - `DB_PORT` (default `5432`)
 - `DB_ADMIN_USER` (default `postgres`)
+- `DB_ADMIN_PASSWORD` (default empty)
 - `DB_ADMIN_DB` (default `postgres`)
 - `DB_APP_USER` (default `functional_programming_triads_app`)
 - `DB_APP_PASSWORD` (default `functional_programming_triads_app_pw`)
 - `DB_NAME` (default `functional_programming_triads_demo`)
+- `LIQUIBASE_CMD` (default `liquibase`)
+- `LIQUIBASE_JDBC_CLASSPATH` (default `tools/liquibase/postgresql-42.7.9.jar`)
 
 `psql` authentication still follows PostgreSQL conventions (`PGPASSWORD`, `.pgpass`, etc.).
+
+The JDBC driver is a local prerequisite and is not committed to the repository. Install it with:
+
+```bash
+mkdir -p tools/liquibase
+curl -L --fail --output tools/liquibase/postgresql-42.7.9.jar https://jdbc.postgresql.org/download/postgresql-42.7.9.jar
+```
 
 ## Commands
 
@@ -68,14 +67,6 @@ Reset local DB (destructive):
 ```bash
 DB_RESET_CONFIRM=YES scripts/db-reset.sh
 ```
-
-## Change Rules
-
-1. Never edit an already-applied `V*.sql` file.
-2. Add a new sequential migration for every schema change.
-3. Keep one concern per migration.
-4. Treat seed scripts as idempotent where practical (`ON CONFLICT`, `MERGE`-style updates).
-5. Keep verify scripts read-only.
 
 ## Runtime Demo Connection
 

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <property name="appUser" value="functional_programming_triads_app"/>
+    <property name="appPassword" value="functional_programming_triads_app_pw"/>
+    <property name="dbName" value="functional_programming_triads_demo"/>
+
+    <changeSet id="bootstrap-001-create-role" author="codex">
+        <sqlFile path="../bootstrap/B001_create_role.sql" relativeToChangelogFile="true" splitStatements="false"/>
+    </changeSet>
+
+    <changeSet id="bootstrap-002-create-database" author="codex" runInTransaction="false">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(*) FROM pg_database WHERE datname = '${dbName}'</sqlCheck>
+        </preConditions>
+        <sqlFile path="../bootstrap/B002_create_database.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+
+    <changeSet id="bootstrap-003-grant-database" author="codex" runInTransaction="false">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="1">SELECT COUNT(*) FROM pg_database WHERE datname = '${dbName}'</sqlCheck>
+        </preConditions>
+        <sqlFile path="../bootstrap/B003_grants.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+</databaseChangeLog>
