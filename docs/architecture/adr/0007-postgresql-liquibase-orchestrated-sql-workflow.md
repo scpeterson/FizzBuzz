@@ -46,7 +46,7 @@ Adopt a Liquibase-driven workflow that keeps the database changes primarily in S
 
 ### Negative
 
-- Shell scripts remain part of the maintenance surface area.
+- Shell scripts remain part of the maintenance surface area, though bootstrap/migrate/seed now share a single `db-update.sh` implementation.
 - Requires disciplined naming and ordering of SQL files.
 - Liquibase adds a JDBC dependency and changelog XML maintenance surface.
 - Local setup now depends on a PostgreSQL JDBC jar being available for Liquibase, typically under `tools/liquibase/` or via `LIQUIBASE_JDBC_CLASSPATH`.
@@ -58,6 +58,7 @@ Adopt a Liquibase-driven workflow that keeps the database changes primarily in S
 - `db/seeds/`
 - `db/verify/`
 - `scripts/db-init.sh`
+- `scripts/db-update.sh`
 - `scripts/db-bootstrap.sh`
 - `scripts/db-migrate.sh`
 - `scripts/db-seed.sh`

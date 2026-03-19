@@ -43,7 +43,7 @@ Learning path for imperative programmers:
 - [ADR 0004: Private Logic Extraction](architecture/adr/0004-private-logic-extraction.md)
 - [ADR 0005: Coverage Gates and Test Strategy](architecture/adr/0005-coverage-gates-and-test-strategy.md)
 - [ADR 0006: Text-Store Persistence Side-Effect Boundaries](architecture/adr/0006-text-store-persistence-side-effect-boundaries.md)
-- [ADR 0007: PostgreSQL Liquibase-Orchestrated SQL Workflow](architecture/adr/0007-postgresql-sql-first-changelog-workflow.md)
+- [ADR 0007: PostgreSQL Liquibase-Orchestrated SQL Workflow](architecture/adr/0007-postgresql-liquibase-orchestrated-sql-workflow.md)
 - [ADR 0008: LanguageExt Eff/Aff Effect Boundaries](architecture/adr/0008-languageext-eff-aff-effect-boundaries.md)
 - [ADR 0009: Option Monad Triad Comparison](architecture/adr/0009-option-monad-triad-comparison.md)
 - [ADR 0010: Either Monad Triad Comparison](architecture/adr/0010-either-monad-triad-comparison.md)

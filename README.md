@@ -103,8 +103,9 @@ Useful commands:
 
 ```bash
 scripts/db-status.sh
-scripts/db-migrate.sh
-scripts/db-seed.sh
+scripts/db-update.sh bootstrap
+scripts/db-update.sh migrate
+scripts/db-update.sh seed
 scripts/db-verify.sh
 DB_RESET_CONFIRM=YES scripts/db-reset.sh
 ```

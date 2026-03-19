@@ -22,7 +22,7 @@ nav:
       - architecture/adr/0004-private-logic-extraction.md
       - architecture/adr/0005-coverage-gates-and-test-strategy.md
       - architecture/adr/0006-text-store-persistence-side-effect-boundaries.md
-      - architecture/adr/0007-postgresql-sql-first-changelog-workflow.md
+      - architecture/adr/0007-postgresql-liquibase-orchestrated-sql-workflow.md
       - architecture/adr/0008-languageext-eff-aff-effect-boundaries.md
       - architecture/adr/0009-option-monad-triad-comparison.md
       - architecture/adr/0010-either-monad-triad-comparison.md

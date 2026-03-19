@@ -5,7 +5,7 @@ nav:
   - 0004 Private Logic Extraction: 0004-private-logic-extraction.md
   - 0005 Coverage Gates and Test Strategy: 0005-coverage-gates-and-test-strategy.md
   - 0006 Text-Store Persistence Side-Effect Boundaries: 0006-text-store-persistence-side-effect-boundaries.md
-  - 0007 PostgreSQL SQL-First Changelog Workflow: 0007-postgresql-sql-first-changelog-workflow.md
+  - 0007 PostgreSQL SQL-First Changelog Workflow: 0007-postgresql-liquibase-orchestrated-sql-workflow.md
   - 0008 LanguageExt Eff/Aff Effect Boundaries: 0008-languageext-eff-aff-effect-boundaries.md
   - 0009 Option Monad Triad Comparison: 0009-option-monad-triad-comparison.md
   - 0010 Either Monad Triad Comparison: 0010-either-monad-triad-comparison.md

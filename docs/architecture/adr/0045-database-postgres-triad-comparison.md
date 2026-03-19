@@ -35,4 +35,4 @@ The triad reads its runtime connection from `FUNCTIONAL_PROGRAMMING_TRIADS_POSTG
 - `Scott.FunctionalProgrammingTriads.Core/Demos/DatabasePostgresTriad/CSharpFunctionalPostgresDatabaseDemo.cs`
 - `Scott.FunctionalProgrammingTriads.Core/Demos/DatabasePostgresTriad/LanguageExtEffPostgresDatabaseDemo.cs`
 - `Scott.FunctionalProgrammingTriads.Core/Demos/DatabasePostgresTriad/PostgresPersonStore.cs`
-- `docs/architecture/adr/0007-postgresql-sql-first-changelog-workflow.md`
+- `docs/architecture/adr/0007-postgresql-liquibase-orchestrated-sql-workflow.md`

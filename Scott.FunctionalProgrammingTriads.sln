@@ -46,7 +46,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "adr", "adr", "{59C61EE3-1D6
 		docs\architecture\adr\0004-private-logic-extraction.md = docs\architecture\adr\0004-private-logic-extraction.md
 		docs\architecture\adr\0005-coverage-gates-and-test-strategy.md = docs\architecture\adr\0005-coverage-gates-and-test-strategy.md
 		docs\architecture\adr\0006-text-store-persistence-side-effect-boundaries.md = docs\architecture\adr\0006-text-store-persistence-side-effect-boundaries.md
-		docs\architecture\adr\0007-postgresql-sql-first-changelog-workflow.md = docs\architecture\adr\0007-postgresql-sql-first-changelog-workflow.md
+		docs\architecture\adr\0007-postgresql-liquibase-orchestrated-sql-workflow.md = docs\architecture\adr\0007-postgresql-liquibase-orchestrated-sql-workflow.md
 		docs\architecture\adr\0008-languageext-eff-aff-effect-boundaries.md = docs\architecture\adr\0008-languageext-eff-aff-effect-boundaries.md
 		docs\architecture\adr\0009-option-monad-triad-comparison.md = docs\architecture\adr\0009-option-monad-triad-comparison.md
 		docs\architecture\adr\0010-either-monad-triad-comparison.md = docs\architecture\adr\0010-either-monad-triad-comparison.md
@@ -127,11 +127,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "verify", "verify", "{F7F5D6
 		db\verify\Q001__verify_demo_people.sql = db\verify\Q001__verify_demo_people.sql
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "liquibase", "liquibase", "{A67B180D-9A8D-4E2F-93A6-9D29A97C4D7B}"
+	ProjectSection(SolutionItems) = preProject
+		db\liquibase\app-migrations-changelog.xml = db\liquibase\app-migrations-changelog.xml
+		db\liquibase\app-seed-changelog.xml = db\liquibase\app-seed-changelog.xml
+		db\liquibase\bootstrap-changelog.xml = db\liquibase\bootstrap-changelog.xml
+	EndProjectSection
+EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{1675DFA0-EBB6-4188-8C57-A6D6E424B50F}"
 	ProjectSection(SolutionItems) = preProject
 		scripts\db-bootstrap.sh = scripts\db-bootstrap.sh
 		scripts\db-common.sh = scripts\db-common.sh
 		scripts\db-init.sh = scripts\db-init.sh
+		scripts\db-update.sh = scripts\db-update.sh
 		scripts\db-migrate.sh = scripts\db-migrate.sh
 		scripts\db-reset.sh = scripts\db-reset.sh
 		scripts\db-seed.sh = scripts\db-seed.sh
@@ -141,7 +149,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{1675
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".run", ".run", "{0F0B2F09-2FA2-4E78-A0EA-CC98AA3E5A9E}"
 	ProjectSection(SolutionItems) = preProject
+		.run\DB - bootstrap.run.xml = .run\DB - bootstrap.run.xml
 		.run\DB - init.run.xml = .run\DB - init.run.xml
+		.run\DB - migrate.run.xml = .run\DB - migrate.run.xml
+		.run\DB - seed.run.xml = .run\DB - seed.run.xml
 		.run\DB - reset (confirmed).run.xml = .run\DB - reset (confirmed).run.xml
 		.run\DB - reset (safe).run.xml = .run\DB - reset (safe).run.xml
 		.run\DB - status.run.xml = .run\DB - status.run.xml
@@ -342,6 +353,7 @@ Global
 		{4DBB10B8-CA5E-4669-96C2-F1A270A661D4} = {D38A2C53-45E2-4338-BD4A-4A8A702A3459}
 		{B94BC6F5-A003-4F4F-A323-2E301F68EE71} = {D38A2C53-45E2-4338-BD4A-4A8A702A3459}
 		{F7F5D6D7-C0A8-45A5-9B74-C5A5E4CC49E7} = {D38A2C53-45E2-4338-BD4A-4A8A702A3459}
+		{A67B180D-9A8D-4E2F-93A6-9D29A97C4D7B} = {D38A2C53-45E2-4338-BD4A-4A8A702A3459}
 		{1675DFA0-EBB6-4188-8C57-A6D6E424B50F} = {F8F83BB4-30CC-4532-ADFA-2BDF75A245C4}
 		{B8A3C2D1-AE0B-4F1C-A93D-C3F5B4B2E7D8} = {95AAB8A4-B7DA-4893-AB8D-077FB1D6DF93}
 		{C7D1E2F3-4A5B-46C7-91D8-2E3F4A5B6C7D} = {B8A3C2D1-AE0B-4F1C-A93D-C3F5B4B2E7D8}

@@ -20,10 +20,12 @@ scripts/db-init.sh
 
 That runs:
 
-1. `scripts/db-bootstrap.sh`
-2. `scripts/db-migrate.sh`
-3. `scripts/db-seed.sh`
+1. `scripts/db-update.sh bootstrap`
+2. `scripts/db-update.sh migrate`
+3. `scripts/db-update.sh seed`
 4. `scripts/db-verify.sh`
+
+Compatibility note: `scripts/db-bootstrap.sh`, `scripts/db-migrate.sh`, and `scripts/db-seed.sh` still exist as wrappers, but `scripts/db-update.sh` is now the shared implementation.
 
 ## Inspect Current Liquibase State
 
