@@ -12,5 +12,9 @@ echo "==> Liquibase migration history ($DB_NAME)"
 run_liquibase_app "$REPO_ROOT/db/liquibase/app-migrations-changelog.xml" history || true
 
 echo
-echo "==> Liquibase seed history ($DB_NAME)"
-run_liquibase_app "$REPO_ROOT/db/liquibase/app-seed-changelog.xml" history || true
+echo "==> Liquibase reference-data history ($DB_NAME)"
+run_liquibase_app "$REPO_ROOT/db/liquibase/app-reference-data-changelog.xml" history || true
+
+echo
+echo "==> Liquibase demo-seed history ($DB_NAME)"
+run_liquibase_app "$REPO_ROOT/db/liquibase/app-demo-seed-changelog.xml" history || true

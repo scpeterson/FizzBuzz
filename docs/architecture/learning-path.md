@@ -59,6 +59,8 @@ This sequence gives you a gentle ramp from helpful C# language tools to plain C#
 - `csharp-db-postgres`
 - `langext-db-postgres-eff`
 
+Postgres demos require the database setup workflow from the database runbook. For local development, run `scripts/db-init.sh` or `scripts/db-env.sh dev init` first.
+
 ### LanguageExt monad comparisons
 
 - `csharp-option-comparison` / `langext-option-monad-comparison`

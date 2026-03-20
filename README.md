@@ -105,9 +105,19 @@ Useful commands:
 scripts/db-status.sh
 scripts/db-update.sh bootstrap
 scripts/db-update.sh migrate
+scripts/db-update.sh reference
 scripts/db-update.sh seed
 scripts/db-verify.sh
 DB_RESET_CONFIRM=YES scripts/db-reset.sh
+```
+
+Environment-aware workflow examples:
+
+```bash
+scripts/db-env.sh dev init
+scripts/db-env.sh qa validate
+scripts/db-env.sh stage update
+scripts/db-env.sh prod status
 ```
 
 Detailed operations guide:

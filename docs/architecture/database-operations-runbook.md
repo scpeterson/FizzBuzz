@@ -22,8 +22,9 @@ That runs:
 
 1. `scripts/db-update.sh bootstrap`
 2. `scripts/db-update.sh migrate`
-3. `scripts/db-update.sh seed`
-4. `scripts/db-verify.sh`
+3. `scripts/db-update.sh reference`
+4. `scripts/db-update.sh seed`
+5. `scripts/db-verify.sh`
 
 Compatibility note: `scripts/db-bootstrap.sh`, `scripts/db-migrate.sh`, and `scripts/db-seed.sh` still exist as wrappers, but `scripts/db-update.sh` is now the shared implementation.
 
@@ -66,3 +67,18 @@ export FUNCTIONAL_PROGRAMMING_TRIADS_POSTGRES_CONNECTION="Host=localhost;Port=54
 mkdir -p tools/liquibase
 curl -L --fail --output tools/liquibase/postgresql-42.7.9.jar https://jdbc.postgresql.org/download/postgresql-42.7.9.jar
 ```
+
+## Environment-Aware Commands
+
+```bash
+scripts/db-env.sh dev init
+scripts/db-env.sh qa validate
+scripts/db-env.sh stage update
+scripts/db-env.sh prod status
+```
+
+Notes:
+
+- `seed` is blocked in `stage` and `prod`.
+- `bootstrap` is blocked in `prod`.
+- non-dev environments expect `DB_APP_PASSWORD` or the matching `FPT_DB_APP_PASSWORD_*` variable.

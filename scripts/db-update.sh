@@ -6,7 +6,7 @@ source "$SCRIPT_DIR/db-common.sh"
 
 PHASE="${1:-}"
 if [[ -z "$PHASE" ]]; then
-  echo "Usage: scripts/db-update.sh <bootstrap|migrate|seed>" >&2
+  echo "Usage: scripts/db-update.sh <bootstrap|migrate|reference|seed|demo-seed>" >&2
   exit 1
 fi
 
@@ -25,16 +25,23 @@ case "$PHASE" in
     SUCCESS="Migrations complete. Log: $LOG_FILE"
     RUNNER="app"
     ;;
-  seed)
+  reference)
+    LOG_FILE="$LOG_DIR/${RUN_TS}-reference.log"
+    CHANGELOG="$REPO_ROOT/db/liquibase/app-reference-data-changelog.xml"
+    TITLE="Liquibase reference-data changelog"
+    SUCCESS="Reference data complete. Log: $LOG_FILE"
+    RUNNER="app"
+    ;;
+  seed|demo-seed)
     LOG_FILE="$LOG_DIR/${RUN_TS}-seed.log"
-    CHANGELOG="$REPO_ROOT/db/liquibase/app-seed-changelog.xml"
+    CHANGELOG="$REPO_ROOT/db/liquibase/app-demo-seed-changelog.xml"
     TITLE="Liquibase seed changelog"
     SUCCESS="Seeds complete. Log: $LOG_FILE"
     RUNNER="app"
     ;;
   *)
     echo "Unknown phase: $PHASE" >&2
-    echo "Usage: scripts/db-update.sh <bootstrap|migrate|seed>" >&2
+    echo "Usage: scripts/db-update.sh <bootstrap|migrate|reference|seed|demo-seed>" >&2
     exit 1
     ;;
 esac

@@ -122,6 +122,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "seeds", "seeds", "{B94BC6F5
 		db\seeds\S001__seed_demo_people.sql = db\seeds\S001__seed_demo_people.sql
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "reference-data", "reference-data", "{9E0D4A41-6D98-4A53-9F38-0E04E0A31767}"
+EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "verify", "verify", "{F7F5D6D7-C0A8-45A5-9B74-C5A5E4CC49E7}"
 	ProjectSection(SolutionItems) = preProject
 		db\verify\Q001__verify_demo_people.sql = db\verify\Q001__verify_demo_people.sql
@@ -129,7 +131,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "verify", "verify", "{F7F5D6
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "liquibase", "liquibase", "{A67B180D-9A8D-4E2F-93A6-9D29A97C4D7B}"
 	ProjectSection(SolutionItems) = preProject
+		db\liquibase\app-demo-seed-changelog.xml = db\liquibase\app-demo-seed-changelog.xml
 		db\liquibase\app-migrations-changelog.xml = db\liquibase\app-migrations-changelog.xml
+		db\liquibase\app-reference-data-changelog.xml = db\liquibase\app-reference-data-changelog.xml
 		db\liquibase\app-seed-changelog.xml = db\liquibase\app-seed-changelog.xml
 		db\liquibase\bootstrap-changelog.xml = db\liquibase\bootstrap-changelog.xml
 	EndProjectSection
@@ -138,6 +142,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{1675
 	ProjectSection(SolutionItems) = preProject
 		scripts\db-bootstrap.sh = scripts\db-bootstrap.sh
 		scripts\db-common.sh = scripts\db-common.sh
+		scripts\db-env.sh = scripts\db-env.sh
 		scripts\db-init.sh = scripts\db-init.sh
 		scripts\db-update.sh = scripts\db-update.sh
 		scripts\db-migrate.sh = scripts\db-migrate.sh
@@ -153,6 +158,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".run", ".run", "{0F0B2F09-2
 		.run\DB - init.run.xml = .run\DB - init.run.xml
 		.run\DB - migrate.run.xml = .run\DB - migrate.run.xml
 		.run\DB - seed.run.xml = .run\DB - seed.run.xml
+		.run\DB Env - dev init.run.xml = .run\DB Env - dev init.run.xml
+		.run\DB Env - prod status.run.xml = .run\DB Env - prod status.run.xml
+		.run\DB Env - qa validate.run.xml = .run\DB Env - qa validate.run.xml
+		.run\DB Env - stage update.run.xml = .run\DB Env - stage update.run.xml
 		.run\DB - reset (confirmed).run.xml = .run\DB - reset (confirmed).run.xml
 		.run\DB - reset (safe).run.xml = .run\DB - reset (safe).run.xml
 		.run\DB - status.run.xml = .run\DB - status.run.xml
@@ -312,6 +321,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".run", ".run", "{0F0B2F09-2
 		.run\Triad - Validation Monad - 03 LanguageExt.run.xml = .run\Triad - Validation Monad - 03 LanguageExt.run.xml
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "config", "config", "{1D16F687-94D2-40AF-B4AF-E76C0A0E2772}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "liquibase-config", "liquibase-config", "{5C67D6D4-0BE9-4C77-A7B7-0D1B1FFFB302}"
+	ProjectSection(SolutionItems) = preProject
+		config\liquibase\liquibase-dev.properties = config\liquibase\liquibase-dev.properties
+		config\liquibase\liquibase-prod.properties = config\liquibase\liquibase-prod.properties
+		config\liquibase\liquibase-qa.properties = config\liquibase\liquibase-qa.properties
+		config\liquibase\liquibase-stage.properties = config\liquibase\liquibase-stage.properties
+	EndProjectSection
+EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{B8A3C2D1-AE0B-4F1C-A93D-C3F5B4B2E7D8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{C7D1E2F3-4A5B-46C7-91D8-2E3F4A5B6C7D}"
@@ -352,8 +371,11 @@ Global
 		{4A8EBDF8-FD96-46A6-8FEE-D07EC14A2760} = {D38A2C53-45E2-4338-BD4A-4A8A702A3459}
 		{4DBB10B8-CA5E-4669-96C2-F1A270A661D4} = {D38A2C53-45E2-4338-BD4A-4A8A702A3459}
 		{B94BC6F5-A003-4F4F-A323-2E301F68EE71} = {D38A2C53-45E2-4338-BD4A-4A8A702A3459}
+		{9E0D4A41-6D98-4A53-9F38-0E04E0A31767} = {D38A2C53-45E2-4338-BD4A-4A8A702A3459}
 		{F7F5D6D7-C0A8-45A5-9B74-C5A5E4CC49E7} = {D38A2C53-45E2-4338-BD4A-4A8A702A3459}
 		{A67B180D-9A8D-4E2F-93A6-9D29A97C4D7B} = {D38A2C53-45E2-4338-BD4A-4A8A702A3459}
+		{1D16F687-94D2-40AF-B4AF-E76C0A0E2772} = {95AAB8A4-B7DA-4893-AB8D-077FB1D6DF93}
+		{5C67D6D4-0BE9-4C77-A7B7-0D1B1FFFB302} = {1D16F687-94D2-40AF-B4AF-E76C0A0E2772}
 		{1675DFA0-EBB6-4188-8C57-A6D6E424B50F} = {F8F83BB4-30CC-4532-ADFA-2BDF75A245C4}
 		{B8A3C2D1-AE0B-4F1C-A93D-C3F5B4B2E7D8} = {95AAB8A4-B7DA-4893-AB8D-077FB1D6DF93}
 		{C7D1E2F3-4A5B-46C7-91D8-2E3F4A5B6C7D} = {B8A3C2D1-AE0B-4F1C-A93D-C3F5B4B2E7D8}

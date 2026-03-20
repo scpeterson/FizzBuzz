@@ -18,6 +18,7 @@ export PSQL_ADMIN="${PSQL_ADMIN:-psql}"
 export PSQL_APP="${PSQL_APP:-psql}"
 LIQUIBASE_CMD="${LIQUIBASE_CMD:-liquibase}"
 LIQUIBASE_JDBC_CLASSPATH="${LIQUIBASE_JDBC_CLASSPATH:-$REPO_ROOT/tools/liquibase/postgresql-42.7.9.jar}"
+LIQUIBASE_BASE_DEFAULTS_FILE="${LIQUIBASE_BASE_DEFAULTS_FILE:-}"
 
 LOG_DIR="$REPO_ROOT/output/db-changelog"
 mkdir -p "$LOG_DIR"
@@ -81,7 +82,14 @@ write_liquibase_defaults_file() {
   defaults_file="$(mktemp "$REPO_ROOT/tmp/liquibase.XXXXXX")"
   changelog="$(normalize_changelog_path "$changelog")"
 
-  cat > "$defaults_file" <<PROPS
+  if [[ -n "$LIQUIBASE_BASE_DEFAULTS_FILE" && -f "$LIQUIBASE_BASE_DEFAULTS_FILE" ]]; then
+    cat "$LIQUIBASE_BASE_DEFAULTS_FILE" > "$defaults_file"
+    printf "\n" >> "$defaults_file"
+  else
+    : > "$defaults_file"
+  fi
+
+  cat >> "$defaults_file" <<PROPS
 url=$jdbc_url
 username=$username
 changelog-file=$changelog

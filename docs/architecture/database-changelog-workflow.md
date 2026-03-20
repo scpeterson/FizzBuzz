@@ -6,9 +6,11 @@ This repository now uses Liquibase to orchestrate PostgreSQL bootstrap, schema m
 
 - `db/bootstrap/`: SQL used by the admin-side Liquibase bootstrap changelog (`B*.sql`)
 - `db/migrations/`: application-schema Liquibase SQL migrations (`V*.sql`)
-- `db/seeds/`: application-data Liquibase SQL seeds (`S*.sql`)
+- `db/reference-data/`: environment-neutral reference data SQL
+- `db/seeds/`: demo/test seed SQL (`S*.sql`)
 - `db/verify/`: read-only verification queries (`Q*.sql`)
 - `db/liquibase/`: Liquibase changelog XML files that reference the SQL files above
+- `config/liquibase/`: per-environment Liquibase property defaults
 - `scripts/`: orchestration scripts (`db-*.sh`)
 - `output/db-changelog/`: execution logs
 - `tools/liquibase/postgresql-42.7.9.jar`: recommended local location for the PostgreSQL JDBC driver used by Liquibase
@@ -16,9 +18,10 @@ This repository now uses Liquibase to orchestrate PostgreSQL bootstrap, schema m
 ## Liquibase Changelogs
 
 - Admin DB (`postgres` by default): `db/liquibase/bootstrap-changelog.xml`
-- App DB (`functional_programming_triads_demo` by default):
+- App DB (environment-specific, for example `functional_programming_triads_dev`):
   - `db/liquibase/app-migrations-changelog.xml`
-  - `db/liquibase/app-seed-changelog.xml`
+  - `db/liquibase/app-reference-data-changelog.xml`
+  - `db/liquibase/app-demo-seed-changelog.xml`
 
 Liquibase tracks execution in the standard `databasechangelog` and `databasechangeloglock` tables. The reset script also clears the old `admin_bootstrap_history` table if it exists from the pre-Liquibase workflow.
 
@@ -57,12 +60,22 @@ Individual phases:
 ```bash
 scripts/db-update.sh bootstrap
 scripts/db-update.sh migrate
+scripts/db-update.sh reference
 scripts/db-update.sh seed
 scripts/db-verify.sh
 scripts/db-status.sh
 ```
 
 The legacy `scripts/db-bootstrap.sh`, `scripts/db-migrate.sh`, and `scripts/db-seed.sh` commands are still present as thin compatibility wrappers around `scripts/db-update.sh`.
+
+Environment-aware entrypoint:
+
+```bash
+scripts/db-env.sh dev init
+scripts/db-env.sh qa validate
+scripts/db-env.sh stage update
+scripts/db-env.sh prod status
+```
 
 Reset local DB (destructive):
 
