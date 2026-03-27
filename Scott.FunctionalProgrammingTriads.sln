@@ -26,6 +26,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{95AAB8A4-B
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "architecture", "architecture", "{3FDF6A14-5F9A-4BDE-B2D2-A5DAB0EC9125}"
 	ProjectSection(SolutionItems) = preProject
+		docs\architecture\versioning.md = docs\architecture\versioning.md
+		docs\architecture\tags.md = docs\architecture\tags.md
+		docs\architecture\repo-health.md = docs\architecture\repo-health.md
+		docs\architecture\pdf-export.md = docs\architecture\pdf-export.md
+		docs\architecture\how-to-compare-a-triad.md = docs\architecture\how-to-compare-a-triad.md
+		docs\architecture\demo-author-checklist.md = docs\architecture\demo-author-checklist.md
+		docs\architecture\contributing.md = docs\architecture\contributing.md
 		docs\architecture\README.md = docs\architecture\README.md
 		docs\architecture\learning-path.md = docs\architecture\learning-path.md
 		docs\architecture\mermaid-authoring-checklist.md = docs\architecture\mermaid-authoring-checklist.md
