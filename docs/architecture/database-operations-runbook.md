@@ -82,3 +82,64 @@ Notes:
 - `seed` is blocked in `stage` and `prod`.
 - `bootstrap` is blocked in `prod`.
 - non-dev environments expect `DB_APP_PASSWORD` or the matching `FPT_DB_APP_PASSWORD_*` variable.
+
+## Run Each Environment
+
+### Development
+
+Use development when you want the full local workflow, including bootstrap, migrations, reference data, demo seed data, and verification.
+
+```bash
+scripts/db-env.sh dev init
+```
+
+Useful follow-up commands:
+
+```bash
+scripts/db-env.sh dev status
+scripts/db-env.sh dev validate
+scripts/db-env.sh dev seed
+```
+
+### Quality Assurance
+
+Use QA to validate the changelogs and optionally apply them to a QA database. QA can use demo seed data if that helps test scenarios.
+
+```bash
+export FPT_DB_APP_PASSWORD_QA="<qa-password>"
+scripts/db-env.sh qa validate
+scripts/db-env.sh qa update
+scripts/db-env.sh qa seed
+scripts/db-env.sh qa verify
+```
+
+### Staging
+
+Use staging to apply the same structural changes you intend to promote to production. Staging allows updates and verification, but it blocks demo seed data.
+
+```bash
+export FPT_DB_APP_PASSWORD_STAGE="<stage-password>"
+scripts/db-env.sh stage validate
+scripts/db-env.sh stage update
+scripts/db-env.sh stage verify
+scripts/db-env.sh stage status
+```
+
+### Production
+
+Use production for validation, updates, verification, and status checks only. Production blocks bootstrap and demo seed operations.
+
+```bash
+export FPT_DB_APP_PASSWORD_PROD="<prod-password>"
+scripts/db-env.sh prod validate
+scripts/db-env.sh prod update
+scripts/db-env.sh prod verify
+scripts/db-env.sh prod status
+```
+
+Recommended promotion flow:
+
+1. Run `qa validate`, then `qa update`.
+2. Run `stage validate`, then `stage update`.
+3. Run `prod validate`, then `prod update`.
+4. Run `verify` and `status` after each update.

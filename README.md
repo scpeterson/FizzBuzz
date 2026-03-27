@@ -120,6 +120,10 @@ scripts/db-env.sh stage update
 scripts/db-env.sh prod status
 ```
 
+Per-environment walkthroughs live in:
+
+- `docs/architecture/database-operations-runbook.md`
+
 Detailed operations guide:
 
 - `docs/architecture/database-operations-runbook.md`

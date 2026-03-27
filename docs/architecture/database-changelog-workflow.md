@@ -77,6 +77,10 @@ scripts/db-env.sh stage update
 scripts/db-env.sh prod status
 ```
 
+For a fuller "how to run dev / qa / stage / prod" walkthrough, see:
+
+- `docs/architecture/database-operations-runbook.md`
+
 Reset local DB (destructive):
 
 ```bash
